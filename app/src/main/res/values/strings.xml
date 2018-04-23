@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">Demo</string>
+    <string name="app_name">LightNews</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
     <string name="news_example">
         "Material is the metaphor.\n\n"
 
