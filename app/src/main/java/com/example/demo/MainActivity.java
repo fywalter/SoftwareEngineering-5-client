@@ -9,7 +9,8 @@ import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
-
+import android.widget.Button;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -18,13 +19,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView t1 = (TextView) findViewById(R.id.main);
+        TextView tv = (TextView) findViewById(R.id.content);
 
         StringBuilder sb = new StringBuilder();
         sb.append(getString(R.string.news_example));
 
-        t1.setMovementMethod(LinkMovementMethod.getInstance());
-        t1.setText(addClickPart(sb.toString()), TextView.BufferType.SPANNABLE);
+        tv.setMovementMethod(LinkMovementMethod.getInstance());
+        tv.setText(addClickPart(sb.toString()), TextView.BufferType.SPANNABLE);
+
+        Button button = (Button) findViewById(R.id.anotherone);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "Get another news", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
     }
 
     //定义一个点击每个部分文字的处理方法
@@ -37,23 +47,23 @@ public class MainActivity extends AppCompatActivity {
         int currentIdx = 0;
         if (wordList.length > 0) {
             for (int i = 0; i < wordList.length; i++) {
-                final String name = wordList[i];
-                final int start = str.indexOf(name,currentIdx);
-                final int end = start + name.length();
+                final String word = wordList[i];
+                final int start = str.indexOf(word,currentIdx);
+                final int end = start + word.length();
                 currentIdx = end;
 
                 ssb.setSpan(new ClickableSpan() {
 
                     @Override
                     public void onClick(View widget) {
-                        new ShanbayAPI(MainActivity.this).execute(name);
+                        new ShanbayAPI(MainActivity.this).execute(word);
                     }
 
                     @Override
                     public void updateDrawState(TextPaint ds) {
                         super.updateDrawState(ds);
-                        //删除下划线，设置字体颜色为蓝色
-                        ds.setColor(Color.GREEN);
+                        //删除下划线，设置字体颜色
+                        ds.setColor(Color.BLACK);
                         //ds.setTextSize(100);
                         ds.setUnderlineText(false);
                     }
