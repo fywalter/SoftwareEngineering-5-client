@@ -18,22 +18,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50px"
-            android:layout_margin="@dimen/text_margin"
-
+            android:layout_marginLeft="15px"
+            android:layout_marginRight="15px"
+            android:layout_marginBottom="15px"
+            android:textSize="30sp"
             android:text="This is a title" />
         <TextView
             android:id="@+id/news_abstract"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
-            android:layout_margin="@dimen/text_margin"
-
+            android:layout_marginTop="0px"
+            android:layout_marginLeft="15px"
+            android:layout_marginRight="15px"
+            android:layout_marginBottom="5px"
+            android:textSize="20sp"
+            android:textColor="@color/gray"
             android:text="This is an abstract" />
         <ImageView
             android:id="@+id/news_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15px"
+            android:layout_marginTop="0px"
+            android:layout_marginLeft="0px"
+            android:layout_marginRight="0px"
+            android:layout_marginBottom="5px"
             android:layout_below="@id/news_abstract"
             android:src="@mipmap/newsimg" />
         <TextView
@@ -41,7 +50,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/news_image"
-            android:layout_margin="@dimen/text_margin"
+            android:layout_marginTop="0px"
+            android:layout_marginLeft="15px"
+            android:layout_marginRight="15px"
+            android:layout_marginBottom="15px"
+            android:textSize="20sp"
 
             android:text="helloworld" />
 
@@ -50,14 +63,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/content"
-
             android:text="feed me another"
             android:layout_alignParentBottom="true"/>
         <Button
             android:id="@+id/backtotop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_toRightOf="@id/anotherone"
             android:text="back to top"
             android:layout_alignParentBottom="true"/>
