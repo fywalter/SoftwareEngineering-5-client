@@ -16,9 +16,13 @@ import android.os.AsyncTask;
 import android.content.Context;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 public class ShanbayAPI extends AsyncTask<String, String, Long>{
     static final String shanbayLink = "https://api.shanbay.com/bdc/search/?word=";
     private Context cxt;
+    private callBack callBack;
+    private String translate;
     public ShanbayAPI(Context context){
         cxt = context;
     }
@@ -27,9 +31,11 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
         // TODO Auto-generated method stub
 
         StringBuffer sb = new StringBuffer("");
+        String cn_translate=null;
         HttpURLConnection connection = null;
         try{
             URL url = new URL(urlString);
+            Log.i("url",urlString);
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestProperty("User-Agent", "");
             connection.setRequestMethod("GET");
@@ -43,9 +49,13 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
             while ((line = rd.readLine()) != null) {
                 sb.append(line);
             }
+            JSONObject jsonObject1 = new JSONObject(sb.toString());
+            cn_translate=jsonObject1.getJSONObject("data").getString("definition");
         }
         catch (java.io.IOException e) {
             // Writing exception to log
+            e.printStackTrace();
+        }catch (Exception e) {
             e.printStackTrace();
         }
         finally{
@@ -54,7 +64,12 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
             }
         }
         Log.i("Shanbay",sb.toString());
-        return sb.toString();
+        if (cn_translate==null){
+            cn_translate="Cannot find translation...";
+            return cn_translate;
+        }
+        cn_translate.replaceAll("\\s*","");
+        return cn_translate;
     }
     @Override
     protected void onPreExecute() {
@@ -64,7 +79,9 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
 
     @Override
     protected Long doInBackground(String... params) {
-        String result = request(shanbayLink+params[0]);
+        String result = request(shanbayLink+params[0].replaceAll("\\p{Punct}",""));
+        translate=result;
+        Log.i("translate",translate);
         publishProgress(result);
         return 0l;
     }
@@ -72,14 +89,28 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
 
     @Override
     protected void onProgressUpdate(String... result) {
-        Toast.makeText(cxt, (String)result[0],
-                Toast.LENGTH_SHORT).show();
+       //Toast.makeText(cxt, (String)result[0],
+               //Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onPostExecute(Long result) {
-
+        try{
+            //如果callBack不为空，把item参数传给WeatherShow.activity
+            if (callBack != null){
+                callBack.setTranslate(translate);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
-
-
+    public String getTranslate(){
+        return translate;
+    }
+    public void setCallBack(callBack callback){
+        this.callBack=callback;
+    }
+    public interface callBack{
+        void setTranslate(String translate);
+    }
 }

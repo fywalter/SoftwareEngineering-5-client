@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.support.design.widget.NavigationView;
+import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,11 +38,12 @@ public class MainActivity extends AppCompatActivity
         tv.setText(addClickPart(sb.toString()), TextView.BufferType.SPANNABLE);
 
         Button button = (Button) findViewById(R.id.anotherone);
-        button.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(), "favor", Toast.LENGTH_SHORT)
-                        .show();
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+                startActivity(intent);
             }
         });
 
