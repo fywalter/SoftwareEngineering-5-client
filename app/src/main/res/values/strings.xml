@@ -4,11 +4,14 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
     <string name="news_title">North Korea warns of nuclear showdown, calls Pence \'political dummy\'</string>
-
-    <string name="news_abstract">
-        "(CNN)A North Korean official has lashed out at US Vice President Mike Pence and said Pyongyang"
-        "is ready for a nuclear showdown if dialogue with the United States fails."</string>
-    <string name="news_example">
+    <string name="news_source">
+        "By Kara Fox and Henrik Pettersson, CNN"
+        </string>
+    <string name="news_time">
+        "9:58 GMT(1758 HKT) May 24, 2018"
+        </string>
+    <string name="news_content">
+        "(CNN)A North Korean official has lashed out at US Vice President Mike Pence and said Pyongyang is ready for a nuclear showdown if dialogue with the United States fails.\n\n"
         "Choe Son Hui, a vice-minister in the North Korean Foreign Ministry, said if the US continued on its current path, she would suggest to North Korea's leadership that they reconsider the planned summit between President Donald Trump and North Korean leader Kim Jong Un.\n\n"
 
         "Whether the US will meet us at a meeting room or encounter us at nuclear-to-nuclear showdown is entirely dependent upon the decision and behavior of the United States,\" Choe said in comments carried by North Korea\'s state-run KCNA news agency Thursday.\n\n"
@@ -20,12 +23,9 @@
         "\"It\'s clear that the North Koreans feel the White House doesn't get it,\" said Jean Lee, the director of the Hyundai Motor-Korea Foundation Center for Korean History and Public Policy at the Wilson Center.\n\n"
         "Motion provides meaning.\n\n"
 
-        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
-        "inflection points that initiate motion, transforming the whole design.\n"
-        "All action takes place in a single environment. Objects are presented to the user without "
-        "breaking the continuity of experience even as they transform and reorganize.\n"
-        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
-        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
+        "Motion respects and reinforces the user as the prime mover. Primary user actions are inflection points that initiate motion, transforming the whole design.\n"
+        "All action takes place in a single environment. Objects are presented to the user without breaking the continuity of experience even as they transform and reorganize.\n"
+        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
 
 
 

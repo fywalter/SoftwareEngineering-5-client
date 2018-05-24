@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBar;
 import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -43,7 +42,7 @@ public class NewsActivity extends AppCompatActivity {
         setStatusBarColor(this,R.color.colorPrimaryDark);
         sc=(ScrollView) findViewById(R.id.sc);
 
-        TextView tv_title = (TextView) findViewById(R.id.title);
+        TextView tv_title = (TextView) findViewById(R.id.news_title);
 
         StringBuilder sb_title = new StringBuilder();
         sb_title.append(getString(R.string.news_title));
@@ -51,18 +50,15 @@ public class NewsActivity extends AppCompatActivity {
         tv_title.setMovementMethod(LinkMovementMethod.getInstance());
         tv_title.setText(addClickPart(sb_title.toString()), TextView.BufferType.SPANNABLE);
 
-        TextView tv_abstract = (TextView) findViewById(R.id.news_abstract);
+        TextView tv_source = (TextView) findViewById(R.id.news_source);
+        tv_source.setText(R.string.news_source);
+        TextView tv_time = (TextView) findViewById(R.id.news_time);
+        tv_time.setText(R.string.news_time);
 
-        StringBuilder sb_abstract = new StringBuilder();
-        sb_abstract.append(getString(R.string.news_abstract));
-
-        tv_abstract.setMovementMethod(LinkMovementMethod.getInstance());
-        tv_abstract.setText(addClickPart(sb_abstract.toString()), TextView.BufferType.SPANNABLE);
-
-        TextView tv_content = (TextView) findViewById(R.id.content);
+        TextView tv_content = (TextView) findViewById(R.id.news_content);
 
         StringBuilder sb_content = new StringBuilder();
-        sb_content.append(getString(R.string.news_example));
+        sb_content.append(getString(R.string.news_content));
 
         tv_content.setMovementMethod(LinkMovementMethod.getInstance());
         tv_content.setText(addClickPart(sb_content.toString()), TextView.BufferType.SPANNABLE);

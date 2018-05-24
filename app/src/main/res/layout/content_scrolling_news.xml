@@ -13,66 +13,94 @@
         android:id="@+id/RelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"
-            android:textSize="30sp"
-            android:text="This is a title" />
-        <TextView
-            android:id="@+id/news_abstract"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/title"
-            android:layout_marginTop="0px"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="20sp"
-            android:textColor="#505050"
-            android:text="This is an abstract" />
+
         <ImageView
             android:id="@+id/news_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
-            android:layout_marginBottom="5dp"
-            android:layout_below="@id/news_abstract"
+            android:layout_marginTop="0dp"
+            android:adjustViewBounds="true"
             android:src="@mipmap/newsimg" />
+
         <TextView
-            android:id="@+id/content"
+            android:id="@+id/news_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/news_image"
-            android:layout_marginTop="0px"
+            android:layout_marginBottom="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"
-            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:text="This is a title"
+            android:textSize="30sp" />
 
-            android:text="helloworld" />
+        <TextView
+            android:id="@+id/news_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/news_title"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="0px"
+            android:text="Source"
+            android:textColor="#505050"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/news_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/news_source"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="0px"
+            android:text="Time"
+            android:textColor="#505050"
+            android:textSize="15sp" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="100px"
+            android:layout_height="1px"
+            android:layout_below="@id/news_time"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="20dp"
+            android:background="#A0A0A0" />
+
+        <TextView
+            android:id="@+id/news_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5px"
+            android:text="helloworld"
+
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/anotherone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/content"
-            android:layout_marginLeft="60dp"
-            android:text="feed me another"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/news_content"
+            android:layout_marginLeft="55dp"
+            android:text="feed me another" />
+
         <Button
             android:id="@+id/backtotop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_toRightOf="@id/anotherone"
-            android:text="back to top"
-            android:layout_alignParentBottom="true"/>
+            android:text="back to top" />
 
     </RelativeLayout>
 

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity
         TextView tv = (TextView) findViewById(R.id.content);
 
         StringBuilder sb = new StringBuilder();
-        sb.append(getString(R.string.news_example));
+        sb.append(getString(R.string.news_content));
 
         tv.setMovementMethod(LinkMovementMethod.getInstance());
         tv.setText(addClickPart(sb.toString()), TextView.BufferType.SPANNABLE);
