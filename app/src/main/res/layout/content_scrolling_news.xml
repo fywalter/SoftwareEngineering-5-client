@@ -17,10 +17,10 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50px"
-            android:layout_marginLeft="15px"
-            android:layout_marginRight="15px"
-            android:layout_marginBottom="15px"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
             android:textSize="30sp"
             android:text="This is a title" />
         <TextView
@@ -29,20 +29,20 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
             android:layout_marginTop="0px"
-            android:layout_marginLeft="15px"
-            android:layout_marginRight="15px"
-            android:layout_marginBottom="5px"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="5dp"
             android:textSize="20sp"
-            android:textColor="@color/gray"
+            android:textColor="#505050"
             android:text="This is an abstract" />
         <ImageView
             android:id="@+id/news_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0px"
-            android:layout_marginLeft="0px"
-            android:layout_marginRight="0px"
-            android:layout_marginBottom="5px"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="5dp"
             android:layout_below="@id/news_abstract"
             android:src="@mipmap/newsimg" />
         <TextView
@@ -51,9 +51,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/news_image"
             android:layout_marginTop="0px"
-            android:layout_marginLeft="15px"
-            android:layout_marginRight="15px"
-            android:layout_marginBottom="15px"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
             android:textSize="20sp"
 
             android:text="helloworld" />
@@ -63,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/content"
+            android:layout_marginLeft="60dp"
             android:text="feed me another"
             android:layout_alignParentBottom="true"/>
         <Button
