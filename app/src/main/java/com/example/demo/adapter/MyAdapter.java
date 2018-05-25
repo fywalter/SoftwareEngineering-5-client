@@ -1,6 +1,7 @@
 package com.example.demo.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Jay on 2015/9/22 0022.
@@ -93,12 +95,13 @@ public abstract class MyAdapter<T> extends BaseAdapter {
     }
 
 
-    public static class ViewHolder {
+    public static class ViewHolder{
 
         private SparseArray<View> mViews;   //存储ListView 的 item中的View
         private View item;                  //存放convertView
         private int position;               //游标
         private Context context;            //Context上下文
+
 
         //构造方法，完成相关初始化
         private ViewHolder(Context context, ViewGroup parent, int layoutRes) {
@@ -132,8 +135,6 @@ public abstract class MyAdapter<T> extends BaseAdapter {
             }
             return t;
         }
-
-
         /**
          * 获取当前条目
          */

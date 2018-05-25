@@ -142,12 +142,12 @@ public class NewsActivity extends AppCompatActivity {
                                 builder = new AlertDialog.Builder(NewsActivity.this);
                                 Log.i("sbAPI.translate",trans);
                                 alert = builder
-                                        .setTitle(word)
+                                        .setTitle(word.replaceAll("\\p{Punct}",""))
                                         .setMessage(trans)
                                         .setPositiveButton("添加单词", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                User.getInstance().addWord(new Word(word,translation));
+                                                User.getInstance().addWord(new Word(word.replaceAll("\\p{Punct}",""),translation));
                                                 Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
                                             }
                                         }).create();             //创建AlertDialog对象
@@ -172,16 +172,6 @@ public class NewsActivity extends AppCompatActivity {
         return ssb;
     }
 
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
