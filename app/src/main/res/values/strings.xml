@@ -27,7 +27,14 @@
         "All action takes place in a single environment. Objects are presented to the user without breaking the continuity of experience even as they transform and reorganize.\n"
         "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
 
+
+
     </string>
+    <string name="title_activity_main_page">LightNews</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="tab_text_1">今日</string>
+    <string name="tab_text_2">收藏夹</string>
+    <string name="tab_text_3">生词推送</string>
     <string name="wordlist_actionbar_title">WordList</string>
 
 </resources>
