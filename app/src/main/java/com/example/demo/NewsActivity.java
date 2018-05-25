@@ -27,6 +27,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.demo.model.User;
+import com.example.demo.model.Word;
+import com.example.demo.utils.ShanbayAPI;
+
 /**
  * Created by 费  渝 on 2018/5/24.
  */
@@ -42,27 +46,30 @@ public class NewsActivity extends AppCompatActivity {
         setStatusBarColor(this,R.color.colorPrimaryDark);
         sc=(ScrollView) findViewById(R.id.sc);
 
-        TextView tv_title = (TextView) findViewById(R.id.news_title);
-
+        //title
         StringBuilder sb_title = new StringBuilder();
         sb_title.append(getString(R.string.news_title));
-
+        TextView tv_title = (TextView) findViewById(R.id.news_title);
         tv_title.setMovementMethod(LinkMovementMethod.getInstance());
         tv_title.setText(addClickPart(sb_title.toString()), TextView.BufferType.SPANNABLE);
 
+        //source
         TextView tv_source = (TextView) findViewById(R.id.news_source);
         tv_source.setText(R.string.news_source);
+
+        //time
         TextView tv_time = (TextView) findViewById(R.id.news_time);
         tv_time.setText(R.string.news_time);
 
+        //content
         TextView tv_content = (TextView) findViewById(R.id.news_content);
-
         StringBuilder sb_content = new StringBuilder();
         sb_content.append(getString(R.string.news_content));
 
         tv_content.setMovementMethod(LinkMovementMethod.getInstance());
         tv_content.setText(addClickPart(sb_content.toString()), TextView.BufferType.SPANNABLE);
 
+        //再来一篇按钮
         Button btn_another = (Button) findViewById(R.id.anotherone);
         btn_another.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -71,6 +78,8 @@ public class NewsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //返回顶部按钮
         Button btn_backtotop = (Button) findViewById(R.id.backtotop);
         btn_backtotop.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -124,11 +133,11 @@ public class NewsActivity extends AppCompatActivity {
                 ssb.setSpan(new ClickableSpan() {
                     @Override
                     public void onClick(View widget) {
-                        ShanbayAPI sbAPI =new ShanbayAPI(NewsActivity.this);
-                        final String translate=null;
+                        final ShanbayAPI sbAPI =new ShanbayAPI(NewsActivity.this);
                         sbAPI.setCallBack(new ShanbayAPI.callBack() {
                             @Override
                             public void setTranslate(String trans) {
+                                final String translation = trans;
                                 alert = null;
                                 builder = new AlertDialog.Builder(NewsActivity.this);
                                 Log.i("sbAPI.translate",trans);
@@ -138,6 +147,7 @@ public class NewsActivity extends AppCompatActivity {
                                         .setPositiveButton("添加单词", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
+                                                User.getInstance().addWord(new Word(word,translation));
                                                 Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
                                             }
                                         }).create();             //创建AlertDialog对象
