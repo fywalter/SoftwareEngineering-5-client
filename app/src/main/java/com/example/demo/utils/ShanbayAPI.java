@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.utils;
 
 /**
  * Created by xiaowei on 2018/4/22.
@@ -22,7 +22,7 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
     static final String shanbayLink = "https://api.shanbay.com/bdc/search/?word=";
     private Context cxt;
     private callBack callBack;
-    private String translate;
+    private String translation;
     public ShanbayAPI(Context context){
         cxt = context;
     }
@@ -31,7 +31,7 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
         // TODO Auto-generated method stub
 
         StringBuffer sb = new StringBuffer("");
-        String cn_translate=null;
+        String cn_translation=null;
         HttpURLConnection connection = null;
         try{
             URL url = new URL(urlString);
@@ -50,7 +50,7 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
                 sb.append(line);
             }
             JSONObject jsonObject1 = new JSONObject(sb.toString());
-            cn_translate=jsonObject1.getJSONObject("data").getString("definition");
+            cn_translation=jsonObject1.getJSONObject("data").getString("definition");
         }
         catch (java.io.IOException e) {
             // Writing exception to log
@@ -64,12 +64,12 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
             }
         }
         Log.i("Shanbay",sb.toString());
-        if (cn_translate==null){
-            cn_translate="Cannot find translation...";
-            return cn_translate;
+        if (cn_translation==null){
+            cn_translation="Cannot find translation...";
+            return cn_translation;
         }
-        cn_translate.replaceAll("\\s*","");
-        return cn_translate;
+        cn_translation.replaceAll("\\s*","");
+        return cn_translation;
     }
     @Override
     protected void onPreExecute() {
@@ -80,8 +80,8 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
     @Override
     protected Long doInBackground(String... params) {
         String result = request(shanbayLink+params[0].replaceAll("\\p{Punct}",""));
-        translate=result;
-        Log.i("translate",translate);
+        translation=result;
+        Log.i("translate",translation);
         publishProgress(result);
         return 0l;
     }
@@ -98,14 +98,14 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
         try{
             //如果callBack不为空，把item参数传给WeatherShow.activity
             if (callBack != null){
-                callBack.setTranslate(translate);
+                callBack.setTranslate(translation);
             }
         }catch (Exception e){
             e.printStackTrace();
         }
     }
-    public String getTranslate(){
-        return translate;
+    public String getTranslation(){
+        return translation;
     }
     public void setCallBack(callBack callback){
         this.callBack=callback;

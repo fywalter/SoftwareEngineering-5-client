@@ -18,12 +18,17 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import android.support.design.widget.NavigationView;
 import android.content.Intent;
 
+import com.example.demo.model.User;
+import com.example.demo.model.Word;
+import com.example.demo.utils.ShanbayAPI;
+
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +72,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
     }
 
     //定义一个点击每个部分文字的处理方法
@@ -146,8 +155,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
+        } else if (id == R.id.nav_wordlist) {
+            Intent intent = new Intent(MainActivity.this, WordListActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
