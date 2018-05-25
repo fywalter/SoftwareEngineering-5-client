@@ -25,6 +25,9 @@ public class User {
     public void addWord(Word w){
         wordList.add(w);
     }
+    public  void delWord(Word w){
+        wordList.remove(w);
+    }
     public String getNews(){
         return null;
     }
