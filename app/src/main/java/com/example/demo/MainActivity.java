@@ -1,68 +1,60 @@
 package com.example.demo;
 
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.text.method.LinkMovementMethod;
 import android.graphics.Color;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
-import android.widget.Button;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+
 import android.support.design.widget.NavigationView;
 import android.content.Intent;
+import android.view.ViewGroup;
 
-import com.example.demo.model.User;
-import com.example.demo.model.Word;
 import com.example.demo.utils.ShanbayAPI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView tv = (TextView) findViewById(R.id.content);
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(getString(R.string.news_content));
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        tv.setMovementMethod(LinkMovementMethod.getInstance());
-        tv.setText(addClickPart(sb.toString()), TextView.BufferType.SPANNABLE);
-
-        Button button = (Button) findViewById(R.id.anotherone);
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(MainActivity.this, NewsActivity.class);
-                startActivity(intent);
-            }
-        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "next news", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -76,6 +68,78 @@ public class MainActivity extends AppCompatActivity
 
 
 
+    }
+
+    public static class PlaceholderFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+        private List<NewsTitle> ntList = new ArrayList<>();
+
+        public PlaceholderFragment() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static MainPageActivity.PlaceholderFragment newInstance(int sectionNumber) {
+            MainPageActivity.PlaceholderFragment fragment = new MainPageActivity.PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        private void initNews(){
+            for(int i = 0; i < 5; i++){
+                NewsTitle nt = new NewsTitle("Trump Is Dust", "CNN", "2018-05-23");
+                ntList.add(nt);
+                NewsTitle nt2 = new NewsTitle("Tobu Railway Suffered From Human Accidents", "Japan Times", "2018-05-22");
+                ntList.add(nt2);
+                NewsTitle nt3 = new NewsTitle("Will Xi Jinping Change China?", "The Economist", "2018-05-21");
+                ntList.add(nt3);
+            }
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_news_categorized, container, false);
+            initNews();
+            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+            NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
+            recyclerView.setAdapter(nta);
+            return rootView;
+        }
+    }
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            return MainPageActivity.PlaceholderFragment.newInstance(position + 1);
+        }
+
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return 3;
+        }
     }
 
     //定义一个点击每个部分文字的处理方法

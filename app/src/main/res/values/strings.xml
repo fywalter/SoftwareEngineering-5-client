@@ -35,5 +35,6 @@
     <string name="tab_text_1">今日</string>
     <string name="tab_text_2">收藏夹</string>
     <string name="tab_text_3">生词推送</string>
+    <string name="wordlist_actionbar_title">WordList</string>
 
 </resources>
