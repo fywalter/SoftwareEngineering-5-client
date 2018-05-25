@@ -26,6 +26,7 @@ import android.support.design.widget.NavigationView;
 import android.content.Intent;
 import android.view.ViewGroup;
 
+import com.example.demo.utils.NonSlideLinearLayoutManager;
 import com.example.demo.utils.ShanbayAPI;
 
 import java.util.ArrayList;
@@ -64,10 +65,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-
-
     }
 
     public static class PlaceholderFragment extends Fragment {
@@ -110,7 +107,8 @@ public class MainActivity extends AppCompatActivity
             View rootView = inflater.inflate(R.layout.fragment_news_categorized, container, false);
             initNews();
             RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            NonSlideLinearLayoutManager layoutManager = new NonSlideLinearLayoutManager (getActivity());
+            layoutManager.setScrollEnabled(false);
             recyclerView.setLayoutManager(layoutManager);
             NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
             recyclerView.setAdapter(nta);
