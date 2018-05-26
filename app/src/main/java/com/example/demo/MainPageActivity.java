@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import android.content.Context;
 import android.support.design.widget.TabLayout;
 
 import android.support.v7.app.AppCompatActivity;
@@ -19,8 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import com.example.demo.adapter.NewsTitleAdapter;
+import com.example.demo.model.NewsTitle;
 
 import java.util.ArrayList;
 import java.util.List;
