@@ -6,29 +6,26 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.graphics.Color;
-import android.text.SpannableStringBuilder;
-import android.text.TextPaint;
-import android.text.style.ClickableSpan;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-
+import android.content.Context;
 import android.support.design.widget.NavigationView;
 import android.content.Intent;
 import android.view.ViewGroup;
 
+import com.example.demo.adapter.NewsTitleAdapter;
+import com.example.demo.model.NewsTitle;
 import com.example.demo.utils.NonSlideLinearLayoutManager;
-import com.example.demo.utils.ShanbayAPI;
-
+import com.example.demo.model.User;
+import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,14 +35,16 @@ public class MainActivity extends AppCompatActivity
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    public static Context mcontext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mcontext = this;
+        Log.i("DevID",User.getInstance().getDevID());
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -139,43 +138,6 @@ public class MainActivity extends AppCompatActivity
             return 3;
         }
     }
-
-    //定义一个点击每个部分文字的处理方法
-    private SpannableStringBuilder addClickPart(String str) {
-
-        //创建一个SpannableStringBuilder对象，连接多个字符串
-        SpannableStringBuilder ssb = new SpannableStringBuilder();
-        ssb.append(str);
-        String[] wordList = str.split(" ");
-        int currentIdx = 0;
-        if (wordList.length > 0) {
-            for (int i = 0; i < wordList.length; i++) {
-                final String word = wordList[i];
-                final int start = str.indexOf(word,currentIdx);
-                final int end = start + word.length();
-                currentIdx = end;
-
-                ssb.setSpan(new ClickableSpan() {
-
-                    @Override
-                    public void onClick(View widget) {
-                        new ShanbayAPI(MainActivity.this).execute(word);
-                    }
-
-                    @Override
-                    public void updateDrawState(TextPaint ds) {
-                        super.updateDrawState(ds);
-                        //删除下划线，设置字体颜色
-                        ds.setColor(Color.BLACK);
-                        //ds.setTextSize(100);
-                        ds.setUnderlineText(false);
-                    }
-                },start,end,0);
-            }
-        }
-        return ssb;
-    }
-
 
     @Override
     public void onBackPressed() {

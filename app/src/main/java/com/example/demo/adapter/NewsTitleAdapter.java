@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.demo.NewsActivity;
+import com.example.demo.R;
+import com.example.demo.model.NewsTitle;
 
 import java.util.List;
 
