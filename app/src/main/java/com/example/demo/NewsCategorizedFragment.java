@@ -29,36 +29,37 @@ public class NewsCategorizedFragment extends Fragment {
     private MyAdapter<NewsTitle> myAdapter = null;
     private CustomBanner<String> mBanner;
     private MyTask<List<NewsTitle>> newsTitleTask = null;
+    private int frag_type;
+
+    public void setFrag_type(int frag_type) {
+        this.frag_type = frag_type;
+    }
 
     public static NewsCategorizedFragment newInstance(int t){
         NewsCategorizedFragment f = new NewsCategorizedFragment();
-        Bundle args = new Bundle();
-        args.putInt("frag_type", t);
-        f.setArguments(args);
+        f.setFrag_type(t);
         return f;
     }
 
-    /*private void initNews(){
+    private void initNews(){
         ntList = Connection.getNewsList();
-        for(int i = 0; i < 5; i++){
             NewsTitle nt = new NewsTitle("Trump Is Dust", "CNN", "2018-05-23");
             ntList.add(nt);
             NewsTitle nt2 = new NewsTitle("Tobu Railway Suffered From Human Accidents", "Japan Times", "2018-05-22");
             ntList.add(nt2);
             NewsTitle nt3 = new NewsTitle("Will Xi Jinping Change China?", "The Economist", "2018-05-21");
             ntList.add(nt3);
-        }
-    }*/
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_news_categorized, container, false);
-        //initNews();
         final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         NonSlideLinearLayoutManager layoutManager = new NonSlideLinearLayoutManager (getActivity());
         layoutManager.setScrollEnabled(false);
         recyclerView.setLayoutManager(layoutManager);
+
         // 为了解决重复点击第一个界面报错需要每次new一个任务
         newsTitleTask = new MyTask("getNewsList");
         //自定义回调函数，在回调函数中更新界面
@@ -72,6 +73,7 @@ public class NewsCategorizedFragment extends Fragment {
             }
         });
         newsTitleTask.execute();
+
         mBanner = (CustomBanner) rootView.findViewById(R.id.banner);
         ArrayList<String> images = new ArrayList<>();
         images.add("https://cdn.cnn.com/cnnnext/dam/assets/180526074218-03-north-korea-south-korea-meeting-0526-exlarge-169.jpg");
