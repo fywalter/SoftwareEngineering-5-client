@@ -72,7 +72,6 @@ public class NewsCategorizedFragment extends Fragment {
             }
         });
         newsTitleTask.execute();
-        
         mBanner = (CustomBanner) rootView.findViewById(R.id.banner);
         ArrayList<String> images = new ArrayList<>();
         images.add("https://cdn.cnn.com/cnnnext/dam/assets/180526074218-03-north-korea-south-korea-meeting-0526-exlarge-169.jpg");

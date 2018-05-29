@@ -9,12 +9,16 @@ public class NewsTitle {
     private String title;
     private String source;
     private String newsDate;
+    private String url;
+    private String imgUrl;
     public NewsTitle(){
     };
-    public NewsTitle(String title, String source, String newsDate){
+    public NewsTitle(String title, String source, String newsDate,String url,String imgUrl){
         this.title = title;
         this.source = source;
         this.newsDate = newsDate;
+        this.url=url;
+        this.imgUrl=imgUrl;
     }
     public String getTitle(){
         return this.title;
@@ -25,6 +29,12 @@ public class NewsTitle {
     public String getNewsdate(){
         return this.newsDate;
     }
+    public String getUrl(){
+        return this.url;
+    }
+    public String getImgUrl(){
+        return this.imgUrl;
+    }
     public void setTitle(String title){
         this.title = title;
     }
@@ -33,6 +43,12 @@ public class NewsTitle {
     }
     public void setNewsdate(String newsDate){
         this.newsDate = newsDate;
+    }
+    public void setUrl(String url){
+        this.url = url;
+    }
+    public void setImgUrl(String imgUrl){
+        this.imgUrl = imgUrl;
     }
     /**
      * 解析返回Json数据的方法
@@ -46,6 +62,7 @@ public class NewsTitle {
             nt.setTitle(results.getString("title"));
             nt.setSource(results.getString("source"));
             nt.setNewsdate(results.getString("pub_date"));
+            nt.setUrl(results.getString("url"));
             newsList.add(nt);
         }
         return newsList;

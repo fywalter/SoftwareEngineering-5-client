@@ -1,6 +1,9 @@
 package com.example.demo.model;
 
 import android.os.AsyncTask;
+
+import java.util.ArrayList;
+
 /**
  * Created by 费  渝 on 2018/5/29.
  * 异步任务类，用于前后端交互
@@ -9,8 +12,10 @@ import android.os.AsyncTask;
 public class MyTask<T> extends AsyncTask<Void,Void,T> {
     private String taskType=null;
     private CallBack callBack;
+    private ArrayList<String> params;
     private T result = null;
-    public MyTask(String type) { this.taskType=type;}
+    public MyTask(String type) { this.taskType=type;this.params=null;}
+    public MyTask(String type,ArrayList<String> paramlist) { this.taskType=type;this.params=paramlist;}
 
     @Override
     protected T doInBackground(Void... params) {
