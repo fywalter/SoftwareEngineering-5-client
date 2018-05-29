@@ -76,88 +76,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-        private List<NewsTitle> ntList = null;
-        private ListView newsListView;
-        private MyAdapter<NewsTitle> myAdapter = null;
-        private CustomBanner<String> mBanner;
-
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static MainActivity.PlaceholderFragment newInstance(int sectionNumber) {
-            MainActivity.PlaceholderFragment fragment = new MainActivity.PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        private void initNews(){
-            ntList = new ArrayList<>();
-            for(int i = 0; i < 5; i++){
-                NewsTitle nt = new NewsTitle("Trump Is Dust", "CNN", "2018-05-23");
-                ntList.add(nt);
-                NewsTitle nt2 = new NewsTitle("Tobu Railway Suffered From Human Accidents", "Japan Times", "2018-05-22");
-                ntList.add(nt2);
-                NewsTitle nt3 = new NewsTitle("Will Xi Jinping Change China?", "The Economist", "2018-05-21");
-                ntList.add(nt3);
-            }
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_news_categorized, container, false);
-            initNews();
-            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-            NonSlideLinearLayoutManager layoutManager = new NonSlideLinearLayoutManager (getActivity());
-            layoutManager.setScrollEnabled(false);
-            recyclerView.setLayoutManager(layoutManager);
-            NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
-            recyclerView.setAdapter(nta);
-
-            mBanner = (CustomBanner) rootView.findViewById(R.id.banner);
-            ArrayList<String> images = new ArrayList<>();
-            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180526074218-03-north-korea-south-korea-meeting-0526-exlarge-169.jpg");
-            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180514162221-xinjiang-xi-jinping-poster-exlarge-169.jpg");
-            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180527213749-sao-paulo-area-truck-strike-exlarge-169.jpg");
-            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180528052555-01-dc-poppy-memorial-0525-exlarge-169.jpg");
-            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180517131913-taiwan-dominican-republic-exlarge-169.jpg");
-            images.add("https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fs3-ap-northeast-1.amazonaws.com%2Fpsh-ex-ftnikkei-3937bb4%2Fimages%2F3%2F3%2F9%2F3%2F13953933-2-eng-GB%2F20180524_mag_editorial_us_china_flags_ap.jpg?source=nar-cms");
-            images.add("https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fs3-ap-northeast-1.amazonaws.com%2Fpsh-ex-ftnikkei-3937bb4%2Fimages%2F0%2F8%2F5%2F9%2F13949580-4-eng-GB%2F20180519_Trump_Xi.jpg?source=nar-cms");
-
-            setBean(images);
-
-            return rootView;
-        }
-        private void setBean(final ArrayList beans) {
-            mBanner.setPages(new CustomBanner.ViewCreator<String>() {
-                @Override
-                public View createView(Context context, int position) {
-                    ImageView imageView = new ImageView(context);
-                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    return imageView;
-                }
-
-                @Override
-                public void updateUI(Context context, View view, int position, String entity) {
-                    Glide.with(context).load(entity).into((ImageView) view);
-                }
-            }, beans);}
-
-    }
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -172,7 +90,8 @@ public class MainActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return MainActivity.PlaceholderFragment.newInstance(position + 1);
+            //return MainActivity.PlaceholderFragment.newInstance(position + 1);
+            return new NewsCategorizedFragment();
         }
 
         @Override
@@ -240,7 +159,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private class NewsTitleTask extends AsyncTask<Void,Void,ArrayList<NewsTitle>> {
+    public class NewsTitleTask extends AsyncTask<Void,Void,ArrayList<NewsTitle>> {
 
         public NewsTitleTask() { }
 
