@@ -1,15 +1,9 @@
 package com.example.demo.model;
 
 import android.os.AsyncTask;
-import android.util.Log;
-
-import com.example.demo.utils.ShanbayAPI;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by 费  渝 on 2018/5/29.
+ * 异步任务类，用于前后端交互
  */
 
 public class MyTask<T> extends AsyncTask<Void,Void,T> {
@@ -20,12 +14,14 @@ public class MyTask<T> extends AsyncTask<Void,Void,T> {
 
     @Override
     protected T doInBackground(Void... params) {
-        if(taskType.equals("getNewsList")) {
-
-            result = (T) Connection.getNewsList();
-            return result;
+        //在此处类似根据任务名执行Connection里中自己写好的函数
+        switch (taskType){
+            case("getNewsList"):{
+                result = (T) Connection.getNewsList();
+                return result;
+            }
+            default: return null;
         }
-        return null;
     }
     @Override
     protected void onPostExecute(T rslt) {
