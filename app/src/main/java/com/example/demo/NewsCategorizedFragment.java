@@ -59,30 +59,21 @@ public class NewsCategorizedFragment extends Fragment {
         NonSlideLinearLayoutManager layoutManager = new NonSlideLinearLayoutManager (getActivity());
         layoutManager.setScrollEnabled(false);
         recyclerView.setLayoutManager(layoutManager);
-        if(frag_type == 1 || frag_type == 3) {
-            // 为了解决重复点击第一个界面报错需要每次new一个任务
-            newsTitleTask = new MyTask("getNewsList");
-            //自定义回调函数，在回调函数中更新界面
-            newsTitleTask.setCallBack(newsTitleTask.new CallBack() {
-                @Override
-                public void setSomeThing(List<NewsTitle> newsList) {
-                    ntList = newsList;
-                    Log.i("len of ntList", Integer.toString(ntList.size()));
-                    for (int i = 0; i < ntList.size(); i++) {
-                        ntList.set(i, new NewsTitle(ntList.get(i).getTitle() + frag_type, ntList.get(i).getSource(), ntList.get(i).getNewsdate()));
-                    }
-                    NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
-                    recyclerView.setAdapter(nta);
-                }
-            });
-            newsTitleTask.execute();
-        }
-        else{
-            initNews();
-            NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
-            recyclerView.setAdapter(nta);
-        }
-        
+
+        // 为了解决重复点击第一个界面报错需要每次new一个任务
+        newsTitleTask = new MyTask("getNewsList");
+        //自定义回调函数，在回调函数中更新界面
+        newsTitleTask.setCallBack(newsTitleTask.new CallBack(){
+            @Override
+            public void setSomeThing(List<NewsTitle> newsList){
+                ntList=newsList;
+                Log.i("len of ntList",Integer.toString(ntList.size()));
+                NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
+                recyclerView.setAdapter(nta);
+            }
+        });
+        newsTitleTask.execute();
+
         mBanner = (CustomBanner) rootView.findViewById(R.id.banner);
         ArrayList<String> images = new ArrayList<>();
         images.add("https://cdn.cnn.com/cnnnext/dam/assets/180526074218-03-north-korea-south-korea-meeting-0526-exlarge-169.jpg");

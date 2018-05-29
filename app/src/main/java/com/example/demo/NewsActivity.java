@@ -39,6 +39,7 @@ public class NewsActivity extends AppCompatActivity {
     private AlertDialog alert = null;
     private AlertDialog.Builder builder = null;
     private ScrollView sc;
+    private String url=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +47,8 @@ public class NewsActivity extends AppCompatActivity {
         setStatusBarColor(this,R.color.colorPrimaryDark);
         sc=(ScrollView) findViewById(R.id.sc);
 
+        Intent intent = getIntent();
+        url=intent.getStringExtra("url");
         //title
         StringBuilder sb_title = new StringBuilder();
         sb_title.append(getString(R.string.news_title));

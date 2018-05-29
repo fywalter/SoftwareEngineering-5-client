@@ -57,6 +57,7 @@ public class NewsTitleAdapter extends RecyclerView.Adapter<NewsTitleAdapter.View
                 int position = holder.getAdapterPosition();
                 NewsTitle nt = ntList.get(position);
                 Intent intent = new Intent(context, NewsActivity.class);
+                intent.putExtra("url",nt.getUrl());
                 context.startActivity(intent);
             }
         });
