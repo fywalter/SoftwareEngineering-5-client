@@ -43,11 +43,11 @@ public class NewsCategorizedFragment extends Fragment {
 
     private void initNews(){
         ntList = Connection.getNewsList();
-            NewsTitle nt = new NewsTitle("Trump Is Dust", "CNN", "2018-05-23");
+            NewsTitle nt = new NewsTitle("Trump Is Dust", "CNN", "2018-05-23","","");
             ntList.add(nt);
-            NewsTitle nt2 = new NewsTitle("Tobu Railway Suffered From Human Accidents", "Japan Times", "2018-05-22");
+            NewsTitle nt2 = new NewsTitle("Tobu Railway Suffered From Human Accidents", "Japan Times", "2018-05-22","","");
             ntList.add(nt2);
-            NewsTitle nt3 = new NewsTitle("Will Xi Jinping Change China?", "The Economist", "2018-05-21");
+            NewsTitle nt3 = new NewsTitle("Will Xi Jinping Change China?", "The Economist", "2018-05-21","","");
             ntList.add(nt3);
     }
 
@@ -60,19 +60,26 @@ public class NewsCategorizedFragment extends Fragment {
         layoutManager.setScrollEnabled(false);
         recyclerView.setLayoutManager(layoutManager);
 
-        // 为了解决重复点击第一个界面报错需要每次new一个任务
-        newsTitleTask = new MyTask("getNewsList");
-        //自定义回调函数，在回调函数中更新界面
-        newsTitleTask.setCallBack(newsTitleTask.new CallBack(){
-            @Override
-            public void setSomeThing(List<NewsTitle> newsList){
-                ntList=newsList;
-                Log.i("len of ntList",Integer.toString(ntList.size()));
-                NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
-                recyclerView.setAdapter(nta);
-            }
-        });
-        newsTitleTask.execute();
+        if(frag_type == 1 || frag_type == 3) {
+            // 为了解决重复点击第一个界面报错需要每次new一个任务
+            newsTitleTask = new MyTask("getNewsList");
+            //自定义回调函数，在回调函数中更新界面
+            newsTitleTask.setCallBack(newsTitleTask.new CallBack() {
+                @Override
+                public void setSomeThing(List<NewsTitle> newsList) {
+                    ntList = newsList;
+                    Log.i("len of ntList", Integer.toString(ntList.size()));
+                    NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
+                    recyclerView.setAdapter(nta);
+                }
+            });
+            newsTitleTask.execute();
+        }
+        else{
+            initNews();
+            NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
+            recyclerView.setAdapter(nta);
+        }
 
         mBanner = (CustomBanner) rootView.findViewById(R.id.banner);
         ArrayList<String> images = new ArrayList<>();
