@@ -12,6 +12,7 @@ import com.example.demo.NewsActivity;
 import com.example.demo.R;
 import com.example.demo.model.NewsTitle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,10 +39,17 @@ public class NewsTitleAdapter extends RecyclerView.Adapter<NewsTitleAdapter.View
         this.ntList = ntList_;
         this.context = context_;
     }
-
+    //添加一个元素
+    public void add(NewsTitle data) {
+        if (ntList == null) {
+            ntList = new ArrayList<NewsTitle>();
+        }
+        ntList.add(data);
+        notifyDataSetChanged();
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_panel, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_news, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         holder.newsView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -58,9 +66,9 @@ public class NewsTitleAdapter extends RecyclerView.Adapter<NewsTitleAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
         NewsTitle nt = ntList.get(position);
-        holder.nt_title.setText(nt.get_title());
-        holder.nt_date.setText(nt.get_newsdate());
-        holder.nt_source.setText(nt.get_source());
+        holder.nt_title.setText(nt.getTitle());
+        holder.nt_date.setText(nt.getNewsdate());
+        holder.nt_source.setText(nt.getSource());
     }
 
     @Override

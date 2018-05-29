@@ -21,13 +21,20 @@ import android.support.design.widget.NavigationView;
 import android.content.Intent;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.example.demo.adapter.MyAdapter;
 import com.example.demo.adapter.NewsTitleAdapter;
 import com.example.demo.model.NewsTitle;
+import com.example.demo.model.Connection;
 import com.example.demo.utils.NonSlideLinearLayoutManager;
 import com.example.demo.model.User;
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
+import android.os.AsyncTask;
+import android.widget.ImageView;
+import android.widget.ListView;
+import com.donkingliang.banner.CustomBanner;
 
 
 public class MainActivity extends AppCompatActivity
@@ -36,6 +43,7 @@ public class MainActivity extends AppCompatActivity
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     public static Context mcontext;
+    private NewsTitleTask newsTitleTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         mcontext = this;
         Log.i("DevID",User.getInstance().getDevID());
+        newsTitleTask = new NewsTitleTask();
+        newsTitleTask.execute();
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -72,7 +82,11 @@ public class MainActivity extends AppCompatActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-        private List<NewsTitle> ntList = new ArrayList<>();
+        private List<NewsTitle> ntList = null;
+        private ListView newsListView;
+        private MyAdapter<NewsTitle> myAdapter = null;
+        private CustomBanner<String> mBanner;
+
 
         public PlaceholderFragment() {
         }
@@ -81,8 +95,8 @@ public class MainActivity extends AppCompatActivity
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static MainPageActivity.PlaceholderFragment newInstance(int sectionNumber) {
-            MainPageActivity.PlaceholderFragment fragment = new MainPageActivity.PlaceholderFragment();
+        public static MainActivity.PlaceholderFragment newInstance(int sectionNumber) {
+            MainActivity.PlaceholderFragment fragment = new MainActivity.PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
@@ -90,6 +104,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         private void initNews(){
+            ntList = new ArrayList<>();
             for(int i = 0; i < 5; i++){
                 NewsTitle nt = new NewsTitle("Trump Is Dust", "CNN", "2018-05-23");
                 ntList.add(nt);
@@ -111,8 +126,36 @@ public class MainActivity extends AppCompatActivity
             recyclerView.setLayoutManager(layoutManager);
             NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
             recyclerView.setAdapter(nta);
+
+            mBanner = (CustomBanner) rootView.findViewById(R.id.banner);
+            ArrayList<String> images = new ArrayList<>();
+            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180526074218-03-north-korea-south-korea-meeting-0526-exlarge-169.jpg");
+            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180514162221-xinjiang-xi-jinping-poster-exlarge-169.jpg");
+            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180527213749-sao-paulo-area-truck-strike-exlarge-169.jpg");
+            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180528052555-01-dc-poppy-memorial-0525-exlarge-169.jpg");
+            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180517131913-taiwan-dominican-republic-exlarge-169.jpg");
+            images.add("https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fs3-ap-northeast-1.amazonaws.com%2Fpsh-ex-ftnikkei-3937bb4%2Fimages%2F3%2F3%2F9%2F3%2F13953933-2-eng-GB%2F20180524_mag_editorial_us_china_flags_ap.jpg?source=nar-cms");
+            images.add("https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fs3-ap-northeast-1.amazonaws.com%2Fpsh-ex-ftnikkei-3937bb4%2Fimages%2F0%2F8%2F5%2F9%2F13949580-4-eng-GB%2F20180519_Trump_Xi.jpg?source=nar-cms");
+
+            setBean(images);
+
             return rootView;
         }
+        private void setBean(final ArrayList beans) {
+            mBanner.setPages(new CustomBanner.ViewCreator<String>() {
+                @Override
+                public View createView(Context context, int position) {
+                    ImageView imageView = new ImageView(context);
+                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    return imageView;
+                }
+
+                @Override
+                public void updateUI(Context context, View view, int position, String entity) {
+                    Glide.with(context).load(entity).into((ImageView) view);
+                }
+            }, beans);}
+
     }
 
     /**
@@ -129,7 +172,7 @@ public class MainActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return MainPageActivity.PlaceholderFragment.newInstance(position + 1);
+            return MainActivity.PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
@@ -195,5 +238,33 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private class NewsTitleTask extends AsyncTask<Void,Void,ArrayList<NewsTitle>> {
+
+        public NewsTitleTask() { }
+
+        @Override
+        protected ArrayList<NewsTitle> doInBackground(Void... params) {
+            return Connection.getNewsList();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<NewsTitle> newsList) {
+            super.onPostExecute(newsList);
+            User.getInstance().setNewsTitleList(newsList);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            newsTitleTask = null;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        newsTitleTask.cancel(true);
     }
 }
