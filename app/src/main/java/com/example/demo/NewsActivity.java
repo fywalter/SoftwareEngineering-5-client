@@ -86,7 +86,21 @@ public class NewsActivity extends AppCompatActivity {
                 //img
                 Glide.with(mcontext).load(result.imgUrl).into(iv_image);
                 //source
-                tv_source.setText(result.source);
+                String source=null;
+                if(result.fromMedia.length()!=0 && result.fromMedia!=null){
+                    if(result.author.length()!=0 && result.author!="Nobody"){
+                        source=result.fromMedia.concat(" by ").concat(result.author);
+                    }else{
+                        source=result.fromMedia;
+                    }
+                }else{
+                    if(result.author.length()!=0 && result.author!="Nobody"){
+                        source=source.concat("By ").concat(result.author);
+                    }else{
+                        source="This ia an anonymous news...";
+                    }
+                }
+                tv_source.setText(source);
 
                 //time
                 tv_time.setText(result.date);
