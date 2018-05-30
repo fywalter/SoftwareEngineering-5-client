@@ -63,6 +63,7 @@ public class NewsTitle {
             nt.setSource(results.getString("from_media") + " " + results.getString("author"));
             nt.setNewsdate(results.getString("pub_date"));
             nt.setUrl(results.getString("url"));
+            nt.setImgUrl(results.getString("img_url"));
             newsList.add(nt);
         }
         return newsList;

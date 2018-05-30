@@ -59,6 +59,7 @@ public class NewsCategorizedFragment extends Fragment {
         NonSlideLinearLayoutManager layoutManager = new NonSlideLinearLayoutManager (getActivity());
         layoutManager.setScrollEnabled(false);
         recyclerView.setLayoutManager(layoutManager);
+        mBanner = (CustomBanner) rootView.findViewById(R.id.banner);
 
         if(frag_type == 1 || frag_type == 3) {
             // 为了解决重复点击第一个界面报错需要每次new一个任务
@@ -71,6 +72,11 @@ public class NewsCategorizedFragment extends Fragment {
                     Log.i("len of ntList", Integer.toString(ntList.size()));
                     NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
                     recyclerView.setAdapter(nta);
+                    ArrayList<String> images = new ArrayList<>();
+                    for(int i = 0; i < ntList.size(); i++){
+                        images.add(ntList.get(i).getImgUrl());
+                    }
+                    setBean(images);
                 }
             });
             newsTitleTask.execute();
@@ -79,20 +85,13 @@ public class NewsCategorizedFragment extends Fragment {
             initNews();
             NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
             recyclerView.setAdapter(nta);
+            ArrayList<String> images = new ArrayList<>();
+            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180526074218-03-north-korea-south-korea-meeting-0526-exlarge-169.jpg");
+            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180514162221-xinjiang-xi-jinping-poster-exlarge-169.jpg");
+            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180527213749-sao-paulo-area-truck-strike-exlarge-169.jpg");
+            setBean(images);
         }
-
-        mBanner = (CustomBanner) rootView.findViewById(R.id.banner);
-        ArrayList<String> images = new ArrayList<>();
-        images.add("https://cdn.cnn.com/cnnnext/dam/assets/180526074218-03-north-korea-south-korea-meeting-0526-exlarge-169.jpg");
-        images.add("https://cdn.cnn.com/cnnnext/dam/assets/180514162221-xinjiang-xi-jinping-poster-exlarge-169.jpg");
-        images.add("https://cdn.cnn.com/cnnnext/dam/assets/180527213749-sao-paulo-area-truck-strike-exlarge-169.jpg");
-        images.add("https://cdn.cnn.com/cnnnext/dam/assets/180528052555-01-dc-poppy-memorial-0525-exlarge-169.jpg");
-        images.add("https://cdn.cnn.com/cnnnext/dam/assets/180517131913-taiwan-dominican-republic-exlarge-169.jpg");
-        images.add("https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fs3-ap-northeast-1.amazonaws.com%2Fpsh-ex-ftnikkei-3937bb4%2Fimages%2F3%2F3%2F9%2F3%2F13953933-2-eng-GB%2F20180524_mag_editorial_us_china_flags_ap.jpg?source=nar-cms");
-        images.add("https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fs3-ap-northeast-1.amazonaws.com%2Fpsh-ex-ftnikkei-3937bb4%2Fimages%2F0%2F8%2F5%2F9%2F13949580-4-eng-GB%2F20180519_Trump_Xi.jpg?source=nar-cms");
-
-        setBean(images);
-
+        
         return rootView;
     }
     private void setBean(final ArrayList beans) {
