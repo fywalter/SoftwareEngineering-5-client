@@ -16,6 +16,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -169,6 +170,13 @@ public class NewsActivity extends AppCompatActivity {
                                                 Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
                                             }
                                         }).create();             //创建AlertDialog对象
+                                Window alertWindow = alert.getWindow();
+                                alertWindow.setGravity(Gravity.BOTTOM);
+                                WindowManager.LayoutParams lp = alertWindow.getAttributes(); // 获取对话框当前的参数值
+                                lp.x = 0; // 新位置X坐标
+                                lp.y = -40; // 新位置Y坐标
+                                lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+                                alertWindow.setAttributes(lp);
                                 alert.show();                    //显示对话框
                             }
                         });
