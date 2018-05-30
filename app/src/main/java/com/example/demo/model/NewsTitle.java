@@ -60,9 +60,10 @@ public class NewsTitle {
             JSONObject results = (JSONObject) array.get(i);
             NewsTitle nt = new NewsTitle();
             nt.setTitle(results.getString("title"));
-            nt.setSource(results.getString("source"));
+            nt.setSource(results.getString("from_media") + " " + results.getString("author"));
             nt.setNewsdate(results.getString("pub_date"));
             nt.setUrl(results.getString("url"));
+            nt.setImgUrl(results.getString("img_url"));
             newsList.add(nt);
         }
         return newsList;

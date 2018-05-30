@@ -16,6 +16,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,9 +28,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.demo.model.MyTask;
+import com.example.demo.model.News;
 import com.example.demo.model.User;
 import com.example.demo.model.Word;
 import com.example.demo.utils.ShanbayAPI;
+
+import java.util.ArrayList;
 
 /**
  * Created by 费  渝 on 2018/5/24.
@@ -40,6 +45,7 @@ public class NewsActivity extends AppCompatActivity {
     private AlertDialog.Builder builder = null;
     private ScrollView sc;
     private String url=null;
+    private MyTask<News> newsTask=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,30 +53,40 @@ public class NewsActivity extends AppCompatActivity {
         setStatusBarColor(this,R.color.colorPrimaryDark);
         sc=(ScrollView) findViewById(R.id.sc);
 
+        final StringBuilder sb_title = new StringBuilder();
+        final TextView tv_title = (TextView) findViewById(R.id.news_title);
+        final TextView tv_source = (TextView) findViewById(R.id.news_source);
+        final TextView tv_time = (TextView) findViewById(R.id.news_time);
+        final TextView tv_content = (TextView) findViewById(R.id.news_content);
+        final StringBuilder sb_content = new StringBuilder();
+
         Intent intent = getIntent();
         url=intent.getStringExtra("url");
-        //title
-        StringBuilder sb_title = new StringBuilder();
-        sb_title.append(getString(R.string.news_title));
-        TextView tv_title = (TextView) findViewById(R.id.news_title);
-        tv_title.setMovementMethod(LinkMovementMethod.getInstance());
-        tv_title.setText(addClickPart(sb_title.toString()), TextView.BufferType.SPANNABLE);
+        ArrayList<String> params = new ArrayList<>();
+        params.add(url);
+        newsTask=new MyTask<>("getNews",params);
+        newsTask.setCallBack(newsTask.new CallBack() {
+            @Override
+            public void setSomeThing(News result) {
+                //title
+                sb_title.append(result.title);
+                tv_title.setMovementMethod(LinkMovementMethod.getInstance());
+                tv_title.setText(addClickPart(sb_title.toString()), TextView.BufferType.SPANNABLE);
 
-        //source
-        TextView tv_source = (TextView) findViewById(R.id.news_source);
-        tv_source.setText(R.string.news_source);
+                //source
+                tv_source.setText(result.source);
 
-        //time
-        TextView tv_time = (TextView) findViewById(R.id.news_time);
-        tv_time.setText(R.string.news_time);
+                //time
+                tv_time.setText(result.date);
 
-        //content
-        TextView tv_content = (TextView) findViewById(R.id.news_content);
-        StringBuilder sb_content = new StringBuilder();
-        sb_content.append(getString(R.string.news_content));
+                //content
+                sb_content.append(getString(R.string.news_content));
+                tv_content.setMovementMethod(LinkMovementMethod.getInstance());
+                tv_content.setText(addClickPart(sb_content.toString()), TextView.BufferType.SPANNABLE);
+            }
+        });
+        newsTask.execute();
 
-        tv_content.setMovementMethod(LinkMovementMethod.getInstance());
-        tv_content.setText(addClickPart(sb_content.toString()), TextView.BufferType.SPANNABLE);
 
         //再来一篇按钮
         Button btn_another = (Button) findViewById(R.id.anotherone);
@@ -154,6 +170,13 @@ public class NewsActivity extends AppCompatActivity {
                                                 Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
                                             }
                                         }).create();             //创建AlertDialog对象
+                                Window alertWindow = alert.getWindow();
+                                alertWindow.setGravity(Gravity.BOTTOM);
+                                WindowManager.LayoutParams lp = alertWindow.getAttributes(); // 获取对话框当前的参数值
+                                lp.x = 0; // 新位置X坐标
+                                lp.y = -40; // 新位置Y坐标
+                                lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+                                alertWindow.setAttributes(lp);
                                 alert.show();                    //显示对话框
                             }
                         });
