@@ -29,6 +29,10 @@ public class MyTask<T> extends AsyncTask<Void,Void,T> {
                 result=(T)Connection.getNews(this.params.get(0));
                 return result;
             }
+            case("getRecommendNewsList"):{
+                result=(T)Connection.getRecommendNewsList();
+                return  result;
+            }
             default: return null;
         }
     }

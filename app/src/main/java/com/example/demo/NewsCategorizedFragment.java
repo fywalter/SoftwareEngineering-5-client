@@ -61,7 +61,7 @@ public class NewsCategorizedFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         mBanner = (CustomBanner) rootView.findViewById(R.id.banner);
 
-        if(frag_type == 1 || frag_type == 3) {
+        if(frag_type == 1) {
             // 为了解决重复点击第一个界面报错需要每次new一个任务
             newsTitleTask = new MyTask("getNewsList");
             //自定义回调函数，在回调函数中更新界面
@@ -81,6 +81,21 @@ public class NewsCategorizedFragment extends Fragment {
             });
             newsTitleTask.execute();
         }
+        else if (frag_type == 3){
+            newsTitleTask = new MyTask("getRecommendNewsList");
+            newsTitleTask.setCallBack(newsTitleTask.new CallBack() {
+                @Override
+                public void setSomeThing(List<NewsTitle> newsList) {
+                    ntList = newsList;
+                    Log.i("len of ntList", Integer.toString(ntList.size()));
+                    NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
+                    recyclerView.setAdapter(nta);
+                    ArrayList<String> images = new ArrayList<>();
+                    for(int i = 0; i < ntList.size(); i++){
+                        images.add(ntList.get(i).getImgUrl()); }setBean(images); }
+            });
+            newsTitleTask.execute();
+        }
         else{
             initNews();
             NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
@@ -91,7 +106,7 @@ public class NewsCategorizedFragment extends Fragment {
             images.add("https://cdn.cnn.com/cnnnext/dam/assets/180527213749-sao-paulo-area-truck-strike-exlarge-169.jpg");
             setBean(images);
         }
-        
+
         return rootView;
     }
     private void setBean(final ArrayList beans) {
