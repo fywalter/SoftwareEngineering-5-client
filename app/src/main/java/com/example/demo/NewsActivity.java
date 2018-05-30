@@ -1,7 +1,10 @@
 package com.example.demo;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -24,16 +27,22 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.demo.model.MyTask;
 import com.example.demo.model.News;
 import com.example.demo.model.User;
 import com.example.demo.model.Word;
 import com.example.demo.utils.ShanbayAPI;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -46,6 +55,7 @@ public class NewsActivity extends AppCompatActivity {
     private ScrollView sc;
     private String url=null;
     private MyTask<News> newsTask=null;
+    final private Context mcontext = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +63,7 @@ public class NewsActivity extends AppCompatActivity {
         setStatusBarColor(this,R.color.colorPrimaryDark);
         sc=(ScrollView) findViewById(R.id.sc);
 
+        final ImageView iv_image = (ImageView)findViewById(R.id.news_image);
         final StringBuilder sb_title = new StringBuilder();
         final TextView tv_title = (TextView) findViewById(R.id.news_title);
         final TextView tv_source = (TextView) findViewById(R.id.news_source);
@@ -72,7 +83,8 @@ public class NewsActivity extends AppCompatActivity {
                 sb_title.append(result.title);
                 tv_title.setMovementMethod(LinkMovementMethod.getInstance());
                 tv_title.setText(addClickPart(sb_title.toString()), TextView.BufferType.SPANNABLE);
-
+                //img
+                Glide.with(mcontext).load(result.imgUrl).into(iv_image);
                 //source
                 tv_source.setText(result.source);
 
@@ -106,7 +118,6 @@ public class NewsActivity extends AppCompatActivity {
                 sc.fullScroll(ScrollView.FOCUS_UP);
             }
         });
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -133,7 +144,6 @@ public class NewsActivity extends AppCompatActivity {
             ViewCompat.requestApplyInsets(mChildView);
         }
     }
-
 
     //定义一个点击每个部分文字的处理方法
     private SpannableStringBuilder addClickPart(String str) {

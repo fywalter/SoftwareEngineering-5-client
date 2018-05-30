@@ -14,6 +14,7 @@ public class News {
     public String source;
     public String content;
     public String date;
+    public String imgUrl;
     public Boolean ifFavored;
     News(){title=null;source=null;content=null;date=null;ifFavored=false;}
     static public News parseNews(String content) throws Exception {
@@ -23,6 +24,7 @@ public class News {
         news.source=(results.getString("source"));
         news.date=(results.getString("pub_date"));
         news.content=(results.getString("content"));
+        news.imgUrl=(results.getString("img_url"));
         return news;
     }
 }
