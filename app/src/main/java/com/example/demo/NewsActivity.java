@@ -54,7 +54,6 @@ import java.util.ArrayList;
 
 public class NewsActivity extends AppCompatActivity {
     private Dialog wordCard = null;
-    private AlertDialog.Builder builder = null;
     private ScrollView sc;
     private String url=null;
     private MyTask<News> newsTask=null;
@@ -218,34 +217,6 @@ public class NewsActivity extends AppCompatActivity {
                                 lp.height = root.getMeasuredHeight();
                                 dialogWindow.setAttributes(lp);
                                 wordCard.show();
-                                /*
-                                alert = null;
-                                builder = new WordCard.Builder(NewsActivity.this);
-                                Log.i("sbAPI.translate",trans);
-                                alert = (WordCard) builder
-                                        .setTitle(word.replaceAll("\\p{Punct}",""))
-                                        .setMessage(trans)
-                                        .setPositiveButton("添加单词", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                User.getInstance().addWord(new Word(word.replaceAll("\\p{Punct}",""),translation));
-                                                Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }).create();             //创建AlertDialog对象
-                                //设置弹窗格式
-                                Window alertWindow = alert.getWindow();
-
-                                alertWindow.setGravity(Gravity.BOTTOM);
-                                WindowManager.LayoutParams lp = alertWindow.getAttributes(); // 获取对话框当前的参数值
-                                lp.x = 0; // 新位置X坐标
-                                lp.y = -20; // 新位置Y坐标
-                                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                                lp.horizontalMargin=0;
-                                lp.verticalMargin=0;
-                                alertWindow.setAttributes(lp);
-                                alert.show();                    //显示对话框
-                                */
                             }
                         });
                         sbAPI.execute(word);
