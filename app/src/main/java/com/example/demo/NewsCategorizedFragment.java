@@ -18,6 +18,7 @@ import com.example.demo.adapter.NewsTitleAdapter;
 import com.example.demo.model.Connection;
 import com.example.demo.model.MyTask;
 import com.example.demo.model.NewsTitle;
+import com.example.demo.model.User;
 import com.example.demo.utils.NonSlideLinearLayoutManager;
 
 import java.util.ArrayList;
@@ -69,11 +70,12 @@ public class NewsCategorizedFragment extends Fragment {
                 @Override
                 public void setSomeThing(List<NewsTitle> newsList) {
                     ntList = newsList;
+                    User.getInstance().setNewsTitleList((ArrayList<NewsTitle>) ntList);
                     Log.i("len of ntList", Integer.toString(ntList.size()));
                     NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
                     recyclerView.setAdapter(nta);
                     ArrayList<String> images = new ArrayList<>();
-                    for(int i = 0; i < ntList.size(); i++){
+                    for(int i = 0; i < 5; i++){
                         images.add(ntList.get(i).getImgUrl());
                     }
                     setBean(images);
@@ -91,8 +93,11 @@ public class NewsCategorizedFragment extends Fragment {
                     NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
                     recyclerView.setAdapter(nta);
                     ArrayList<String> images = new ArrayList<>();
-                    for(int i = 0; i < ntList.size(); i++){
-                        images.add(ntList.get(i).getImgUrl()); }setBean(images); }
+                    for(int i = 0; i < 5; i++){
+                        if(ntList.get(i).getImgUrl().isEmpty())
+                            images.add("https://ovefepif3.bkt.clouddn.com/ic_launcher_foreground.png");
+                        else
+                            images.add(ntList.get(i).getImgUrl()); }setBean(images); }
             });
             newsTitleTask.execute();
         }

@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/txt_wname"
         android:layout_width="351dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:text="helo"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
@@ -17,7 +17,7 @@
     <TextView
         android:id="@+id/txt_wexplain"
         android:layout_width="330dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:text="你好"
         android:textColor="@color/gray"

@@ -1,5 +1,11 @@
 package com.example.demo.model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import android.util.Log;
+
+import java.util.ArrayList;
+
 /**
  * Created by XiaoWei on 2018/5/25 0022.
  */
@@ -37,8 +43,41 @@ public class Word {
     public void setwName(String wName) {
         this.wName = wName;
     }
-
     public void setwExplain(String wExplain) {
         this.wExplain = wExplain;
+    }
+    public String toJson(){
+        String jformat = null;
+        try {
+            jformat = new JSONObject()
+                    .put("raw", getwName())
+                    .put("meaning", getwExplain()).toString();
+        }catch(Exception e){
+            Log.e("wordToJson","can't transform word to String");
+        }
+        return jformat;
+    }
+    static public ArrayList<Word> parseWordList(String content) throws Exception {
+        ArrayList<Word> wordList = new ArrayList<>();
+        JSONArray array = new JSONObject(content).getJSONArray("glossary");
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject results = (JSONObject) array.get(i);
+            Word w = new Word();
+            w.setwName(results.getString("raw"));
+            w.setwExplain(results.getString("meaning"));
+            wordList.add(w);
+        }
+        return wordList;
+    }
+    static public String beautify(String explain){
+        String shorter= explain;
+        int firstLineEnd = shorter.indexOf('\n');
+        if (firstLineEnd > 0){
+            shorter = shorter.substring(0,firstLineEnd);
+        }
+        if (shorter.length() > 18){
+            shorter = shorter.substring(0,15)+"...";
+        }
+        return shorter;
     }
 }

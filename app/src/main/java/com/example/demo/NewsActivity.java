@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +30,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,8 +53,7 @@ import java.util.ArrayList;
  */
 
 public class NewsActivity extends AppCompatActivity {
-    private AlertDialog alert = null;
-    private AlertDialog.Builder builder = null;
+    private Dialog wordCard = null;
     private ScrollView sc;
     private String url=null;
     private MyTask<News> newsTask=null;
@@ -86,13 +88,27 @@ public class NewsActivity extends AppCompatActivity {
                 //img
                 Glide.with(mcontext).load(result.imgUrl).into(iv_image);
                 //source
-                tv_source.setText(result.source);
+                String source=null;
+                if(result.fromMedia.length()!=0 && result.fromMedia!=null){
+                    if(result.author.length()!=0 && result.author!="Nobody"){
+                        source=result.fromMedia.concat(" by ").concat(result.author);
+                    }else{
+                        source=result.fromMedia;
+                    }
+                }else{
+                    if(result.author.length()!=0 && result.author!="Nobody"){
+                        source=source.concat("By ").concat(result.author);
+                    }else{
+                        source="This ia an anonymous news...";
+                    }
+                }
+                tv_source.setText(source);
 
                 //time
                 tv_time.setText(result.date);
 
                 //content
-                sb_content.append(getString(R.string.news_content));
+                sb_content.append(result.content.replaceAll("\n"," \n"));
                 tv_content.setMovementMethod(LinkMovementMethod.getInstance());
                 tv_content.setText(addClickPart(sb_content.toString()), TextView.BufferType.SPANNABLE);
             }
@@ -105,7 +121,14 @@ public class NewsActivity extends AppCompatActivity {
         btn_another.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( NewsActivity.this, NewsActivity.class);
+                Intent intent = new Intent(mcontext, NewsActivity.class);
+                int newsListLength=User.getInstance().getNewsTitleList().size();
+                String newUrl=null;
+                do{
+                    newUrl=User.getInstance().getNewsTitleList().get((int)(Math.random()*newsListLength)).getUrl();
+                }while(newUrl.equals(url));
+                intent.putExtra("url",newUrl);
+                mcontext.startActivity(intent);
                 startActivity(intent);
             }
         });
@@ -167,27 +190,33 @@ public class NewsActivity extends AppCompatActivity {
                             @Override
                             public void setTranslate(String trans) {
                                 final String translation = trans;
-                                alert = null;
-                                builder = new AlertDialog.Builder(NewsActivity.this);
-                                Log.i("sbAPI.translate",trans);
-                                alert = builder
-                                        .setTitle(word.replaceAll("\\p{Punct}",""))
-                                        .setMessage(trans)
-                                        .setPositiveButton("添加单词", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                User.getInstance().addWord(new Word(word.replaceAll("\\p{Punct}",""),translation));
-                                                Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }).create();             //创建AlertDialog对象
-                                Window alertWindow = alert.getWindow();
-                                alertWindow.setGravity(Gravity.BOTTOM);
-                                WindowManager.LayoutParams lp = alertWindow.getAttributes(); // 获取对话框当前的参数值
+                                wordCard=new Dialog(mcontext,R.style.WordCard);
+                                LinearLayout root =(LinearLayout) LayoutInflater.from(mcontext).inflate(R.layout.layout_wordcard,null);
+
+                                TextView tv_word=(TextView)root.findViewById(R.id.tv_word);
+                                TextView tv_explanation = (TextView)root.findViewById(R.id.tv_explanation);
+                                Button btn_addWord= (Button)root.findViewById(R.id.btn_addWord);
+
+                                tv_word.setText(word.replaceAll("\\p{Punct}",""));
+                                tv_explanation.setText(trans);
+                                btn_addWord.setOnClickListener(new View.OnClickListener(){
+                                    @Override
+                                    public void onClick(View v) {
+                                        User.getInstance().addWord(new Word(word.replaceAll("\\p{Punct}",""),translation));
+                                        Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                wordCard.setContentView(root);
+                                Window dialogWindow = wordCard.getWindow();
+                                dialogWindow.setGravity(Gravity.BOTTOM);
+                                WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
                                 lp.x = 0; // 新位置X坐标
-                                lp.y = -40; // 新位置Y坐标
+                                lp.y = 0; // 新位置Y坐标
                                 lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-                                alertWindow.setAttributes(lp);
-                                alert.show();                    //显示对话框
+                                root.measure(0, 0);
+                                lp.height = root.getMeasuredHeight();
+                                dialogWindow.setAttributes(lp);
+                                wordCard.show();
                             }
                         });
                         sbAPI.execute(word);
@@ -230,5 +259,6 @@ public class NewsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }
+
+

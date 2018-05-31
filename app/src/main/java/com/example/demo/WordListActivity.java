@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,12 +9,17 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.demo.adapter.MyAdapter;
@@ -32,7 +38,7 @@ public class WordListActivity extends AppCompatActivity {
     private ListView wordListView;
     private MyAdapter<Word> myAdapter = null;
     private List<Word> mData = null;
-    private AlertDialog alert = null;
+    private Dialog wordCard = null;
     private AlertDialog.Builder builder = null;
 
     @Override
@@ -65,23 +71,40 @@ public class WordListActivity extends AppCompatActivity {
                 final String wordName = obj.getwName();
                 final String wordExplain = obj.getwExplain();
                 holder.setText(R.id.txt_wname,wordName);
-                holder.setText(R.id.txt_wexplain,wordExplain);
+                holder.setText(R.id.txt_wexplain,Word.beautify(wordExplain));
                 holder.getItemView().setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        alert = null;
-                        builder = new AlertDialog.Builder(WordListActivity.this);
-                        alert = builder
-                                .setTitle(wordName)
-                                .setMessage(wordExplain)
-                                .setPositiveButton("删除单词", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        myAdapter.remove(new Word(wordName,wordExplain));
-                                        Toast.makeText(WordListActivity.this, "删除单词~", Toast.LENGTH_SHORT).show();
-                                    }
-                                }).create();             //创建AlertDialog对象
-                        alert.show();                    //显示对话框
+                        wordCard=new Dialog(WordListActivity.this,R.style.WordCard);
+                        LinearLayout root =(LinearLayout) LayoutInflater.from(WordListActivity.this).inflate(R.layout.layout_wordcard,null);
+
+                        TextView tv_word=(TextView)root.findViewById(R.id.tv_word);
+                        TextView tv_explanation = (TextView)root.findViewById(R.id.tv_explanation);
+                        Button btn_addWord= (Button)root.findViewById(R.id.btn_addWord);
+
+                        tv_word.setText(wordName.replaceAll("\\p{Punct}",""));
+                        tv_explanation.setText(wordExplain);
+                        btn_addWord.setText("Delete Word");
+                        btn_addWord.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
+                                Word todelete = new Word(wordName,wordExplain);
+                                myAdapter.remove(todelete);
+                                User.getInstance().delWord(todelete);
+                                Toast.makeText(WordListActivity.this, "删除单词~", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        wordCard.setContentView(root);
+                        Window dialogWindow = wordCard.getWindow();
+                        dialogWindow.setGravity(Gravity.BOTTOM);
+                        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+                        lp.x = 0; // 新位置X坐标
+                        lp.y = 0; // 新位置Y坐标
+                        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+                        root.measure(0, 0);
+                        lp.height = root.getMeasuredHeight();
+                        dialogWindow.setAttributes(lp);
+                        wordCard.show();
                     }
                 });
             }

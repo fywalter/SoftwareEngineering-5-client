@@ -33,6 +33,21 @@ public class MyTask<T> extends AsyncTask<Void,Void,T> {
                 result=(T)Connection.getRecommendNewsList();
                 return  result;
             }
+            case("getDevAuthToken"):{
+                result = (T)Connection.getDevAuthToken();
+                return result;
+            }
+            case("sendNewWord"):{
+                Connection.sendNewWord(this.params.get(0));
+                Connection.addWord(this.params.get(0));
+            }
+            case("getWordList"):{
+                result = (T)Connection.getWordList();
+                return result;
+            }
+            case("deleteWord"):{
+                Connection.deleteWord(this.params.get(0));
+            }
             default: return null;
         }
     }
