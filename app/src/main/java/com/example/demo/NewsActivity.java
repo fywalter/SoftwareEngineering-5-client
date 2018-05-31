@@ -62,7 +62,7 @@ public class NewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-        setStatusBarColor(this,R.color.colorPrimaryDark);
+        setStatusBarColor(this,Color.parseColor("#303F9F"));
         sc=(ScrollView) findViewById(R.id.sc);
 
         final ImageView iv_image = (ImageView)findViewById(R.id.news_image);
