@@ -119,7 +119,14 @@ public class NewsActivity extends AppCompatActivity {
         btn_another.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( NewsActivity.this, NewsActivity.class);
+                Intent intent = new Intent(mcontext, NewsActivity.class);
+                int newsListLength=User.getInstance().getNewsTitleList().size();
+                String newUrl=null;
+                do{
+                    newUrl=User.getInstance().getNewsTitleList().get((int)(Math.random()*newsListLength)).getUrl();
+                }while(newUrl.equals(url));
+                intent.putExtra("url",newUrl);
+                mcontext.startActivity(intent);
                 startActivity(intent);
             }
         });
