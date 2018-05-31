@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +30,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,7 +53,7 @@ import java.util.ArrayList;
  */
 
 public class NewsActivity extends AppCompatActivity {
-    private AlertDialog alert = null;
+    private Dialog wordCard = null;
     private AlertDialog.Builder builder = null;
     private ScrollView sc;
     private String url=null;
@@ -188,10 +191,38 @@ public class NewsActivity extends AppCompatActivity {
                             @Override
                             public void setTranslate(String trans) {
                                 final String translation = trans;
+                                wordCard=new Dialog(mcontext,R.style.WordCard);
+                                LinearLayout root =(LinearLayout) LayoutInflater.from(mcontext).inflate(R.layout.layout_wordcard,null);
+
+                                TextView tv_word=(TextView)root.findViewById(R.id.tv_word);
+                                TextView tv_explanation = (TextView)root.findViewById(R.id.tv_explanation);
+                                Button btn_addWord= (Button)root.findViewById(R.id.btn_addWord);
+
+                                tv_word.setText(word.replaceAll("\\p{Punct}",""));
+                                tv_explanation.setText(trans);
+                                btn_addWord.setOnClickListener(new View.OnClickListener(){
+                                    @Override
+                                    public void onClick(View v) {
+                                        User.getInstance().addWord(new Word(word.replaceAll("\\p{Punct}",""),translation));
+                                        Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                wordCard.setContentView(root);
+                                Window dialogWindow = wordCard.getWindow();
+                                dialogWindow.setGravity(Gravity.BOTTOM);
+                                WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+                                lp.x = 0; // 新位置X坐标
+                                lp.y = 0; // 新位置Y坐标
+                                lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+                                root.measure(0, 0);
+                                lp.height = root.getMeasuredHeight();
+                                dialogWindow.setAttributes(lp);
+                                wordCard.show();
+                                /*
                                 alert = null;
-                                builder = new AlertDialog.Builder(NewsActivity.this);
+                                builder = new WordCard.Builder(NewsActivity.this);
                                 Log.i("sbAPI.translate",trans);
-                                alert = builder
+                                alert = (WordCard) builder
                                         .setTitle(word.replaceAll("\\p{Punct}",""))
                                         .setMessage(trans)
                                         .setPositiveButton("添加单词", new DialogInterface.OnClickListener() {
@@ -201,14 +232,20 @@ public class NewsActivity extends AppCompatActivity {
                                                 Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
                                             }
                                         }).create();             //创建AlertDialog对象
+                                //设置弹窗格式
                                 Window alertWindow = alert.getWindow();
+
                                 alertWindow.setGravity(Gravity.BOTTOM);
                                 WindowManager.LayoutParams lp = alertWindow.getAttributes(); // 获取对话框当前的参数值
                                 lp.x = 0; // 新位置X坐标
-                                lp.y = -40; // 新位置Y坐标
-                                lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+                                lp.y = -20; // 新位置Y坐标
+                                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                                lp.horizontalMargin=0;
+                                lp.verticalMargin=0;
                                 alertWindow.setAttributes(lp);
                                 alert.show();                    //显示对话框
+                                */
                             }
                         });
                         sbAPI.execute(word);
@@ -251,5 +288,6 @@ public class NewsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }
+
+
