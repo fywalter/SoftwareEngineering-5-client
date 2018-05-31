@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     public static Context mcontext;
-    private NewsTitleTask newsTitleTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +50,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         mcontext = this;
         Log.i("DevID",User.getInstance().getDevID());
-        newsTitleTask = new NewsTitleTask();
-        newsTitleTask.execute();
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -159,31 +156,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public class NewsTitleTask extends AsyncTask<Void,Void,ArrayList<NewsTitle>> {
-
-        public NewsTitleTask() { }
-
-        @Override
-        protected ArrayList<NewsTitle> doInBackground(Void... params) {
-            return Connection.getNewsList();
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<NewsTitle> newsList) {
-            super.onPostExecute(newsList);
-            User.getInstance().setNewsTitleList(newsList);
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-            newsTitleTask = null;
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        newsTitleTask.cancel(true);
-    }
 }

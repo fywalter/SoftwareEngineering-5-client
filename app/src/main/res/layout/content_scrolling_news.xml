@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/news_image"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
@@ -85,23 +85,30 @@
             android:text="helloworld"
 
             android:textSize="20sp" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_below="@id/news_content">
+            <Button
+                android:id="@+id/backtotop"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/lightGray"
+                android:textColor="@color/gray"
+                android:layout_weight="1"
+                android:text="back to top" />
+            <Button
+                android:id="@+id/anotherone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"
+                android:text="feed me another" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/anotherone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@id/news_content"
-            android:layout_marginLeft="55dp"
-            android:text="feed me another" />
-
-        <Button
-            android:id="@+id/backtotop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@id/anotherone"
-            android:text="back to top" />
 
     </RelativeLayout>
 
