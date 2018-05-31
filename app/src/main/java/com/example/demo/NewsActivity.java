@@ -62,7 +62,7 @@ public class NewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-        setStatusBarColor(this,R.color.colorPrimaryDark);
+        setStatusBarColor(this,Color.parseColor("#303F9F"));
         sc=(ScrollView) findViewById(R.id.sc);
 
         final ImageView iv_image = (ImageView)findViewById(R.id.news_image);
@@ -108,7 +108,7 @@ public class NewsActivity extends AppCompatActivity {
                 tv_time.setText(result.date);
 
                 //content
-                sb_content.append(result.content.replaceAll("\n"," \n"));
+                sb_content.append(result.content.replaceAll("\n"," \n\n"));
                 tv_content.setMovementMethod(LinkMovementMethod.getInstance());
                 tv_content.setText(addClickPart(sb_content.toString()), TextView.BufferType.SPANNABLE);
             }
@@ -128,7 +128,6 @@ public class NewsActivity extends AppCompatActivity {
                     newUrl=User.getInstance().getNewsTitleList().get((int)(Math.random()*newsListLength)).getUrl();
                 }while(newUrl.equals(url));
                 intent.putExtra("url",newUrl);
-                mcontext.startActivity(intent);
                 startActivity(intent);
             }
         });
@@ -197,12 +196,12 @@ public class NewsActivity extends AppCompatActivity {
                                 TextView tv_explanation = (TextView)root.findViewById(R.id.tv_explanation);
                                 Button btn_addWord= (Button)root.findViewById(R.id.btn_addWord);
 
-                                tv_word.setText(word.replaceAll("\\p{Punct}",""));
+                                tv_word.setText(word.replaceAll("[\\p{Punct} \\n]",""));
                                 tv_explanation.setText(trans);
                                 btn_addWord.setOnClickListener(new View.OnClickListener(){
                                     @Override
                                     public void onClick(View v) {
-                                        User.getInstance().addWord(new Word(word.replaceAll("\\p{Punct}",""),translation));
+                                        User.getInstance().addWord(new Word(word.replaceAll("[\\p{Punct} \\n]",""),translation));
                                         Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -259,6 +258,7 @@ public class NewsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
 
 
