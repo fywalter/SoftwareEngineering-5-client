@@ -137,6 +137,20 @@ public class Connection{
             e.printStackTrace();
         }
     }
+    static public void deleteWord( String wordJson){
+        try {
+            String urlString = backendAddress+"wordlist/delete_post/";
+            Map<String,String> params = new HashMap<>();
+            params.put("method","POST");
+            params.put("Authorization","Token "+User.getInstance().getToken());
+            queryJson(urlString,
+                    new JSONObject().put("userprofile",User.getInstance().getUserID())
+                            .put("word",new JSONObject(wordJson).get("raw")).toString(),
+                    params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     static public ArrayList<Word> getWordList() {
         String urlString = backendAddress+"userwordlist/"+User.getInstance().getUserID();
         ArrayList<Word> wordlist = new ArrayList<>();
