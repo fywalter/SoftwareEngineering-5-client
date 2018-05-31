@@ -197,12 +197,12 @@ public class NewsActivity extends AppCompatActivity {
                                 TextView tv_explanation = (TextView)root.findViewById(R.id.tv_explanation);
                                 Button btn_addWord= (Button)root.findViewById(R.id.btn_addWord);
 
-                                tv_word.setText(word.replaceAll("\\p{Punct}",""));
+                                tv_word.setText(word.replaceAll("[\\p{Punct} \\n]",""));
                                 tv_explanation.setText(trans);
                                 btn_addWord.setOnClickListener(new View.OnClickListener(){
                                     @Override
                                     public void onClick(View v) {
-                                        User.getInstance().addWord(new Word(word.replaceAll("\\p{Punct}",""),translation));
+                                        User.getInstance().addWord(new Word(word.replaceAll("[\\p{Punct} \\n]",""),translation));
                                         Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
                                     }
                                 });
