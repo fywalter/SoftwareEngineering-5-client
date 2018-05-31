@@ -90,6 +90,8 @@
             android:layout_height="45dp"
             android:orientation="horizontal"
             android:weightSum="2"
+            android:focusableInTouchMode="false"
+
             android:layout_below="@id/news_content">
             <Button
                 android:id="@+id/backtotop"
@@ -98,6 +100,7 @@
                 android:background="@color/lightGray"
                 android:textColor="@color/gray"
                 android:focusableInTouchMode="false"
+                android:focusable="false"
                 android:layout_weight="1"
                 android:text="back to top" />
             <Button
@@ -106,6 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
+                android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:textColor="#ffffff"
                 android:text="feed me another" />

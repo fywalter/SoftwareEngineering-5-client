@@ -128,7 +128,7 @@ public class NewsActivity extends AppCompatActivity {
                     newUrl=User.getInstance().getNewsTitleList().get((int)(Math.random()*newsListLength)).getUrl();
                 }while(newUrl.equals(url));
                 intent.putExtra("url",newUrl);
-                mcontext.startActivity(intent);
+                startActivity(intent);
             }
         });
 
