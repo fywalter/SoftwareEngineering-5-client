@@ -108,7 +108,7 @@ public class NewsActivity extends AppCompatActivity {
                 tv_time.setText(result.date);
 
                 //content
-                sb_content.append(result.content.replaceAll("\n"," \n"));
+                sb_content.append(result.content.replaceAll("\n"," \n\n"));
                 tv_content.setMovementMethod(LinkMovementMethod.getInstance());
                 tv_content.setText(addClickPart(sb_content.toString()), TextView.BufferType.SPANNABLE);
             }
@@ -129,7 +129,6 @@ public class NewsActivity extends AppCompatActivity {
                 }while(newUrl.equals(url));
                 intent.putExtra("url",newUrl);
                 mcontext.startActivity(intent);
-                startActivity(intent);
             }
         });
 
@@ -259,6 +258,7 @@ public class NewsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
 
 
