@@ -97,6 +97,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/lightGray"
                 android:textColor="@color/gray"
+                android:focusableInTouchMode="false"
                 android:layout_weight="1"
                 android:text="back to top" />
             <Button
@@ -105,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
+                android:focusableInTouchMode="false"
                 android:textColor="#ffffff"
                 android:text="feed me another" />
         </LinearLayout>
