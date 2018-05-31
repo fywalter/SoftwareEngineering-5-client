@@ -69,4 +69,15 @@ public class Word {
         }
         return wordList;
     }
+    static public String beautify(String explain){
+        String shorter= explain;
+        int firstLineEnd = shorter.indexOf('\n');
+        if (firstLineEnd > 0){
+            shorter = shorter.substring(0,firstLineEnd);
+        }
+        if (shorter.length() > 18){
+            shorter = shorter.substring(0,15)+"...";
+        }
+        return shorter;
+    }
 }

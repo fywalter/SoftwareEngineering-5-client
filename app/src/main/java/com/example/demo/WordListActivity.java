@@ -71,7 +71,7 @@ public class WordListActivity extends AppCompatActivity {
                 final String wordName = obj.getwName();
                 final String wordExplain = obj.getwExplain();
                 holder.setText(R.id.txt_wname,wordName);
-                holder.setText(R.id.txt_wexplain,wordExplain);
+                holder.setText(R.id.txt_wexplain,Word.beautify(wordExplain));
                 holder.getItemView().setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
@@ -84,11 +84,13 @@ public class WordListActivity extends AppCompatActivity {
 
                         tv_word.setText(wordName.replaceAll("\\p{Punct}",""));
                         tv_explanation.setText(wordExplain);
-                        btn_addWord.setText("Delate Word");
+                        btn_addWord.setText("Delete Word");
                         btn_addWord.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View v) {
-                                myAdapter.remove(new Word(wordName,wordExplain));
+                                Word todelete = new Word(wordName,wordExplain);
+                                myAdapter.remove(todelete);
+                                User.getInstance().delWord(todelete);
                                 Toast.makeText(WordListActivity.this, "删除单词~", Toast.LENGTH_SHORT).show();
                             }
                         });

@@ -53,6 +53,10 @@ public class User {
     }
     public  void delWord(Word w){
         wordList.remove(w);
+        ArrayList<String> param = new ArrayList<>();
+        param.add(w.toJson());
+        new MyTask<String>("deleteWord",param).execute();
+
     }
     public ArrayList<News> getNewsList(){
         return newsList;

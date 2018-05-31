@@ -108,7 +108,7 @@ public class NewsActivity extends AppCompatActivity {
                 tv_time.setText(result.date);
 
                 //content
-                sb_content.append(result.content);
+                sb_content.append(result.content.replaceAll("\n"," \n"));
                 tv_content.setMovementMethod(LinkMovementMethod.getInstance());
                 tv_content.setText(addClickPart(sb_content.toString()), TextView.BufferType.SPANNABLE);
             }

@@ -45,6 +45,9 @@ public class MyTask<T> extends AsyncTask<Void,Void,T> {
                 result = (T)Connection.getWordList();
                 return result;
             }
+            case("deleteWord"):{
+                Connection.deleteWord(this.params.get(0));
+            }
             default: return null;
         }
     }
