@@ -87,9 +87,10 @@
             android:textSize="20sp" />
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="45dp"
+            android:layout_height="55dp"
             android:orientation="horizontal"
             android:weightSum="2"
+            android:layout_marginBottom="5dp"
             android:focusableInTouchMode="false"
             android:layout_below="@id/news_content">
             <Button
@@ -99,18 +100,26 @@
                 android:textColor="@color/gray"
                 android:focusableInTouchMode="false"
                 android:focusable="false"
-                android:background="#fafafa"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="3dp"
                 android:layout_weight="1"
+                android:theme="@style/btn_backToTop"
                 android:text="back to top" />
             <Button
                 android:id="@+id/anotherone"
                 android:layout_width="fill_parent"
                 android:layout_height="48dp"
-                android:background="#fafafa"
                 android:layout_weight="1"
                 android:focusable="false"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="3dp"
+                android:theme="@style/btn_another"
                 android:focusableInTouchMode="false"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/white"
                 android:text="feed me another" />
         </LinearLayout>
 

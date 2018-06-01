@@ -69,6 +69,7 @@ public class NewsActivity extends AppCompatActivity {
 
         Typeface tf_light = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Light.ttf");
         Typeface tf_medium = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Medium.ttf");
+        Typeface tf_regular = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Regular.ttf");
         final ImageView iv_image = (ImageView)findViewById(R.id.news_image);
         final StringBuilder sb_title = new StringBuilder();
         final TextView tv_title = (TextView) findViewById(R.id.news_title);
@@ -126,7 +127,7 @@ public class NewsActivity extends AppCompatActivity {
 
         //再来一篇按钮
         Button btn_another = (Button) findViewById(R.id.anotherone);
-        btn_another.setTypeface(tf_light);
+        btn_another.setTypeface(tf_regular);
         btn_another.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -143,7 +144,7 @@ public class NewsActivity extends AppCompatActivity {
 
         //返回顶部按钮
         Button btn_backtotop = (Button) findViewById(R.id.backtotop);
-        btn_backtotop.setTypeface(tf_light);
+        btn_backtotop.setTypeface(tf_regular);
         btn_backtotop.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
