@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
     android:orientation="vertical"
+    android:background="@color/white"
     >
 
     <TextView
@@ -13,6 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Title"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:textSize="20sp"
         android:textStyle="normal"
@@ -37,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
         android:textColor="@android:color/darker_gray"
         android:text="Date:"
         android:textSize="12sp"
