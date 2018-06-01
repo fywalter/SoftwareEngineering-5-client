@@ -91,27 +91,26 @@
             android:orientation="horizontal"
             android:weightSum="2"
             android:focusableInTouchMode="false"
-
             android:layout_below="@id/news_content">
             <Button
                 android:id="@+id/backtotop"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/lightGray"
+                android:layout_height="48dp"
                 android:textColor="@color/gray"
                 android:focusableInTouchMode="false"
                 android:focusable="false"
+                android:background="#fafafa"
                 android:layout_weight="1"
                 android:text="back to top" />
             <Button
                 android:id="@+id/anotherone"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
+                android:background="#fafafa"
                 android:layout_weight="1"
-                android:background="@color/colorPrimary"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:textColor="#ffffff"
+                android:textColor="@color/colorPrimary"
                 android:text="feed me another" />
         </LinearLayout>
 
