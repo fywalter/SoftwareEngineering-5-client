@@ -32,6 +32,7 @@ public class NewsTitleAdapter extends RecyclerView.Adapter<NewsTitleAdapter.View
             nt_title = (TextView) view.findViewById(R.id.news_title);
             nt_source = (TextView) view.findViewById(R.id.news_source);
             nt_date = (TextView) view.findViewById(R.id.news_date);
+
         }
     }
 

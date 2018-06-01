@@ -67,18 +67,18 @@ public class NewsActivity extends AppCompatActivity {
         setStatusBarColor(this,Color.parseColor("#303F9F"));
         sc=(ScrollView) findViewById(R.id.sc);
 
-        Typeface tf_regular = Typeface.createFromAsset(getAssets(),"fonts/Quicksand-Regular.ttf");
-        Typeface tf_bold = Typeface.createFromAsset(getAssets(),"fonts/Quicksand-Bold.ttf");
+        Typeface tf_light = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Light.ttf");
+        Typeface tf_medium = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Medium.ttf");
         final ImageView iv_image = (ImageView)findViewById(R.id.news_image);
         final StringBuilder sb_title = new StringBuilder();
         final TextView tv_title = (TextView) findViewById(R.id.news_title);
-        tv_title.setTypeface(tf_regular);
+        tv_title.setTypeface(tf_light);
         final TextView tv_source = (TextView) findViewById(R.id.news_source);
-        tv_source.setTypeface(tf_bold);
+        tv_source.setTypeface(tf_medium);
         final TextView tv_time = (TextView) findViewById(R.id.news_time);
-        tv_time.setTypeface(tf_regular);
+        tv_time.setTypeface(tf_light);
         final TextView tv_content = (TextView) findViewById(R.id.news_content);
-        tv_content.setTypeface(tf_regular);
+        tv_content.setTypeface(tf_light);
         final StringBuilder sb_content = new StringBuilder();
 
         Intent intent = getIntent();
@@ -126,7 +126,7 @@ public class NewsActivity extends AppCompatActivity {
 
         //再来一篇按钮
         Button btn_another = (Button) findViewById(R.id.anotherone);
-        btn_another.setTypeface(tf_regular);
+        btn_another.setTypeface(tf_light);
         btn_another.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -143,7 +143,7 @@ public class NewsActivity extends AppCompatActivity {
 
         //返回顶部按钮
         Button btn_backtotop = (Button) findViewById(R.id.backtotop);
-        btn_backtotop.setTypeface(tf_regular);
+        btn_backtotop.setTypeface(tf_light);
         btn_backtotop.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
