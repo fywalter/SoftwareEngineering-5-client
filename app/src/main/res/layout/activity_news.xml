@@ -36,9 +36,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="15dp"
         app:elevation="10dp"
-        android:src="@mipmap/less"
-        android:layout_margin="15dp"/>
+        android:src="@mipmap/less"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floating_btn_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="75dp"
+        app:elevation="10dp"
+        android:src="@mipmap/dislike"/>
 </android.support.design.widget.CoordinatorLayout>
 

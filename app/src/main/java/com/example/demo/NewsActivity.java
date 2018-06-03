@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -60,7 +61,8 @@ public class NewsActivity extends AppCompatActivity {
     private String url=null;
     private MyTask<News> newsTask=null;
     final private Context mcontext = this;
-    private FloatingActionButton mFloatBtn;
+    private FloatingActionButton fbtn_backToTop;
+    private FloatingActionButton fbtn_like;
     private Boolean isLiked = false;
 
     @Override
@@ -154,7 +156,23 @@ public class NewsActivity extends AppCompatActivity {
                 sc.fullScroll(ScrollView.FOCUS_UP);
             }
         });
+        //赞按钮
+        fbtn_like = (FloatingActionButton) findViewById(R.id.floating_btn_like);
+        fbtn_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isLiked==false){
+                    fbtn_like.setImageResource(R.mipmap.like);
+                    isLiked=true;
+                }else {
+                    fbtn_like.setImageResource(R.mipmap.dislike);
+                    isLiked = false;
+                }
+            }
+        });
 
+
+        //设置工具栏
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -163,8 +181,8 @@ public class NewsActivity extends AppCompatActivity {
         }
 
         //返回顶部按钮
-        mFloatBtn = (FloatingActionButton) findViewById(R.id.floating_btn_btt);
-        mFloatBtn.setOnClickListener(new View.OnClickListener() {
+        fbtn_backToTop = (FloatingActionButton) findViewById(R.id.floating_btn_btt);
+        fbtn_backToTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sc.fullScroll(ScrollView.FOCUS_UP);
