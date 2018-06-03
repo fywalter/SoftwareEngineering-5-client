@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -59,6 +60,8 @@ public class NewsActivity extends AppCompatActivity {
     private String url=null;
     private MyTask<News> newsTask=null;
     final private Context mcontext = this;
+    private FloatingActionButton mFloatBtn;
+    private Boolean isLiked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,21 +145,31 @@ public class NewsActivity extends AppCompatActivity {
             }
         });
 
-        //返回顶部按钮
-        Button btn_backtotop = (Button) findViewById(R.id.backtotop);
-        btn_backtotop.setTypeface(tf_regular);
-        btn_backtotop.setOnClickListener(new View.OnClickListener(){
+        //打卡按钮（暂时为）
+        Button btn_clockIn = (Button) findViewById(R.id.clockIn);
+        btn_clockIn.setTypeface(tf_regular);
+        btn_clockIn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 sc.fullScroll(ScrollView.FOCUS_UP);
             }
         });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar!=null) {
             actionBar.setDisplayHomeAsUpEnabled(true);// 给左上角图标的左边加上一个返回的图标
         }
+
+        //返回顶部按钮
+        mFloatBtn = (FloatingActionButton) findViewById(R.id.floating_btn_btt);
+        mFloatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sc.fullScroll(ScrollView.FOCUS_UP);
+            }
+        });
     }
 
     static void setStatusBarColor(AppCompatActivity activity, int statusColor) {

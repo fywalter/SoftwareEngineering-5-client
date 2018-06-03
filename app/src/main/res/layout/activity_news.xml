@@ -30,5 +30,15 @@
         android:fillViewport="true">
     <include layout="@layout/content_scrolling_news" />
     </ScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floating_btn_btt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="20dp"
+        app:elevation="10dp"
+        android:src="@mipmap/less"
+        android:layout_margin="15dp"/>
 </android.support.design.widget.CoordinatorLayout>
 
