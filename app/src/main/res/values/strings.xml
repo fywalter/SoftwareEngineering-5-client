@@ -32,9 +32,19 @@
     </string>
     <string name="title_activity_main_page">LightNews</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="tab_text_1">今日</string>
-    <string name="tab_text_2">收藏夹</string>
-    <string name="tab_text_3">生词推送</string>
+    <string name="tab_text_1">Today</string>
+    <string name="tab_text_2">My Favorite</string>
+    <string name="tab_text_3">Recommended</string>
     <string name="wordlist_actionbar_title">WordList</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="lightnews"> LightNews </string>
+    <string name="lightnews2"> Discover a bigger world. </string>
+    <string name="user_name"> User Name </string>
+    <string name="password"> Password </string>
+    <string name="password_r"> Confirm Password </string>
+    <string name="login"> Log In </string>
+    <string name="signup1"> Don't have an account?  </string>
+    <string name="signup"> Sign Up </string>
+    <string name="title_activity_signup">SignupActivity</string>
 
 </resources>
