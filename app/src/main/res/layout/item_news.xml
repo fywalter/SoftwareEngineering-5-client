@@ -23,7 +23,17 @@
         android:textStyle="normal"
         android:textColor="#303030"
         />
-
+    <TextView
+        android:id="@+id/news_abstract"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        tools:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
+        android:lines="2"
+        android:ellipsize="end"
+        />
     <TextView
         android:id="@+id/news_source"
         android:layout_width="wrap_content"
@@ -35,5 +45,7 @@
         android:text="Source:"
         android:textSize="12sp"
         />
+
+
 
 </LinearLayout>

@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.example.demo.NewsActivity;
 import com.example.demo.R;
+import com.example.demo.model.MyTask;
+import com.example.demo.model.News;
 import com.example.demo.model.NewsTitle;
 
 import java.util.ArrayList;
@@ -20,17 +22,20 @@ import java.util.List;
 public class NewsTitleAdapter extends RecyclerView.Adapter<NewsTitleAdapter.ViewHolder> {
     private List<NewsTitle> ntList;
     private final Context context;
+    private MyTask<News> newsTask = null;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         View newsView;
         TextView nt_title;
         TextView nt_source;
+        TextView nt_abstract;
 
         public ViewHolder(View view){
             super(view);
             newsView = view;
             nt_title = (TextView) view.findViewById(R.id.news_title);
             nt_source = (TextView) view.findViewById(R.id.news_source);
+            nt_abstract = (TextView) view.findViewById(R.id.news_abstract);
         }
     }
 
@@ -64,12 +69,27 @@ public class NewsTitleAdapter extends RecyclerView.Adapter<NewsTitleAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position){
+    public void onBindViewHolder(final ViewHolder holder, int position){
         NewsTitle nt = ntList.get(position);
         Typeface tf_medium = Typeface.createFromAsset(context.getAssets(),"fonts/Roboto-Medium.ttf");
         holder.nt_title.setTypeface(tf_medium);
         holder.nt_title.setText(nt.getTitle());
         holder.nt_source.setText(nt.getSource().concat("  ").concat(nt.getNewsdate()));
+        ArrayList<String> params = new ArrayList<>();
+        params.add(nt.getUrl());
+        newsTask = new MyTask<>("getNews",params);
+        newsTask.setCallBack(newsTask.new CallBack() {
+            @Override
+            public void setSomeThing(News result) {
+                String c = result.content;
+                c.replaceAll("\n", " ");
+                if(c.isEmpty())
+                    holder.nt_abstract.setText("No abstract");
+                else
+                    holder.nt_abstract.setText(c);
+            }
+        });
+        newsTask.execute();
     }
 
     @Override
