@@ -80,6 +80,15 @@ public class NewsCategorizedFragment extends Fragment {
                         images.add(ntList.get(i).getImgUrl());
                     }
                     setBean(images);
+                    mBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener<String>() {
+                        @Override
+                        public void onPageClick(int position, String str) {
+                            NewsTitle nt = ntList.get(position);
+                            Intent intent = new Intent(getContext(), NewsActivity.class);
+                            intent.putExtra("url",nt.getUrl());
+                            getContext().startActivity(intent);
+                        }
+                    });
                 }
             });
             newsTitleTask.execute();
@@ -98,7 +107,17 @@ public class NewsCategorizedFragment extends Fragment {
                         if(ntList.get(i).getImgUrl().isEmpty())
                             images.add("https://ovefepif3.bkt.clouddn.com/ic_launcher_foreground.png");
                         else
-                            images.add(ntList.get(i).getImgUrl()); }setBean(images); }
+                            images.add(ntList.get(i).getImgUrl()); }setBean(images);
+                    mBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener<String>() {
+                        @Override
+                        public void onPageClick(int position, String str) {
+                            NewsTitle nt = ntList.get(position);
+                            Intent intent = new Intent(getContext(), NewsActivity.class);
+                            intent.putExtra("url",nt.getUrl());
+                            getContext().startActivity(intent);
+                        }
+                    });
+                }
             });
             newsTitleTask.execute();
         }
@@ -111,6 +130,15 @@ public class NewsCategorizedFragment extends Fragment {
             images.add("https://cdn.cnn.com/cnnnext/dam/assets/180514162221-xinjiang-xi-jinping-poster-exlarge-169.jpg");
             images.add("https://cdn.cnn.com/cnnnext/dam/assets/180527213749-sao-paulo-area-truck-strike-exlarge-169.jpg");
             setBean(images);
+            mBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener<String>() {
+                @Override
+                public void onPageClick(int position, String str) {
+                    NewsTitle nt = ntList.get(position);
+                    Intent intent = new Intent(getContext(), NewsActivity.class);
+                    intent.putExtra("url",nt.getUrl());
+                    getContext().startActivity(intent);
+                }
+            });
         }
         mBanner.startTurning(3600);
 
