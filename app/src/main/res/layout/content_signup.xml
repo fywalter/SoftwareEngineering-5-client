@@ -12,8 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="215dp"
-        tools:layout_editor_absoluteY="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         >
 
         <TextView
@@ -97,7 +98,7 @@
             android:layout_height="wrap_content"
             android:background="#4169E1"
             android:text="@string/signup"
-            tools:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF" />
 
         <LinearLayout
             android:layout_width="match_parent"

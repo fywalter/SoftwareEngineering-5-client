@@ -137,7 +137,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_wordlist) {
             Intent intent = new Intent(MainActivity.this, WordListActivity.class);
             startActivity(intent);
