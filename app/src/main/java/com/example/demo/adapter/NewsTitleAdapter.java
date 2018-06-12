@@ -2,6 +2,7 @@ package com.example.demo.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,14 +25,12 @@ public class NewsTitleAdapter extends RecyclerView.Adapter<NewsTitleAdapter.View
         View newsView;
         TextView nt_title;
         TextView nt_source;
-        TextView nt_date;
 
         public ViewHolder(View view){
             super(view);
             newsView = view;
             nt_title = (TextView) view.findViewById(R.id.news_title);
             nt_source = (TextView) view.findViewById(R.id.news_source);
-            nt_date = (TextView) view.findViewById(R.id.news_date);
         }
     }
 
@@ -67,9 +66,10 @@ public class NewsTitleAdapter extends RecyclerView.Adapter<NewsTitleAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
         NewsTitle nt = ntList.get(position);
+        Typeface tf_medium = Typeface.createFromAsset(context.getAssets(),"fonts/Roboto-Medium.ttf");
+        holder.nt_title.setTypeface(tf_medium);
         holder.nt_title.setText(nt.getTitle());
-        holder.nt_date.setText(nt.getNewsdate());
-        holder.nt_source.setText(nt.getSource());
+        holder.nt_source.setText(nt.getSource().concat("  ").concat(nt.getNewsdate()));
     }
 
     @Override

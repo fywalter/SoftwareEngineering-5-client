@@ -30,6 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:id="@+id/btn_addWord"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:text="Add Word"
         android:layout_alignParentRight="true"
         android:background="@color/colorPrimary"

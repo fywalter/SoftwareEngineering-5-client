@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -30,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -59,6 +61,9 @@ public class NewsActivity extends AppCompatActivity {
     private String url=null;
     private MyTask<News> newsTask=null;
     final private Context mcontext = this;
+    private FloatingActionButton fbtn_backToTop;
+    private FloatingActionButton fbtn_like;
+    private Boolean isLiked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,18 +72,19 @@ public class NewsActivity extends AppCompatActivity {
         setStatusBarColor(this,Color.parseColor("#303F9F"));
         sc=(ScrollView) findViewById(R.id.sc);
 
-        Typeface tf_regular = Typeface.createFromAsset(getAssets(),"fonts/Quicksand-Regular.ttf");
-        Typeface tf_bold = Typeface.createFromAsset(getAssets(),"fonts/Quicksand-Bold.ttf");
+        Typeface tf_light = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Light.ttf");
+        Typeface tf_medium = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Medium.ttf");
+        Typeface tf_regular = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Regular.ttf");
         final ImageView iv_image = (ImageView)findViewById(R.id.news_image);
         final StringBuilder sb_title = new StringBuilder();
         final TextView tv_title = (TextView) findViewById(R.id.news_title);
-        tv_title.setTypeface(tf_regular);
+        tv_title.setTypeface(tf_light);
         final TextView tv_source = (TextView) findViewById(R.id.news_source);
-        tv_source.setTypeface(tf_bold);
+        tv_source.setTypeface(tf_medium);
         final TextView tv_time = (TextView) findViewById(R.id.news_time);
-        tv_time.setTypeface(tf_regular);
+        tv_time.setTypeface(tf_light);
         final TextView tv_content = (TextView) findViewById(R.id.news_content);
-        tv_content.setTypeface(tf_regular);
+        tv_content.setTypeface(tf_light);
         final StringBuilder sb_content = new StringBuilder();
 
         Intent intent = getIntent();
@@ -141,21 +147,47 @@ public class NewsActivity extends AppCompatActivity {
             }
         });
 
-        //返回顶部按钮
-        Button btn_backtotop = (Button) findViewById(R.id.backtotop);
-        btn_backtotop.setTypeface(tf_regular);
-        btn_backtotop.setOnClickListener(new View.OnClickListener(){
+        //打卡按钮（暂时为）
+        Button btn_clockIn = (Button) findViewById(R.id.clockIn);
+        btn_clockIn.setTypeface(tf_regular);
+        btn_clockIn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 sc.fullScroll(ScrollView.FOCUS_UP);
             }
         });
+        //赞按钮
+        fbtn_like = (FloatingActionButton) findViewById(R.id.floating_btn_like);
+        fbtn_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isLiked==false){
+                    fbtn_like.setImageResource(R.mipmap.like);
+                    isLiked=true;
+                }else {
+                    fbtn_like.setImageResource(R.mipmap.dislike);
+                    isLiked = false;
+                }
+            }
+        });
+
+
+        //设置工具栏
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar!=null) {
             actionBar.setDisplayHomeAsUpEnabled(true);// 给左上角图标的左边加上一个返回的图标
         }
+
+        //返回顶部按钮
+        fbtn_backToTop = (FloatingActionButton) findViewById(R.id.floating_btn_btt);
+        fbtn_backToTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sc.fullScroll(ScrollView.FOCUS_UP);
+            }
+        });
     }
 
     static void setStatusBarColor(AppCompatActivity activity, int statusColor) {
