@@ -112,6 +112,21 @@ public class Connection{
         }
         return dkb;
     }
+    static public String register(String userName, String password){
+        String result = "";
+        try {
+            String urlString = backendAddress+"register/";
+            Map<String,String> params = new HashMap<>();
+            params.put("method","POST");
+            result = queryJson(urlString,
+                    new JSONObject().put("username",userName)
+                            .put("password", password).toString(), params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
     static public void sendNewWord( String wordJson){
         try {
             String urlString = backendAddress+"words/";
@@ -208,7 +223,7 @@ public class Connection{
                 outwritestream.close();
                 Log.i("upload", "doJsonPost: return code "+conn.getResponseCode());
             }
-            if (conn.getResponseCode() == 200) {
+            if (conn.getResponseCode() == 200 || conn.getResponseCode() == 201) {
                 InputStream in = conn.getInputStream();
                 byte[] data = readFromStream(in);
                 result = new String(data, "UTF-8");

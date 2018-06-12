@@ -13,10 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.demo.model.MyTask;
+import com.example.demo.model.News;
+
+import java.util.ArrayList;
+
+import static com.example.demo.LoginActivity.md5;
 
 public class SignupActivity extends AppCompatActivity {
-
+    private MyTask<String> registerTask=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +45,40 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        final EditText userNameText = (EditText)findViewById(R.id.editText3);
+        final EditText passText = (EditText)findViewById(R.id.editText4);
+        final EditText pass2Text = (EditText)findViewById(R.id.editText5);
+        Button btn = findViewById(R.id.button2);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String pass = passText.getText().toString();
+                String pass2 = pass2Text.getText().toString();
+                String usr = userNameText.getText().toString();
+               if(!pass.equals(pass2)){
+                    Toast.makeText(SignupActivity.this, "Please confirm your password.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    ArrayList<String> params = new ArrayList<>();
+                    params.add(usr);
+                    params.add(md5(pass));
+                    registerTask = new MyTask<>("register",params);
+                    registerTask.setCallBack(registerTask.new CallBack() {
+                        @Override
+                        public void setSomeThing(String result) {
+                            if(result.isEmpty())
+                                Toast.makeText(SignupActivity.this, "A user with that username already exists.", Toast.LENGTH_SHORT).show();
+                            else{
+                                Toast.makeText(SignupActivity.this, "Registered successufully.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        }
+                    });
+                    registerTask.execute();
+                }
             }
         });
 
@@ -58,5 +102,9 @@ public class SignupActivity extends AppCompatActivity {
             ViewCompat.requestApplyInsets(mChildView);
         }
     }
+
+
+
+
 
 }

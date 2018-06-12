@@ -68,7 +68,7 @@ public class NewsTitle {
             nt.setImgUrl(results.getString("img_url"));
             newsList.add(nt);
         }
-        Collections.reverse(newsList);
+       // Collections.reverse(newsList);
         return newsList;
     }
 }
