@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -111,6 +112,7 @@ public class NewsCategorizedFragment extends Fragment {
             images.add("https://cdn.cnn.com/cnnnext/dam/assets/180527213749-sao-paulo-area-truck-strike-exlarge-169.jpg");
             setBean(images);
         }
+        mBanner.startTurning(3600);
 
         return rootView;
     }
