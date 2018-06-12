@@ -37,6 +37,10 @@ public class MyTask<T> extends AsyncTask<Void,Void,T> {
                 result = (T)Connection.getDevAuthToken();
                 return result;
             }
+            case("register"):{
+                result = (T)Connection.register(this.params.get(0), this.params.get(1));
+                return result;
+            }
             case("sendNewWord"):{
                 Connection.sendNewWord(this.params.get(0));
                 Connection.addWord(this.params.get(0));
