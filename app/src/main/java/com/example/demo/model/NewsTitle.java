@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class NewsTitle {
     private String title;
@@ -66,6 +68,7 @@ public class NewsTitle {
             nt.setImgUrl(results.getString("img_url"));
             newsList.add(nt);
         }
+        Collections.reverse(newsList);
         return newsList;
     }
 }
