@@ -82,7 +82,7 @@ public class NewsTitleAdapter extends RecyclerView.Adapter<NewsTitleAdapter.View
             @Override
             public void setSomeThing(News result) {
                 String c = result.content;
-                c.replaceAll("\n", " ");
+                c = c.replaceAll("\n", " ");
                 if(c.isEmpty())
                     holder.nt_abstract.setText("No abstract");
                 else
