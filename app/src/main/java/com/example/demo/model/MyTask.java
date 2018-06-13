@@ -33,6 +33,10 @@ public class MyTask<T> extends AsyncTask<Void,Void,T> {
                 result=(T)Connection.getRecommendNewsList();
                 return  result;
             }
+            case("getFavoriteNewsList"):{
+                result=(T)Connection.getFavoriteNewsList();
+                return result;
+            }
             case("getDevAuthToken"):{
                 result = (T)Connection.getDevAuthToken();
                 return result;

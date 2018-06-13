@@ -1,11 +1,15 @@
 package com.example.demo.model;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class NewsTitle {
     private int newsID;

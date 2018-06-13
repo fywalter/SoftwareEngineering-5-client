@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.donkingliang.banner.CustomBanner;
@@ -31,7 +32,10 @@ public class NewsCategorizedFragment extends Fragment {
     private MyAdapter<NewsTitle> myAdapter = null;
     private CustomBanner<String> mBanner;
     private MyTask<List<NewsTitle>> newsTitleTask = null;
+    private MyTask<ArrayList<String>> favoriteNewsIdTask = null;
     private int frag_type;
+    private ArrayList<String> newsId = new ArrayList<>();
+    private List<NewsTitle> nts = new ArrayList<>();
 
     public void setFrag_type(int frag_type) {
         this.frag_type = frag_type;
@@ -62,6 +66,7 @@ public class NewsCategorizedFragment extends Fragment {
         layoutManager.setScrollEnabled(false);
         recyclerView.setLayoutManager(layoutManager);
         mBanner = (CustomBanner) rootView.findViewById(R.id.banner);
+        Log.i("DevID",User.getInstance().getDevID());
 
         if(frag_type == 1) {
             // 为了解决重复点击第一个界面报错需要每次new一个任务
@@ -95,7 +100,7 @@ public class NewsCategorizedFragment extends Fragment {
             });
             newsTitleTask.execute();
         }
-        else if (frag_type == 3){
+        else if (frag_type == 2){
             newsTitleTask = new MyTask("getRecommendNewsList");
             newsTitleTask.setCallBack(newsTitleTask.new CallBack() {
                 @Override
@@ -127,30 +132,57 @@ public class NewsCategorizedFragment extends Fragment {
             newsTitleTask.execute();
         }
         else{
-            initNews();
-            NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
-            recyclerView.setAdapter(nta);
-            ArrayList<String> images = new ArrayList<>();
-            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180526074218-03-north-korea-south-korea-meeting-0526-exlarge-169.jpg");
-            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180514162221-xinjiang-xi-jinping-poster-exlarge-169.jpg");
-            images.add("https://cdn.cnn.com/cnnnext/dam/assets/180527213749-sao-paulo-area-truck-strike-exlarge-169.jpg");
-            setBean(images);
-            mBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener<String>() {
-                @Override
-                public void onPageClick(int position, String str) {
-                    NewsTitle nt = ntList.get(position);
-                    Intent intent = new Intent(getContext(), NewsActivity.class);
-                    intent.putExtra("url",nt.getUrl());
-                    intent.putExtra("newsID",nt.getNewsID());
-                    Log.i("JumpingIntoNews",nt.getNewsID()+nt.getUrl());
-                    getContext().startActivity(intent);
-                }
-            });
+
         }
         mBanner.startTurning(3600);
 
         return rootView;
     }
+
+    public void onResume(){
+       super.onResume();
+        Log.d("In fragment" + frag_type, "On Start");
+        View rootView = getView();
+        final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        if(frag_type == 3){
+            newsTitleTask = new MyTask("getFavoriteNewsList");
+            newsTitleTask.setCallBack(newsTitleTask.new CallBack() {
+                @Override
+                public void setSomeThing(List<NewsTitle> newsList) {
+                    ntList = newsList;
+                    User.getInstance().setNewsTitleList((ArrayList<NewsTitle>) ntList);
+                    Log.i("len of ntList", Integer.toString(ntList.size()));
+                    NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
+                    recyclerView.setAdapter(nta);
+                    ArrayList<String> images = new ArrayList<>();
+                    int size = 0;
+                    if(ntList.size() > 5){
+                        size = 5;
+                    }
+                    else{
+                        size = ntList.size();
+                    }
+                    for(int i = 0; i <  size; i++){
+                        if(ntList.get(i).getImgUrl().isEmpty())
+                            images.add("https://ovefepif3.bkt.clouddn.com/ic_launcher_foreground.png");
+                        else
+                            images.add(ntList.get(i).getImgUrl()); }setBean(images);
+                    mBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener<String>() {
+                        @Override
+                        public void onPageClick(int position, String str) {
+                            NewsTitle nt = ntList.get(position);
+                            Intent intent = new Intent(getContext(), NewsActivity.class);
+                            intent.putExtra("url",nt.getUrl());
+                            getContext().startActivity(intent);
+                        }
+                    });
+                }
+            });
+            newsTitleTask.execute();
+        }
+        mBanner.startTurning(3600);
+    }
+
     private void setBean(final ArrayList beans) {
         mBanner.setPages(new CustomBanner.ViewCreator<String>() {
             @Override
