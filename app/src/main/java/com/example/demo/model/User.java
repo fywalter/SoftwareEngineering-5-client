@@ -104,7 +104,7 @@ public class User {
         });
         dkTask.execute();
     }
-    private void fetchWordList(){
+    public void fetchWordList(){
         MyTask<ArrayList<Word>> wlTask = new MyTask<>("getWordList");
         wlTask.setCallBack(wlTask.new CallBack() {
             @Override
@@ -121,4 +121,11 @@ public class User {
     public boolean getLoggedIn(){return this.isLoggedIn;}
     public void setUserName(String usrname){this.userName = usrname;}
     public String getUserName() {return this.userName;}
+    public void logout(){
+        devID = Uuid.getDeviceUUID(MainActivity.mcontext);
+        isLoggedIn = false;
+        userName = "Anonymous";
+        setTokenAndUserID();
+        fetchWordList();
+    }
 }
