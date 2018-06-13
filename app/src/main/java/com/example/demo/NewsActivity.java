@@ -86,9 +86,12 @@ public class NewsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         url=intent.getStringExtra("url");
         newsID = intent.getIntExtra("newsID",-1);
+        if (!url.isEmpty() && newsID == -1){
+            newsID = new Integer(url.substring(url.indexOf("articles")).split("/")[1]).intValue();
+        }
+        Log.i("CurrentNewsID",new Integer(newsID).toString());
 
-       initNews();
-
+        initNews();
 
         //再来一篇按钮
         Button btn_another = (Button) findViewById(R.id.anotherone);

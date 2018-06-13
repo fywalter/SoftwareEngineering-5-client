@@ -19,6 +19,7 @@ import com.example.demo.adapter.MyAdapter;
 import com.example.demo.adapter.NewsTitleAdapter;
 import com.example.demo.model.Connection;
 import com.example.demo.model.MyTask;
+import com.example.demo.model.News;
 import com.example.demo.model.NewsTitle;
 import com.example.demo.model.User;
 import com.example.demo.utils.NonSlideLinearLayoutManager;
@@ -27,15 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsCategorizedFragment extends Fragment {
-    private List<NewsTitle> ntList = null;
+    private List<NewsTitle> ntList = new ArrayList<>();
     private ListView newsListView;
     private MyAdapter<NewsTitle> myAdapter = null;
     private CustomBanner<String> mBanner;
     private MyTask<List<NewsTitle>> newsTitleTask = null;
-    private MyTask<ArrayList<String>> favoriteNewsIdTask = null;
     private int frag_type;
-    private ArrayList<String> newsId = new ArrayList<>();
-    private List<NewsTitle> nts = new ArrayList<>();
+
 
     public void setFrag_type(int frag_type) {
         this.frag_type = frag_type;
@@ -81,7 +80,14 @@ public class NewsCategorizedFragment extends Fragment {
                     NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
                     recyclerView.setAdapter(nta);
                     ArrayList<String> images = new ArrayList<>();
-                    for(int i = 0; i < 5; i++){
+                    int size = 0;
+                    if(ntList.size() > 5){
+                        size = 5;
+                    }
+                    else{
+                        size = ntList.size();
+                    }
+                    for(int i = 0; i < size; i++){
                         images.add(ntList.get(i).getImgUrl());
                     }
                     setBean(images);
@@ -111,7 +117,14 @@ public class NewsCategorizedFragment extends Fragment {
                     NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
                     recyclerView.setAdapter(nta);
                     ArrayList<String> images = new ArrayList<>();
-                    for(int i = 0; i <  5; i++){
+                    int size = 0;
+                    if(ntList.size() > 5){
+                        size = 5;
+                    }
+                    else{
+                        size = ntList.size();
+                    }
+                    for(int i = 0; i <  size; i++){
                         if(ntList.get(i).getImgUrl().isEmpty())
                             images.add("https://ovefepif3.bkt.clouddn.com/ic_launcher_foreground.png");
                         else
