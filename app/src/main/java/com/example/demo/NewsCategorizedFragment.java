@@ -112,7 +112,6 @@ public class NewsCategorizedFragment extends Fragment {
                 @Override
                 public void setSomeThing(List<NewsTitle> newsList) {
                     ntList = newsList;
-                    User.getInstance().setNewsTitleList((ArrayList<NewsTitle>) ntList);
                     Log.i("len of ntList", Integer.toString(ntList.size()));
                     NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
                     recyclerView.setAdapter(nta);
@@ -163,7 +162,6 @@ public class NewsCategorizedFragment extends Fragment {
                 @Override
                 public void setSomeThing(List<NewsTitle> newsList) {
                     ntList = newsList;
-                    User.getInstance().setNewsTitleList((ArrayList<NewsTitle>) ntList);
                     Log.i("len of ntList", Integer.toString(ntList.size()));
                     NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
                     recyclerView.setAdapter(nta);
