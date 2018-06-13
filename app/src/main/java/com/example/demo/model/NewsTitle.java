@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class NewsTitle {
+    private int newsID;
     private String title;
     private String source;
     private String newsDate;
@@ -22,6 +23,7 @@ public class NewsTitle {
         this.url=url;
         this.imgUrl=imgUrl;
     }
+    public int getNewsID(){ return this.newsID; }
     public String getTitle(){
         return this.title;
     }
@@ -36,6 +38,9 @@ public class NewsTitle {
     }
     public String getImgUrl(){
         return this.imgUrl;
+    }
+    public void setNewsID(int id){
+        this.newsID = id;
     }
     public void setTitle(String title){
         this.title = title;
@@ -57,10 +62,11 @@ public class NewsTitle {
      */
     static public ArrayList<NewsTitle> parseNewsTitleList(String content) throws Exception {
         ArrayList<NewsTitle> newsList = new ArrayList<>();
-        JSONArray array = new JSONArray(content);
+        JSONArray array = new JSONObject(content).getJSONArray("results");
         for (int i = 0; i < array.length(); i++) {
             JSONObject results = (JSONObject) array.get(i);
             NewsTitle nt = new NewsTitle();
+            nt.setNewsID(results.getInt("id"));
             nt.setTitle(results.getString("title"));
             nt.setSource(results.getString("from_media") + " " + results.getString("author"));
             nt.setNewsdate(results.getString("pub_date"));
