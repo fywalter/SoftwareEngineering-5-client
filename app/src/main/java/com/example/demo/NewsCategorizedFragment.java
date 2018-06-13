@@ -19,6 +19,7 @@ import com.example.demo.adapter.MyAdapter;
 import com.example.demo.adapter.NewsTitleAdapter;
 import com.example.demo.model.Connection;
 import com.example.demo.model.MyTask;
+import com.example.demo.model.News;
 import com.example.demo.model.NewsTitle;
 import com.example.demo.model.User;
 import com.example.demo.utils.NonSlideLinearLayoutManager;
@@ -27,15 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsCategorizedFragment extends Fragment {
-    private List<NewsTitle> ntList = null;
+    private List<NewsTitle> ntList = new ArrayList<>();
     private ListView newsListView;
     private MyAdapter<NewsTitle> myAdapter = null;
     private CustomBanner<String> mBanner;
     private MyTask<List<NewsTitle>> newsTitleTask = null;
-    private MyTask<ArrayList<String>> favoriteNewsIdTask = null;
     private int frag_type;
-    private ArrayList<String> newsId = new ArrayList<>();
-    private List<NewsTitle> nts = new ArrayList<>();
+
 
     public void setFrag_type(int frag_type) {
         this.frag_type = frag_type;
@@ -141,44 +140,28 @@ public class NewsCategorizedFragment extends Fragment {
         View rootView = getView();
         final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         if(frag_type == 3){
-            favoriteNewsIdTask = new MyTask<>("getFavoriteNewsList");
-            favoriteNewsIdTask.setCallBack(favoriteNewsIdTask.new CallBack() {
+            newsTitleTask = new MyTask("getFavoriteNewsList");
+            newsTitleTask.setCallBack(newsTitleTask.new CallBack() {
                 @Override
-                public void setSomeThing(ArrayList<String> newsIdList) {
-                    newsId = newsIdList;
-                    Log.i("len of newsId", Integer.toString(newsId.size()));
-                    newsTitleTask = new MyTask<>("getNewsList");
-                    newsTitleTask.setCallBack(newsTitleTask.new CallBack() {
-                        @Override
-                        public void setSomeThing(List<NewsTitle> result) {
-                            nts = result;
-                        }
-                    });
-                    newsTitleTask.execute();
-                    Log.i("len of nts", Integer.toString(nts.size()));
-                    ntList = new ArrayList<NewsTitle>();
-                    for(int i = 0; i < nts.size(); i++){
-                        String id = String.valueOf(nts.get(i).getNewsID());
-                        if(newsId.contains(id)){
-                            ntList.add(nts.get(i));
-                        }
-                    }
+                public void setSomeThing(List<NewsTitle> newsList) {
+                    ntList = newsList;
                     User.getInstance().setNewsTitleList((ArrayList<NewsTitle>) ntList);
                     Log.i("len of ntList", Integer.toString(ntList.size()));
                     NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
                     recyclerView.setAdapter(nta);
                     ArrayList<String> images = new ArrayList<>();
-                    if(ntList.size() < 5){
-                        for(int i = 0; i < ntList.size(); i++){
-                            images.add(ntList.get(i).getImgUrl());
-                        }
+                    int size = 0;
+                    if(ntList.size() > 5){
+                        size = 5;
                     }
                     else{
-                        for(int i = 0; i < 5; i++){
-                            images.add(ntList.get(i).getImgUrl());
-                        }
+                        size = ntList.size();
                     }
-                    setBean(images);
+                    for(int i = 0; i <  size; i++){
+                        if(ntList.get(i).getImgUrl().isEmpty())
+                            images.add("https://ovefepif3.bkt.clouddn.com/ic_launcher_foreground.png");
+                        else
+                            images.add(ntList.get(i).getImgUrl()); }setBean(images);
                     mBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener<String>() {
                         @Override
                         public void onPageClick(int position, String str) {
@@ -190,10 +173,7 @@ public class NewsCategorizedFragment extends Fragment {
                     });
                 }
             });
-            favoriteNewsIdTask.execute();
-
-           // ntList = NewsTitle.parseNewsIdList(newsId);
-
+            newsTitleTask.execute();
         }
         mBanner.startTurning(3600);
 

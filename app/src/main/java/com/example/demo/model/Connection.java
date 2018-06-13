@@ -76,16 +76,16 @@ public class Connection{
         }
         return newsList;
     }
-    static public ArrayList<String> getFavoriteNewsList() {
+    static public ArrayList<NewsTitle> getFavoriteNewsList() {
         String urlString = backendAddress+"favourite/?userprofile="+User.getInstance().getUserID();
-        ArrayList<String> newsIdList = new ArrayList<>();
+        ArrayList<NewsTitle> newsList = new ArrayList<>();
         try {
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
             conn.setRequestMethod("GET");
             int code = conn.getResponseCode();
-            Log.v(TAG, "get favorite: Server response：" + code);
+            Log.v(TAG, "fetServer response：" + code);
             if (code == 200) {
                 InputStream in = conn.getInputStream();
                 byte[] data = readFromStream(in);
@@ -93,7 +93,8 @@ public class Connection{
                 JSONArray ja = new JSONArray(j);
                 for (int i = 0; i < ja.length(); i++) {
                     JSONObject results = (JSONObject) ja.get(i);
-                    newsIdList.add(results.getString("article"));
+                    NewsTitle nt = NewsTitle.parseNewsTitle(results.getString("article"));
+                    newsList.add(nt);
                  }
             } else {
                 Log.e(TAG,"请求失败：" + urlString + code);
@@ -101,7 +102,7 @@ public class Connection{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return newsIdList;
+        return newsList;
     }
     static public News getNews(String urlString){
         News news=new News();

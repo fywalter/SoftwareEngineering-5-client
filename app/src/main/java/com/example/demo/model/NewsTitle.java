@@ -81,4 +81,16 @@ public class NewsTitle {
        // Collections.reverse(newsList);
         return newsList;
     }
+
+    static  public NewsTitle parseNewsTitle(String content) throws Exception{
+        NewsTitle nt = new NewsTitle();
+        JSONObject results = new JSONObject(content);
+        nt.setNewsID(results.getInt("id"));
+        nt.setTitle(results.getString("title"));
+        nt.setSource(results.getString("from_media") + " " + results.getString("author"));
+        nt.setNewsdate(results.getString("pub_date"));
+        nt.setUrl(results.getString("url"));
+        nt.setImgUrl(results.getString("img_url"));
+        return nt;
+    }
 }
