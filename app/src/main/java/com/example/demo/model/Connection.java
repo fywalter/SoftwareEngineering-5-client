@@ -76,6 +76,33 @@ public class Connection{
         }
         return newsList;
     }
+    static public ArrayList<String> getFavoriteNewsList() {
+        String urlString = backendAddress+"favourite/?userprofile="+User.getInstance().getUserID();
+        ArrayList<String> newsIdList = new ArrayList<>();
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            int code = conn.getResponseCode();
+            Log.v(TAG, "get favorite: Server response：" + code);
+            if (code == 200) {
+                InputStream in = conn.getInputStream();
+                byte[] data = readFromStream(in);
+                String j = new String(data, "UTF-8");
+                JSONArray ja = new JSONArray(j);
+                for (int i = 0; i < ja.length(); i++) {
+                    JSONObject results = (JSONObject) ja.get(i);
+                    newsIdList.add(results.getString("article"));
+                 }
+            } else {
+                Log.e(TAG,"请求失败：" + urlString + code);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newsIdList;
+    }
     static public News getNews(String urlString){
         News news=new News();
         try {

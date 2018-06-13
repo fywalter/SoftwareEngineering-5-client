@@ -29,6 +29,7 @@ public class User {
         devID = Uuid.getDeviceUUID(MainActivity.mcontext);
         isLoggedIn = false;
         userName = "Anonymous";
+        userID = "1";
         setTokenAndUserID();
         new Thread(new Runnable() {
             @Override
