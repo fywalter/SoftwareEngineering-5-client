@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                                 User.getInstance().setUserID(result.get(1));
                                 User.getInstance().setUserName(usrName);
                                 User.getInstance().setLoggedIn(true);
+                                User.getInstance().fetchWordList();
                                 finish();
                             }
                         }

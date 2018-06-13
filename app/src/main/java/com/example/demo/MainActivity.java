@@ -34,7 +34,12 @@ import java.util.List;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.donkingliang.banner.CustomBanner;
+
+import org.w3c.dom.Text;
 
 
 public class MainActivity extends AppCompatActivity
@@ -71,6 +76,18 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        TextView navtext = navigationView.getHeaderView(0).findViewById(R.id.navtextView);
+        navtext.setText("Welcome");
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        TextView navtext2 = navigationView.getHeaderView(0).findViewById(R.id.navtextView2);
+        navtext2.setText(User.getInstance().getUserName());
+        if(User.getInstance().getLoggedIn())
+            navigationView.getMenu().getItem(0).setTitle("Log out");
     }
 
     /**
@@ -137,8 +154,18 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
+            if(User.getInstance().getLoggedIn()){
+                User.getInstance().logout();
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                TextView navtext2 = navigationView.getHeaderView(0).findViewById(R.id.navtextView2);
+                navtext2.setText(User.getInstance().getUserName());
+                navigationView.getMenu().getItem(0).setTitle("Log in");
+                Toast.makeText(MainActivity.this,"Logged out successfully", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_wordlist) {
             Intent intent = new Intent(MainActivity.this, WordListActivity.class);
             startActivity(intent);
