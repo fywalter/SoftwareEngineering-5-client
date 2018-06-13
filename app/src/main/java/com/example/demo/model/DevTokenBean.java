@@ -11,24 +11,24 @@ import java.util.ArrayList;
 
 public class DevTokenBean {
     private String token;
-    private String userID;
+    private int userID;
     public String getToken(){
         return token;
     }
-    public String getUserID(){
+    public int getUserID(){
         return userID;
     }
     public void setToken(String token) {
         this.token = token;
     }
-    public void setUserID(String userID) {
+    public void setUserID(int userID) {
         this.userID = userID;
     }
     public static DevTokenBean parseFromJson(String content) throws Exception{
         JSONObject results = new JSONObject(content);
         DevTokenBean dk = new DevTokenBean();
         dk.setToken(results.getString("token"));
-        dk.setUserID(results.getString("user_id"));
+        dk.setUserID(results.getInt("user_id"));
         return dk;
     }
 }

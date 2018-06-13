@@ -53,6 +53,30 @@ public class Connection{
         }
         return newsList;
     }
+    static public ArrayList<Comment> getCommentList(int articleID) {
+        String urlString = backendAddress+"comment/?article=" + articleID;
+        ArrayList<Comment> commentList = new ArrayList<>();
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            int code = conn.getResponseCode();
+            Log.v(TAG, "Server response：" + code);
+            if (code == 200) {
+                InputStream in = conn.getInputStream();
+                byte[] data = readFromStream(in);
+                String result = new String(data, "UTF-8");
+                commentList = Comment.parseCommentList(result);
+                Log.e(TAG,"CommentList：" + result);
+            } else {
+                Log.e(TAG,"请求失败：" + code);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return commentList;
+    }
     static public ArrayList<NewsTitle> getRecommendNewsList() {
         String urlString = backendAddress+"recommend_article/";
         ArrayList<NewsTitle> newsList = new ArrayList<>();

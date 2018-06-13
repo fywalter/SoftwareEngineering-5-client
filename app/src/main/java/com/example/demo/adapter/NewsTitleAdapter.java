@@ -76,9 +76,9 @@ public class NewsTitleAdapter extends RecyclerView.Adapter<NewsTitleAdapter.View
         holder.nt_title.setTypeface(tf_medium);
         holder.nt_title.setText(nt.getTitle());
         holder.nt_source.setText(nt.getSource().concat("  ").concat(nt.getNewsdate()));
-        ArrayList<String> params = new ArrayList<>();
+        ArrayList<Object> params = new ArrayList<>();
         params.add(nt.getUrl());
-        newsTask = new MyTask<>("getNews",params);
+        newsTask = new MyTask<News>("getNews",params);
         newsTask.setCallBack(newsTask.new CallBack() {
             @Override
             public void setSomeThing(News result) {

@@ -97,6 +97,8 @@ public class NewsCategorizedFragment extends Fragment {
                             NewsTitle nt = ntList.get(position);
                             Intent intent = new Intent(getContext(), NewsActivity.class);
                             intent.putExtra("url",nt.getUrl());
+                            intent.putExtra("newsID",nt.getNewsID());
+                            Log.i("JumpingIntoNews",nt.getNewsID()+nt.getUrl());
                             getContext().startActivity(intent);
                         }
                     });
@@ -133,6 +135,8 @@ public class NewsCategorizedFragment extends Fragment {
                             NewsTitle nt = ntList.get(position);
                             Intent intent = new Intent(getContext(), NewsActivity.class);
                             intent.putExtra("url",nt.getUrl());
+                            intent.putExtra("newsID",nt.getNewsID());
+                            Log.i("JumpingIntoNews",nt.getNewsID()+nt.getUrl());
                             getContext().startActivity(intent);
                         }
                     });
@@ -149,7 +153,7 @@ public class NewsCategorizedFragment extends Fragment {
     }
 
     public void onResume(){
-        super.onResume();
+       super.onResume();
         Log.d("In fragment" + frag_type, "On Start");
         View rootView = getView();
         final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
@@ -190,7 +194,6 @@ public class NewsCategorizedFragment extends Fragment {
             newsTitleTask.execute();
         }
         mBanner.startTurning(3600);
-
     }
 
     private void setBean(final ArrayList beans) {

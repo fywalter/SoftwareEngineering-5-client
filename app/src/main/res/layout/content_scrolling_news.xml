@@ -126,7 +126,7 @@
                 android:text="feed me another" />
         </LinearLayout>
         <TextView
-            android:id="@+id/add_comment"
+            android:id="@+id/view_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/buttons"
@@ -134,15 +134,8 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="5px"
-            android:text="write comment"
+            android:text="view comments"
             android:textSize="20sp" />
-        <ListView
-            android:id="@+id/comment_list"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="0dp"/>
-
-
 
     </RelativeLayout>
 
