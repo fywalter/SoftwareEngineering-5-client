@@ -65,10 +65,10 @@ public class SignupActivity extends AppCompatActivity {
                    Toast.makeText(SignupActivity.this, "Please enter your user name.", Toast.LENGTH_SHORT).show();
                }
                 else{
-                    ArrayList<String> params = new ArrayList<>();
+                    ArrayList<Object> params = new ArrayList<>();
                     params.add(usr);
                     params.add(md5(pass));
-                    registerTask = new MyTask<>("register",params);
+                    registerTask = new MyTask<String>("register",params);
                     registerTask.setCallBack(registerTask.new CallBack() {
                         @Override
                         public void setSomeThing(String result) {

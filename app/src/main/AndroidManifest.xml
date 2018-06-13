@@ -22,8 +22,11 @@
             android:name=".NewsActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".CommentActivity"
+            android:name=".CommentListActivity"
             android:parentActivityName=".NewsActivity" />
+        <activity
+            android:name=".CommentActivity"
+            android:parentActivityName=".CommentListActivity" />
         <activity
             android:name=".WordListActivity"
             android:parentActivityName=".MainActivity" />
