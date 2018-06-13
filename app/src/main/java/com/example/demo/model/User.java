@@ -13,7 +13,7 @@ import android.util.Log;
 
 public class User {
     private static User instance = new User();
-    private String userID;
+    private int userID;
     private String token;
     private String devID;  //00000000-1b1f-d7e0-0000-000031b8a7c0  in my device
     private ArrayList<Word> wordList;
@@ -51,13 +51,13 @@ public class User {
     }
     public void addWord(Word w){
         wordList.add(w);
-        ArrayList<String> param = new ArrayList<>();
+        ArrayList<Object> param = new ArrayList<>();
         param.add(w.toJson());
         new MyTask<String>("sendNewWord",param).execute();
     }
     public  void delWord(Word w){
         wordList.remove(w);
-        ArrayList<String> param = new ArrayList<>();
+        ArrayList<Object> param = new ArrayList<>();
         param.add(w.toJson());
         new MyTask<String>("deleteWord",param).execute();
 
@@ -73,18 +73,18 @@ public class User {
         Log.i("set newsList",newsTitleList.toString());
     }
     public void addComment(Comment c){
-        ArrayList<String> param = new ArrayList<>();
+        ArrayList<Object> param = new ArrayList<>();
         param.add(c.toJson());
         new MyTask<String>("addComment",param).execute();
     }
     public String getDevID(){
         return devID;
     }
-    public void setUserID(String userID){
+    public void setUserID(int userID){
         this.userID = userID;
-        Log.i("set userID",userID);
+        Log.i("set userID",new Integer(userID).toString());
     }
-    public String getUserID(){
+    public int getUserID(){
         return this.userID;
     }
     public void setToken(String token){
@@ -119,7 +119,7 @@ public class User {
         this.wordList = wordlist;
     }
     public void setLoggedIn(boolean status){this.isLoggedIn = status;}
-    public boolean getLoggedIn(){return this.isLoggedIn;}
+    public boolean getLoggedIn(){ return this.isLoggedIn; }
     public void setUserName(String usrname){this.userName = usrname;}
     public String getUserName() {return this.userName;}
     public void logout(){

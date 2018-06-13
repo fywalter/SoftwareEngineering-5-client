@@ -7,7 +7,7 @@ android:orientation="vertical"
 android:padding="10dp">
 
 <TextView
-    android:id="@+id/user_name"
+    android:id="@+id/item_comment_user"
     android:layout_width="351dp"
     android:layout_height="wrap_content"
     android:text="Alice"
@@ -15,7 +15,7 @@ android:padding="10dp">
     android:textSize="18sp" />
 
 <TextView
-    android:id="@+id/user_comment"
+    android:id="@+id/item_comment_content"
     android:layout_width="330dp"
     android:layout_height="wrap_content"
     android:layout_marginLeft="20dp"

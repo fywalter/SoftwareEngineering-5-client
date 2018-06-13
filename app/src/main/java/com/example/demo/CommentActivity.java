@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,26 +7,16 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.demo.adapter.MyAdapter;
 import com.example.demo.model.User;
-import com.example.demo.model.Word;
 import com.example.demo.model.Comment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by xiaowei on 2018/6/13.
@@ -69,6 +57,8 @@ public class CommentActivity extends AppCompatActivity {
                 cmt.setArticle(newsID);
                 cmt.setContent(editText.getText().toString());
                 User.getInstance().addComment(cmt);
+                CommentActivity.this.finish();
+
             }
         }
         );

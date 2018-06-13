@@ -66,10 +66,10 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Please enter your password.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    ArrayList<String> params = new ArrayList<>();
+                    ArrayList<Object> params = new ArrayList<>();
                     params.add(usrName);
                     params.add(md5(password));
-                    loginTask = new MyTask<>("login",params);
+                    loginTask = new MyTask<ArrayList<String>>("login",params);
                     loginTask.setCallBack(loginTask.new CallBack() {
                         @Override
                         public void setSomeThing(ArrayList<String> result) {
@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                             else{
                                 Toast.makeText(LoginActivity.this,"Logged in successfully", Toast.LENGTH_SHORT).show();
                                 User.getInstance().setToken(result.get(0));
-                                User.getInstance().setUserID(result.get(1));
+                                User.getInstance().setUserID(new Integer(result.get(1)).intValue());
                                 User.getInstance().setUserName(usrName);
                                 User.getInstance().setLoggedIn(true);
                                 User.getInstance().fetchWordList();

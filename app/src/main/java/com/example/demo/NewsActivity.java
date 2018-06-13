@@ -34,11 +34,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.demo.adapter.MyAdapter;
+import com.example.demo.model.Comment;
 import com.example.demo.model.MyTask;
 import com.example.demo.model.News;
 import com.example.demo.model.User;
@@ -50,6 +53,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 费  渝 on 2018/5/24.
@@ -65,72 +69,25 @@ public class NewsActivity extends AppCompatActivity {
     private FloatingActionButton fbtn_backToTop;
     private FloatingActionButton fbtn_like;
     private Boolean isLiked = false;
+    Typeface tf_light = null;
+    Typeface tf_medium = null;
+    Typeface tf_regular = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         setStatusBarColor(this,Color.parseColor("#303F9F"));
-        sc=(ScrollView) findViewById(R.id.sc);
+        tf_light = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Light.ttf");
+        tf_medium = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Medium.ttf");
+        tf_regular = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Regular.ttf");
 
-        Typeface tf_light = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Light.ttf");
-        Typeface tf_medium = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Medium.ttf");
-        Typeface tf_regular = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Regular.ttf");
-        final ImageView iv_image = (ImageView)findViewById(R.id.news_image);
-        final StringBuilder sb_title = new StringBuilder();
-        final TextView tv_title = (TextView) findViewById(R.id.news_title);
-        tv_title.setTypeface(tf_light);
-        final TextView tv_source = (TextView) findViewById(R.id.news_source);
-        tv_source.setTypeface(tf_medium);
-        final TextView tv_time = (TextView) findViewById(R.id.news_time);
-        tv_time.setTypeface(tf_light);
-        final TextView tv_content = (TextView) findViewById(R.id.news_content);
-        tv_content.setTypeface(tf_light);
-        final StringBuilder sb_content = new StringBuilder();
 
         Intent intent = getIntent();
         url=intent.getStringExtra("url");
         newsID = intent.getIntExtra("newsID",-1);
-        Log.i("NewAct",new Integer(newsID).toString());
-        ArrayList<String> params = new ArrayList<>();
-        params.add(url);
-        newsTask=new MyTask<>("getNews",params);
-        newsTask.setCallBack(newsTask.new CallBack() {
-            @Override
-            public void setSomeThing(News result) {
-                //title
-                sb_title.append(result.title);
-                tv_title.setMovementMethod(LinkMovementMethod.getInstance());
-                tv_title.setText(addClickPart(sb_title.toString()), TextView.BufferType.SPANNABLE);
-                //img
-                Glide.with(mcontext).load(result.imgUrl).into(iv_image);
-                //source
-                String source=null;
-                if(result.fromMedia.length()!=0 && result.fromMedia!=null){
-                    if(result.author.length()!=0 && result.author!="Nobody"){
-                        source=result.fromMedia.concat(" by ").concat(result.author);
-                    }else{
-                        source=result.fromMedia;
-                    }
-                }else{
-                    if(result.author.length()!=0 && result.author!="Nobody"){
-                        source=source.concat("By ").concat(result.author);
-                    }else{
-                        source="This ia an anonymous news...";
-                    }
-                }
-                tv_source.setText(source);
 
-                //time
-                tv_time.setText(result.date);
-
-                //content
-                sb_content.append(result.content.replaceAll("\n"," \n\n"));
-                tv_content.setMovementMethod(LinkMovementMethod.getInstance());
-                tv_content.setText(addClickPart(sb_content.toString()), TextView.BufferType.SPANNABLE);
-            }
-        });
-        newsTask.execute();
+       initNews();
 
 
         //再来一篇按钮
@@ -192,13 +149,68 @@ public class NewsActivity extends AppCompatActivity {
             }
         });
 
-        final TextView addComment =  (TextView) findViewById(R.id.add_comment);
-        addComment.setOnClickListener((v)->{
-            Intent commentIntent = new Intent(mcontext, CommentActivity.class);
+        // 评论
+        final TextView viewComment =  (TextView) findViewById(R.id.view_comment);
+        viewComment.setOnClickListener((v)->{
+            Intent commentIntent = new Intent(mcontext, CommentListActivity.class);
             commentIntent.putExtra("newsID",newsID);
             startActivity(commentIntent);
         });
 
+    }
+    private void initNews(){
+        sc=(ScrollView) findViewById(R.id.sc);
+
+        final ImageView iv_image = (ImageView)findViewById(R.id.news_image);
+        final StringBuilder sb_title = new StringBuilder();
+        final TextView tv_title = (TextView) findViewById(R.id.news_title);
+        tv_title.setTypeface(tf_light);
+        final TextView tv_source = (TextView) findViewById(R.id.news_source);
+        tv_source.setTypeface(tf_medium);
+        final TextView tv_time = (TextView) findViewById(R.id.news_time);
+        tv_time.setTypeface(tf_light);
+        final TextView tv_content = (TextView) findViewById(R.id.news_content);
+        tv_content.setTypeface(tf_light);
+        final StringBuilder sb_content = new StringBuilder();
+        ArrayList<Object> params = new ArrayList<>();
+        params.add(url);
+        newsTask=new MyTask<News>("getNews",params);
+        newsTask.setCallBack(newsTask.new CallBack() {
+            @Override
+            public void setSomeThing(News result) {
+                //title
+                sb_title.append(result.title);
+                tv_title.setMovementMethod(LinkMovementMethod.getInstance());
+                tv_title.setText(addClickPart(sb_title.toString()), TextView.BufferType.SPANNABLE);
+                //img
+                Glide.with(mcontext).load(result.imgUrl).into(iv_image);
+                //source
+                String source=null;
+                if(result.fromMedia.length()!=0 && result.fromMedia!=null){
+                    if(result.author.length()!=0 && result.author!="Nobody"){
+                        source=result.fromMedia.concat(" by ").concat(result.author);
+                    }else{
+                        source=result.fromMedia;
+                    }
+                }else{
+                    if(result.author.length()!=0 && result.author!="Nobody"){
+                        source=source.concat("By ").concat(result.author);
+                    }else{
+                        source="This ia an anonymous news...";
+                    }
+                }
+                tv_source.setText(source);
+
+                //time
+                tv_time.setText(result.date);
+
+                //content
+                sb_content.append(result.content.replaceAll("\n"," \n\n"));
+                tv_content.setMovementMethod(LinkMovementMethod.getInstance());
+                tv_content.setText(addClickPart(sb_content.toString()), TextView.BufferType.SPANNABLE);
+            }
+        });
+        newsTask.execute();
     }
 
     static void setStatusBarColor(AppCompatActivity activity, int statusColor) {

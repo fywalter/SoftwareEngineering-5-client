@@ -12,10 +12,10 @@ import java.util.ArrayList;
 public class MyTask<T> extends AsyncTask<Void,Void,T> {
     private String taskType=null;
     private CallBack callBack;
-    private ArrayList<String> params;
+    private ArrayList<Object> params;
     private T result = null;
     public MyTask(String type) { this.taskType=type;this.params=null;}
-    public MyTask(String type,ArrayList<String> paramlist) { this.taskType=type;this.params=paramlist;}
+    public MyTask(String type,ArrayList<Object> paramlist) { this.taskType=type;this.params=paramlist;}
 
     @Override
     protected T doInBackground(Void... params) {
@@ -26,7 +26,7 @@ public class MyTask<T> extends AsyncTask<Void,Void,T> {
                 return result;
             }
             case("getNews"):{
-                result=(T)Connection.getNews(this.params.get(0));
+                result=(T)Connection.getNews((String)this.params.get(0));
                 return result;
             }
             case("getRecommendNewsList"):{
@@ -42,26 +42,30 @@ public class MyTask<T> extends AsyncTask<Void,Void,T> {
                 return result;
             }
             case("register"):{
-                result = (T)Connection.register(this.params.get(0), this.params.get(1));
+                result = (T)Connection.register((String)this.params.get(0), (String)this.params.get(1));
                 return result;
             }
             case("login"):{
-                result = (T)Connection.login(this.params.get(0), this.params.get(1));
+                result = (T)Connection.login((String)this.params.get(0), (String)this.params.get(1));
                 return result;
             }
             case("sendNewWord"):{
-                Connection.sendNewWord(this.params.get(0));
-                Connection.addWord(this.params.get(0));
+                Connection.sendNewWord((String)this.params.get(0));
+                Connection.addWord((String)this.params.get(0));
             }
             case("getWordList"):{
                 result = (T)Connection.getWordList();
                 return result;
             }
+            case("getCommentList"):{
+                result = (T)Connection.getCommentList(((Integer)this.params.get(0)).intValue());
+                return result;
+            }
             case("deleteWord"):{
-                Connection.deleteWord(this.params.get(0));
+                Connection.deleteWord((String)this.params.get(0));
             }
             case("addComment"):{
-                Connection.addComment(this.params.get(0));
+                Connection.addComment((String)this.params.get(0));
             }
             default: return null;
         }
