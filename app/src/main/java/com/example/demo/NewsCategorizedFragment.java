@@ -80,7 +80,14 @@ public class NewsCategorizedFragment extends Fragment {
                     NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
                     recyclerView.setAdapter(nta);
                     ArrayList<String> images = new ArrayList<>();
-                    for(int i = 0; i < 5; i++){
+                    int size = 0;
+                    if(ntList.size() > 5){
+                        size = 5;
+                    }
+                    else{
+                        size = ntList.size();
+                    }
+                    for(int i = 0; i < size; i++){
                         images.add(ntList.get(i).getImgUrl());
                     }
                     setBean(images);
@@ -108,7 +115,14 @@ public class NewsCategorizedFragment extends Fragment {
                     NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
                     recyclerView.setAdapter(nta);
                     ArrayList<String> images = new ArrayList<>();
-                    for(int i = 0; i <  5; i++){
+                    int size = 0;
+                    if(ntList.size() > 5){
+                        size = 5;
+                    }
+                    else{
+                        size = ntList.size();
+                    }
+                    for(int i = 0; i <  size; i++){
                         if(ntList.get(i).getImgUrl().isEmpty())
                             images.add("https://ovefepif3.bkt.clouddn.com/ic_launcher_foreground.png");
                         else
