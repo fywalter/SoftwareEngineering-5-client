@@ -32,8 +32,12 @@ public class CommentListActivity extends AppCompatActivity {
     private int newsID;
     private ListView commentListView;
     private MyAdapter<Comment> myAdapter = null;
-    private ArrayList<Comment> mData = new ArrayList<>();
+    private ArrayList<Comment> mData = null;
     private MyTask<ArrayList<Comment>> commentTask = null;
+
+    public MyAdapter<Comment> getAdapter(){
+        return myAdapter;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,7 @@ public class CommentListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         newsID = intent.getIntExtra("newsID",-1);
-        initCommentList();
+       // initCommentList();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,6 +79,7 @@ public class CommentListActivity extends AppCompatActivity {
     }
 
     private void initCommentList() {
+        mData = new ArrayList<>();
         commentListView = (ListView) findViewById(R.id.comment_list);
         myAdapter = new MyAdapter<Comment>(mData,R.layout.item_comment) {
             @Override
@@ -102,7 +107,12 @@ public class CommentListActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getDelegate().onStart();
+        initCommentList();
+    }
 
     static void setStatusBarColor(AppCompatActivity activity, int statusColor) {
         Window window = activity.getWindow();

@@ -21,7 +21,9 @@ import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,20 +42,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.demo.adapter.MyAdapter;
-import com.example.demo.model.Comment;
+
 import com.example.demo.model.MyTask;
 import com.example.demo.model.News;
 import com.example.demo.model.User;
 import com.example.demo.model.Word;
 import com.example.demo.utils.ShanbayAPI;
+import com.example.demo.utils.TextJustification;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Created by 费  渝 on 2018/5/24.
@@ -119,6 +117,7 @@ public class NewsActivity extends AppCompatActivity {
                 sc.fullScroll(ScrollView.FOCUS_UP);
             }
         });
+
         //赞按钮
         fbtn_like = (FloatingActionButton) findViewById(R.id.floating_btn_like);
         fbtn_like.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +132,6 @@ public class NewsActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         //设置工具栏
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -211,6 +209,7 @@ public class NewsActivity extends AppCompatActivity {
                 sb_content.append(result.content.replaceAll("\n"," \n\n"));
                 tv_content.setMovementMethod(LinkMovementMethod.getInstance());
                 tv_content.setText(addClickPart(sb_content.toString()), TextView.BufferType.SPANNABLE);
+
             }
         });
         newsTask.execute();
