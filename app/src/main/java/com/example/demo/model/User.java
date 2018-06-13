@@ -71,6 +71,11 @@ public class User {
         newsTitleList = ntl;
         Log.i("set newsList",newsTitleList.toString());
     }
+    public void addComment(Comment c){
+        ArrayList<String> param = new ArrayList<>();
+        param.add(c.toJson());
+        new MyTask<String>("addComment",param).execute();
+    }
     public String getDevID(){
         return devID;
     }

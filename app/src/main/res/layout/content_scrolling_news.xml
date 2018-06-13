@@ -88,6 +88,7 @@
             android:textSize="20sp" />
 
         <LinearLayout
+            android:id="@+id/buttons"
             android:layout_width="fill_parent"
             android:layout_height="55dp"
             android:orientation="horizontal"
@@ -124,6 +125,23 @@
                 android:textColor="@color/white"
                 android:text="feed me another" />
         </LinearLayout>
+        <TextView
+            android:id="@+id/add_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/buttons"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5px"
+            android:text="write comment"
+            android:textSize="20sp" />
+        <ListView
+            android:id="@+id/comment_list"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="0dp"/>
+
 
 
     </RelativeLayout>

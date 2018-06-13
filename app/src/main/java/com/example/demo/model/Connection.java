@@ -184,6 +184,23 @@ public class Connection{
             e.printStackTrace();
         }
     }
+    static public void addComment( String commentJson){
+        try {
+            JSONObject comment = new JSONObject(commentJson);
+            String urlString = backendAddress+"comment/";
+            Map<String,String> params = new HashMap<>();
+            params.put("method","POST");
+            params.put("Authorization","Token "+User.getInstance().getToken());
+            queryJson(urlString,
+                    new JSONObject()
+                            .put("userprofile",User.getInstance().getUserID())
+                            .put("article",comment.get("article"))
+                            .put("content",comment.get("content")).toString(),
+                    params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     static public ArrayList<Word> getWordList() {
         String urlString = backendAddress+"userwordlist/"+User.getInstance().getUserID();
         ArrayList<Word> wordlist = new ArrayList<>();
@@ -212,7 +229,7 @@ public class Connection{
         String result = "";
         try {
             URL url = new URL(urlPath);
-            Log.i("postJson",urlPath);
+            Log.i("postJson",urlPath+Json);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod(params.get("method"));
             params.remove("method");

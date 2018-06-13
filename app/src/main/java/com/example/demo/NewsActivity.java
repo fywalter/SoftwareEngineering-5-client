@@ -58,6 +58,7 @@ import java.util.ArrayList;
 public class NewsActivity extends AppCompatActivity {
     private Dialog wordCard = null;
     private ScrollView sc;
+    private  int newsID = -1;
     private String url=null;
     private MyTask<News> newsTask=null;
     final private Context mcontext = this;
@@ -89,6 +90,8 @@ public class NewsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         url=intent.getStringExtra("url");
+        newsID = intent.getIntExtra("newsID",-1);
+        Log.i("NewAct",new Integer(newsID).toString());
         ArrayList<String> params = new ArrayList<>();
         params.add(url);
         newsTask=new MyTask<>("getNews",params);
@@ -188,6 +191,14 @@ public class NewsActivity extends AppCompatActivity {
                 sc.fullScroll(ScrollView.FOCUS_UP);
             }
         });
+
+        final TextView addComment =  (TextView) findViewById(R.id.add_comment);
+        addComment.setOnClickListener((v)->{
+            Intent commentIntent = new Intent(mcontext, CommentActivity.class);
+            commentIntent.putExtra("newsID",newsID);
+            startActivity(commentIntent);
+        });
+
     }
 
     static void setStatusBarColor(AppCompatActivity activity, int statusColor) {

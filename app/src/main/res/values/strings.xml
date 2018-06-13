@@ -47,5 +47,6 @@
     <string name="signup"> Register </string>
     <string name="signup3"> Already have an account?  </string>
     <string name="title_activity_signup">SignupActivity</string>
+    <string name="title_activity_comment">Comment</string>
 
 </resources>
