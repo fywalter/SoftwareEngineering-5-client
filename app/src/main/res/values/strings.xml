@@ -44,7 +44,7 @@
     <string name="password_r"> Confirm Password </string>
     <string name="login"> Log In </string>
     <string name="signup1"> Don\'t have an account?  </string>
-    <string name="signup"> Sign Up </string>
+    <string name="signup"> Register </string>
     <string name="signup3"> Already have an account?  </string>
     <string name="title_activity_signup">SignupActivity</string>
 

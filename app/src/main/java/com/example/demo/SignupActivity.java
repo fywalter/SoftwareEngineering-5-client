@@ -61,6 +61,9 @@ public class SignupActivity extends AppCompatActivity {
                if(!pass.equals(pass2)){
                     Toast.makeText(SignupActivity.this, "Please confirm your password.", Toast.LENGTH_SHORT).show();
                 }
+                else if(usr.isEmpty()){
+                   Toast.makeText(SignupActivity.this, "Please enter your user name.", Toast.LENGTH_SHORT).show();
+               }
                 else{
                     ArrayList<String> params = new ArrayList<>();
                     params.add(usr);

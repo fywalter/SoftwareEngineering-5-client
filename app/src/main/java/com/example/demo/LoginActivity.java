@@ -15,12 +15,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.demo.model.MyTask;
+import com.example.demo.model.User;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
+    private MyTask<ArrayList<String>> loginTask=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,46 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        Button btn = findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText usr = (EditText) findViewById(R.id.editText);
+                EditText pswd = (EditText) findViewById(R.id.editText2);
+                final String usrName = usr.getText().toString();
+                String password = pswd.getText().toString();
+                if(usrName.isEmpty()){
+                    Toast.makeText(LoginActivity.this, "Please enter your user name.", Toast.LENGTH_SHORT).show();
+                }
+                else if(password.isEmpty()){
+                    Toast.makeText(LoginActivity.this, "Please enter your password.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    ArrayList<String> params = new ArrayList<>();
+                    params.add(usrName);
+                    params.add(md5(password));
+                    loginTask = new MyTask<>("login",params);
+                    loginTask.setCallBack(loginTask.new CallBack() {
+                        @Override
+                        public void setSomeThing(ArrayList<String> result) {
+                            if(result.isEmpty()){
+                                Toast.makeText(LoginActivity.this, "Unable to log in with provided credentials.", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(LoginActivity.this,"Logged in successfully", Toast.LENGTH_SHORT).show();
+                                User.getInstance().setToken(result.get(0));
+                                User.getInstance().setUserID(result.get(1));
+                                User.getInstance().setUserName(usrName);
+                                User.getInstance().setLoggedIn(true);
+                                finish();
+                            }
+                        }
+                    });
+                    loginTask.execute();
+                }
             }
         });
 

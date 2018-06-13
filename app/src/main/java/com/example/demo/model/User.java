@@ -19,12 +19,16 @@ public class User {
     private ArrayList<Word> wordList;
     private ArrayList<News> newsList;
     private ArrayList<NewsTitle> newsTitleList;
+    private boolean isLoggedIn;
+    private String userName;
 
     public User(){
         wordList = new ArrayList<Word>();
         newsList = new ArrayList<News>();
         newsTitleList = new ArrayList<NewsTitle>();
         devID = Uuid.getDeviceUUID(MainActivity.mcontext);
+        isLoggedIn = false;
+        userName = "Anonymous";
         setTokenAndUserID();
         new Thread(new Runnable() {
             @Override
@@ -37,7 +41,6 @@ public class User {
                 }
             }
         }).start();
-
     }
     public static synchronized User getInstance(){
         return instance;
@@ -109,4 +112,8 @@ public class User {
     public void setWordList(ArrayList<Word> wordlist){
         this.wordList = wordlist;
     }
+    public void setLoggedIn(boolean status){this.isLoggedIn = status;}
+    public boolean getLoggedIn(){return this.isLoggedIn;}
+    public void setUserName(String usrname){this.userName = usrname;}
+    public String getUserName() {return this.userName;}
 }

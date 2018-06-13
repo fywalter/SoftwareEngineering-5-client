@@ -19,6 +19,7 @@ import java.util.Map;
 import android.util.Log;
 import android.os.AsyncTask;
 import android.content.Context;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import android.text.TextUtils;
 import org.json.JSONObject;
@@ -126,6 +127,23 @@ public class Connection{
         }
 
         return result;
+    }
+    static public ArrayList<String> login(String userName, String password){
+        ArrayList<String> resultList = new ArrayList<>();
+        try {
+            String urlString = backendAddress+"api-token-auth/";
+            Map<String,String> params = new HashMap<>();
+            params.put("method","POST");
+            String JSONresult = queryJson(urlString,
+                    new JSONObject().put("username",userName)
+                            .put("password", password).toString(), params);
+            JSONObject j = new JSONObject(JSONresult);
+            resultList.add(j.getString("token"));
+            resultList.add(j.getString("user_id"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultList;
     }
     static public void sendNewWord( String wordJson){
         try {
