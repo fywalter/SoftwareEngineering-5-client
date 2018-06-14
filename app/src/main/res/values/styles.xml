@@ -42,4 +42,6 @@
         <item name="colorControlHighlight">@color/bg</item>
         <item name="colorButtonNormal">@color/bg</item>
     </style>
+
+
 </resources>
