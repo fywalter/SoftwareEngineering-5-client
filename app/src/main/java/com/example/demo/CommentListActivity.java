@@ -22,6 +22,7 @@ import com.example.demo.model.MyTask;
 import com.example.demo.model.User;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -64,17 +65,19 @@ public class CommentListActivity extends AppCompatActivity {
         });
 
         FloatingActionButton fbtn_addComment = (FloatingActionButton) findViewById(R.id.add_comment);
-        fbtn_addComment.setOnClickListener((v)-> {
-                for (Comment cmt : mData){
-                    if (cmt.getUserID() == User.getInstance().getUserID())
-                    {
-                        Toast.makeText(CommentListActivity.this,"您已评论",Toast.LENGTH_SHORT).show();
+        fbtn_addComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (Comment cmt : mData) {
+                    if (cmt.getUserID() == User.getInstance().getUserID()) {
+                        Toast.makeText(CommentListActivity.this, "您已评论", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
-               Intent commentIntent= new Intent(CommentListActivity.this, CommentActivity.class);
-               commentIntent.putExtra("newsID",newsID);
-               startActivity(commentIntent);
+                Intent commentIntent = new Intent(CommentListActivity.this, CommentActivity.class);
+                commentIntent.putExtra("newsID", newsID);
+                startActivity(commentIntent);
+            }
         });
     }
 
@@ -84,8 +87,15 @@ public class CommentListActivity extends AppCompatActivity {
         myAdapter = new MyAdapter<Comment>(mData,R.layout.item_comment) {
             @Override
             public void bindView(ViewHolder holder, Comment obj) {
-                holder.setText(R.id.item_comment_user, obj.getUsername());
+                //holder.setText(R.id.item_comment_user, obj.getUsername());
                 holder.setText(R.id.item_comment_content, obj.getContent());
+                //随机生成头像和名字
+                Random rand = new Random();
+                int randId = rand.nextInt(4);
+                String[] names={"Tony Stark","Natasha Romanoff","Steve Rogers","Wanda Django "};
+                int[] icons={R.mipmap.icon1,R.mipmap.icon2,R.mipmap.icon3,R.mipmap.icon4};
+                holder.setText(R.id.item_comment_user, names[randId]);
+                holder.setImageResource(R.id.icon_comment,icons[randId]);
             }
         };
         //ListView设置下Adapter：

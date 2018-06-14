@@ -19,7 +19,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:layout_marginRight="16dp"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="normal"
         android:textColor="#303030"
         />
@@ -29,9 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="12dp"
         tools:textColor="@android:color/darker_gray"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:lines="2"
         android:ellipsize="end"
         />
@@ -44,7 +44,7 @@
         android:layout_marginBottom="16dp"
         tools:textColor="@android:color/darker_gray"
         android:text="Source:"
-        android:textSize="12sp"
+        android:textSize="14sp"
         />
 
 
