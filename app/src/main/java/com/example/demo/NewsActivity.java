@@ -48,7 +48,6 @@ import com.example.demo.model.News;
 import com.example.demo.model.User;
 import com.example.demo.model.Word;
 import com.example.demo.utils.ShanbayAPI;
-import com.example.demo.utils.TextJustification;
 
 import java.util.ArrayList;
 
@@ -152,10 +151,13 @@ public class NewsActivity extends AppCompatActivity {
 
         // 评论
         final TextView viewComment =  (TextView) findViewById(R.id.view_comment);
-        viewComment.setOnClickListener((v)->{
-            Intent commentIntent = new Intent(mcontext, CommentListActivity.class);
-            commentIntent.putExtra("newsID",newsID);
-            startActivity(commentIntent);
+        viewComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent commentIntent = new Intent(mcontext, CommentListActivity.class);
+                commentIntent.putExtra("newsID", newsID);
+                startActivity(commentIntent);
+            }
         });
 
     }

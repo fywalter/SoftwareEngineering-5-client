@@ -73,8 +73,6 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
     }
     @Override
     protected void onPreExecute() {
-        Toast.makeText(cxt, "正在查询...",
-                Toast.LENGTH_SHORT).show();
     }
 
     @Override
