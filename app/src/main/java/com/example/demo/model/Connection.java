@@ -85,6 +85,7 @@ public class Connection{
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
             conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Token " + User.getInstance().getToken());
             int code = conn.getResponseCode();
             Log.v(TAG, "Server response：" + code);
             if (code == 200) {
