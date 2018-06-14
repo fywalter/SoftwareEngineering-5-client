@@ -109,7 +109,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_weight="1"
                 android:theme="@style/btn_backToTop"
-                android:text="CLOCK IN" />
+                android:text="Checking" />
             <Button
                 android:id="@+id/anotherone"
                 android:layout_width="fill_parent"

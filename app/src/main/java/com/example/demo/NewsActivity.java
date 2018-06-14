@@ -62,6 +62,7 @@ public class NewsActivity extends AppCompatActivity {
     private  int newsID = -1;
     private String url=null;
     private MyTask<News> newsTask=null;
+    private MyTask<String> checkingTask = null;
     final private Context mcontext = this;
     private FloatingActionButton fbtn_backToTop;
     private FloatingActionButton fbtn_like;
@@ -113,7 +114,15 @@ public class NewsActivity extends AppCompatActivity {
         btn_clockIn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                sc.fullScroll(ScrollView.FOCUS_UP);
+                checkingTask=new MyTask<String>("checking");
+                checkingTask.setCallBack(checkingTask.new CallBack() {
+                    @Override
+                    public void setSomeThing(String result) {
+                        String message="Checking successfully! Day ";
+                        Toast.makeText(NewsActivity.this, message.concat(result), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                checkingTask.execute();
             }
         });
 

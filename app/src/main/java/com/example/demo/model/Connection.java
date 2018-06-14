@@ -335,4 +335,20 @@ public class Connection{
     }
 
 
+    public static String checking() {
+        String checkDay ="0";
+        try {
+            String urlString = backendAddress+"checking/";
+            Map<String,String> params = new HashMap<>();
+            params.put("method","POST");
+            params.put("Authorization","Token "+User.getInstance().getToken());
+            JSONObject checkNumJson=new JSONObject(queryJson(urlString,
+                    new JSONObject().put("user",User.getInstance().getUserID()).toString(),
+                    params));
+            checkDay=checkNumJson.getString("check_num");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return checkDay;
+    }
 }

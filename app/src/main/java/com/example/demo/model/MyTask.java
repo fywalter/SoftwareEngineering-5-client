@@ -67,6 +67,10 @@ public class MyTask<T> extends AsyncTask<Void,Void,T> {
             case("addComment"):{
                 Connection.addComment((String)this.params.get(0));
             }
+            case("checking"):{
+                result=(T)Connection.checking();
+                return result;
+            }
             default: return null;
         }
     }
