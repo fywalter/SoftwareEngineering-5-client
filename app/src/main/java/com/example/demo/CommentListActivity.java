@@ -94,14 +94,14 @@ public class CommentListActivity extends AppCompatActivity {
                 Typeface tf_light = Typeface.createFromAsset(mcontext.getAssets(),"fonts/Roboto-Light.ttf");
                 //holder.setText(R.id.item_comment_user, obj.getUsername());
                 holder.setText(R.id.item_comment_content, obj.getContent());
+                holder.setTypeface(R.id.item_comment_content,tf_light);
                 //随机生成头像和名字(一共4个)
                 int randId = obj.getUserID() % 4;
                 String[] names={"Tony Stark","Natasha Romanoff","Steve Rogers","Wanda Django "};
                 int[] icons={R.mipmap.icon1,R.mipmap.icon2,R.mipmap.icon3,R.mipmap.icon4};
-                holder.setText(R.id.item_comment_user, names[randId]);
                 holder.setTypeface(R.id.item_comment_user,tf_medium);
+                holder.setText(R.id.item_comment_user, names[randId]);
                 holder.setImageResource(R.id.icon_comment,icons[randId]);
-                holder.setTypeface(R.id.icon_comment,tf_light);
             }
         };
         //ListView设置下Adapter：
