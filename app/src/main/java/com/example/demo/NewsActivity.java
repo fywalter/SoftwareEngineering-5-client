@@ -124,6 +124,7 @@ public class NewsActivity extends AppCompatActivity {
                 }while(newUrl.equals(url));
                 intent.putExtra("url",newUrl);
                 startActivity(intent);
+                finish();
             }
         });
 
