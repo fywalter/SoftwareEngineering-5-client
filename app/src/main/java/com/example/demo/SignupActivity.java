@@ -85,6 +85,8 @@ public class SignupActivity extends AppCompatActivity {
                                 Toast.makeText(SignupActivity.this, "A user with that username already exists.", Toast.LENGTH_SHORT).show();
                             else{
                                 Toast.makeText(SignupActivity.this, "Registered successufully.", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                                startActivity(intent);
                                 finish();
                             }
                         }
