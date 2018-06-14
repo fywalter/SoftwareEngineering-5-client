@@ -195,7 +195,12 @@ public class NewsActivity extends AppCompatActivity {
         if (actionBar!=null) {
             actionBar.setDisplayHomeAsUpEnabled(true);// 给左上角图标的左边加上一个返回的图标
         }
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         //返回顶部按钮
         fbtn_backToTop = (FloatingActionButton) findViewById(R.id.floating_btn_btt);
         fbtn_backToTop.setOnClickListener(new View.OnClickListener() {

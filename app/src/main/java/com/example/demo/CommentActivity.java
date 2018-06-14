@@ -44,7 +44,12 @@ public class CommentActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);// 给左上角图标的左边加上一个返回的图标
             actionBar.setTitle(R.string.title_activity_comment);
         }
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         editText = (EditText)findViewById(R.id.comment_content);
 
 

@@ -35,13 +35,21 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setStatusBarColor(this, Color.parseColor("#303F9F"));
         setContentView(R.layout.activity_login);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar!=null) {
             actionBar.setDisplayHomeAsUpEnabled(true);// 给左上角图标的左边加上一个返回的图标
+            actionBar.setTitle("Log in");
         }
-        actionBar.setTitle("Log in");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         TextView signupt = (TextView) findViewById(R.id.signup);
         signupt.setOnClickListener(new View.OnClickListener() {
             @Override
