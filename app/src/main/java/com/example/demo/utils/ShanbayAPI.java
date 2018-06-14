@@ -79,6 +79,9 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
     protected Long doInBackground(String... params) {
         String result = request(shanbayLink+params[0].replaceAll("\\p{Punct}",""));
         translation=result;
+        if(translation!="Cannot find translation..."){
+            translation = translation.replace(" ","");//去掉第一个空白
+        }
         Log.i("translate",translation);
         publishProgress(result);
         return 0l;

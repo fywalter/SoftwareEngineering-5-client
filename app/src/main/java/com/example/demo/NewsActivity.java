@@ -326,8 +326,13 @@ public class NewsActivity extends AppCompatActivity {
                                 btn_addWord.setOnClickListener(new View.OnClickListener(){
                                     @Override
                                     public void onClick(View v) {
-                                        User.getInstance().addWord(new Word(word.replaceAll("[\\p{Punct} \\n]",""),translation));
-                                        Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
+                                        if(translation!="Cannot find translation..."){
+                                            Toast.makeText(NewsActivity.this, "并没有找到翻译:(~", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else{
+                                            User.getInstance().addWord(new Word(word.replaceAll("[\\p{Punct} \\n]",""),translation));
+                                            Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 });
                                 wordCard.setContentView(root);
