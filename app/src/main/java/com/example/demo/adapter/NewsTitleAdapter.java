@@ -73,7 +73,9 @@ public class NewsTitleAdapter extends RecyclerView.Adapter<NewsTitleAdapter.View
     public void onBindViewHolder(final ViewHolder holder, int position){
         NewsTitle nt = ntList.get(position);
         Typeface tf_medium = Typeface.createFromAsset(context.getAssets(),"fonts/Roboto-Medium.ttf");
+        Typeface tf_light = Typeface.createFromAsset(context.getAssets(),"fonts/Roboto-Light.ttf");
         holder.nt_title.setTypeface(tf_medium);
+        holder.nt_abstract.setTypeface(tf_light);
         holder.nt_title.setText(nt.getTitle());
         holder.nt_source.setText(nt.getSource().concat("  ").concat(nt.getNewsdate()));
         ArrayList<Object> params = new ArrayList<>();
