@@ -370,12 +370,12 @@ public class Connection{
                 InputStream in = conn.getInputStream();
                 byte[] data = readFromStream(in);
                 String result = new String(data, "UTF-8");
+                result=result.replace("[","");
+                result=result.replace("]","");
                 if (result==null||result.length()==0){
                     favorId=-1;
                 }
                 else{
-                    result=result.replace("[","");
-                    result=result.replace("]","");
                     favorId = new JSONObject(result).getInt("id");
                 }
             } else {
