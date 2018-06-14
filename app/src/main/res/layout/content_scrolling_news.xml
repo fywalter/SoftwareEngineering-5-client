@@ -23,8 +23,7 @@
             android:layout_marginRight="0dp"
             android:layout_marginTop="0dp"
             android:adjustViewBounds="true"
-            android:gravity="center"
-            android:src="@mipmap/newsimg" />
+            android:gravity="center" />
             <TextView
                 android:id="@+id/news_title"
                 android:layout_width="wrap_content"
@@ -34,7 +33,6 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:text="This is a title"
                 android:layout_weight="1"
                 android:textSize="30sp" />
         
@@ -48,7 +46,6 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="0px"
-            android:text="Source"
             android:textColor="#505050"
             android:textSize="15sp" />
 
@@ -61,7 +58,6 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="0px"
-            android:text="Time"
             android:textColor="#505050"
             android:textSize="15sp" />
 
@@ -83,7 +79,6 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="5px"
-            android:text="helloworld"
 
             android:textSize="20sp" />
 
