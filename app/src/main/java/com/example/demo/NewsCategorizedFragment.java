@@ -103,6 +103,9 @@ public class NewsCategorizedFragment extends Fragment {
                             getContext().startActivity(intent);
                         }
                     });
+                    if(size > 1){
+                        mBanner.startTurning(3600);
+                    }
                 }
             });
             newsTitleTask.execute();
@@ -140,6 +143,9 @@ public class NewsCategorizedFragment extends Fragment {
                             getContext().startActivity(intent);
                         }
                     });
+                    if(size > 1){
+                        mBanner.startTurning(3600);
+                    }
                 }
             });
             newsTitleTask.execute();
@@ -147,8 +153,6 @@ public class NewsCategorizedFragment extends Fragment {
         else{
 
         }
-        mBanner.startTurning(3600);
-
         return rootView;
     }
 
@@ -189,11 +193,13 @@ public class NewsCategorizedFragment extends Fragment {
                             getContext().startActivity(intent);
                         }
                     });
+                    if(size > 1){
+                        mBanner.startTurning(3600);
+                    }
                 }
             });
             newsTitleTask.execute();
         }
-        mBanner.startTurning(3600);
     }
 
     private void setBean(final ArrayList beans) {
