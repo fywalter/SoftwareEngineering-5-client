@@ -96,6 +96,7 @@ public class WordListActivity extends AppCompatActivity {
                                 myAdapter.remove(todelete);
                                 User.getInstance().delWord(todelete);
                                 Toast.makeText(WordListActivity.this, "删除单词~", Toast.LENGTH_SHORT).show();
+                                wordCard.dismiss();
                             }
                         });
                         wordCard.setContentView(root);
