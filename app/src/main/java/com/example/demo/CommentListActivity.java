@@ -89,9 +89,8 @@ public class CommentListActivity extends AppCompatActivity {
             public void bindView(ViewHolder holder, Comment obj) {
                 //holder.setText(R.id.item_comment_user, obj.getUsername());
                 holder.setText(R.id.item_comment_content, obj.getContent());
-                //随机生成头像和名字
-                Random rand = new Random();
-                int randId = rand.nextInt(4);
+                //随机生成头像和名字(一共4个)
+                int randId = obj.getUserID() % 4;
                 String[] names={"Tony Stark","Natasha Romanoff","Steve Rogers","Wanda Django "};
                 int[] icons={R.mipmap.icon1,R.mipmap.icon2,R.mipmap.icon3,R.mipmap.icon4};
                 holder.setText(R.id.item_comment_user, names[randId]);
