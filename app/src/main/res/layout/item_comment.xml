@@ -1,27 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
-android:padding="10dp">
-
-<TextView
-    android:id="@+id/item_comment_user"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Alice"
-    android:textColor="@android:color/black"
-    android:textSize="18sp" />
+    android:orientation="horizontal"
+    android:background="@color/bg"
+    android:weightSum="2">
 
-<TextView
-    android:id="@+id/item_comment_content"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
-    android:text="very good"
-    android:textColor="@color/gray"
-    android:textSize="18sp" />
+    <ImageView
+        android:id="@+id/icon_comment"
+        android:layout_width="123dp"
+        android:layout_height="72dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_weight="1"
+
+        android:src="@mipmap/icon1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_comment_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alice"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="16dp"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/item_comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Are you free tonight?"
+            android:textColor="@color/gray"
+            android:textSize="18sp" />
+        <View
+            android:id="@+id/line_comment"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/lightGray" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

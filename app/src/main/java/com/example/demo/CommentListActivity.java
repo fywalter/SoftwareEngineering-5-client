@@ -22,6 +22,7 @@ import com.example.demo.model.MyTask;
 import com.example.demo.model.User;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -86,8 +87,15 @@ public class CommentListActivity extends AppCompatActivity {
         myAdapter = new MyAdapter<Comment>(mData,R.layout.item_comment) {
             @Override
             public void bindView(ViewHolder holder, Comment obj) {
-                holder.setText(R.id.item_comment_user, obj.getUsername());
+                //holder.setText(R.id.item_comment_user, obj.getUsername());
                 holder.setText(R.id.item_comment_content, obj.getContent());
+                //随机生成头像和名字
+                Random rand = new Random();
+                int randId = rand.nextInt(4);
+                String[] names={"Tony Stark","Natasha Romanoff","Steve Rogers","Wanda Django "};
+                int[] icons={R.mipmap.icon1,R.mipmap.icon2,R.mipmap.icon3,R.mipmap.icon4};
+                holder.setText(R.id.item_comment_user, names[randId]);
+                holder.setImageResource(R.id.icon_comment,icons[randId]);
             }
         };
         //ListView设置下Adapter：
