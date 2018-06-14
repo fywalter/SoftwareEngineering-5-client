@@ -71,6 +71,17 @@ public class MyTask<T> extends AsyncTask<Void,Void,T> {
                 result=(T)Connection.checking();
                 return result;
             }
+            case("favorite"):{
+                result=(T)Connection.favorite((Integer)this.params.get(0));
+                return result;
+            }
+            case("disfavorite"):{
+                Connection.disfavorite((Integer)this.params.get(0),(Integer)this.params.get(1));
+            }
+            case("checkFavor"):{
+                result=(T)Connection.checkFavorite((Integer)this.params.get(0));
+                return result;
+            }
             default: return null;
         }
     }

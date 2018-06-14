@@ -60,9 +60,13 @@ public class NewsActivity extends AppCompatActivity {
     private Dialog wordCard = null;
     private ScrollView sc;
     private  int newsID = -1;
+    private  int favorId=-1;
     private String url=null;
     private MyTask<News> newsTask=null;
     private MyTask<String> checkingTask = null;
+    private MyTask<Integer> favorTask=null;
+    private MyTask<Integer> disfavorTask=null;
+    private MyTask<Integer> checkFavotTask = null;
     final private Context mcontext = this;
     private FloatingActionButton fbtn_backToTop;
     private FloatingActionButton fbtn_like;
@@ -89,6 +93,21 @@ public class NewsActivity extends AppCompatActivity {
         }
         Log.i("CurrentNewsID",new Integer(newsID).toString());
 
+        //判断是否点过赞
+        ArrayList<Object> params = new ArrayList<>();
+        params.add(newsID);
+        checkFavotTask = new MyTask<Integer>("checkFavor",params);
+        checkFavotTask.setCallBack(checkFavotTask.new CallBack() {
+            @Override
+            public void setSomeThing(Integer result) {
+                favorId=result;
+                if(favorId!=-1){
+                    isLiked=true;
+                    fbtn_like.setImageResource(R.mipmap.like);
+                }
+            }
+        });
+        checkFavotTask.execute();
         initNews();
 
         //再来一篇按钮
@@ -118,7 +137,7 @@ public class NewsActivity extends AppCompatActivity {
                 checkingTask.setCallBack(checkingTask.new CallBack() {
                     @Override
                     public void setSomeThing(String result) {
-                        String message="Checking successfully! Day ";
+                        String message="Check successfully! Day ";
                         Toast.makeText(NewsActivity.this, message.concat(result), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -134,9 +153,37 @@ public class NewsActivity extends AppCompatActivity {
                 if(isLiked==false){
                     fbtn_like.setImageResource(R.mipmap.like);
                     isLiked=true;
+                    ArrayList<Object> params = new ArrayList<>();
+                    params.add(newsID);
+                    favorTask = new MyTask<Integer>("favorite",params);
+                    favorTask.setCallBack(favorTask.new CallBack() {
+                        @Override
+                        public void setSomeThing(Integer result) {
+                            if(result==null){
+                                favorId=-1;
+                            }else{
+                                favorId=result;
+                            }
+                        }
+                    });
+                    favorTask.execute();
                 }else {
                     fbtn_like.setImageResource(R.mipmap.dislike);
                     isLiked = false;
+                    if(favorId==-1){
+                        return;
+                    }
+                    ArrayList<Object> params = new ArrayList<>();
+                    params.add(newsID);
+                    params.add(favorId);
+                    disfavorTask = new MyTask<Integer>("disfavorite",params);
+                    disfavorTask.setCallBack(disfavorTask.new CallBack() {
+                        @Override
+                        public void setSomeThing(Integer result) {
+                            favorId=-1;
+                        }
+                    });
+                    disfavorTask.execute();
                 }
             }
         });

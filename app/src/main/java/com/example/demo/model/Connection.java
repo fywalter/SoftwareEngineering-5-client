@@ -315,6 +315,9 @@ public class Connection{
                 byte[] data = readFromStream(in);
                 result = new String(data, "UTF-8");
             }
+            else if(conn.getResponseCode()==400){
+                return "400";
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -350,5 +353,72 @@ public class Connection{
             e.printStackTrace();
         }
         return checkDay;
+    }
+    public static Integer checkFavorite(int newsId){
+        int favorId=-1;
+        try {
+            String urlString = backendAddress+"favourite/?userprofile="+Integer.toString(User.getInstance().getUserID())+
+                    "&article="+Integer.toString(newsId);
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization","Token "+User.getInstance().getToken());
+            int code = conn.getResponseCode();
+            Log.v(TAG, "Server response：" + code);
+            if (code == 200) {
+                InputStream in = conn.getInputStream();
+                byte[] data = readFromStream(in);
+                String result = new String(data, "UTF-8");
+                if (result==null||result.length()==0){
+                    favorId=-1;
+                }
+                else{
+                    result=result.replace("[","");
+                    result=result.replace("]","");
+                    favorId = new JSONObject(result).getInt("id");
+                }
+            } else {
+                Log.e(TAG,"请求失败：" + code);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return favorId;
+    }
+
+    public static Integer favorite(int newsId) {
+        int favorId=-1;
+        try {
+            String urlString = backendAddress+"favourite/";
+            Map<String,String> params = new HashMap<>();
+            params.put("method","POST");
+            params.put("Authorization","Token "+User.getInstance().getToken());
+            String  msg = queryJson(urlString,
+                    new JSONObject().put("userprofile",User.getInstance().getUserID()).put("article",newsId).toString(),
+                    params);
+            JSONObject message=new JSONObject(msg);
+            Log.e("favorite msg:",message.toString());
+            favorId=message.getInt("id");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return favorId;
+    }
+
+    public static void disfavorite(Integer newsId, Integer favorId) {
+        try {
+            String urlString = backendAddress+"favourite/"+Integer.toString(favorId)+"/?userprofile="+Integer.toString(User.getInstance().getUserID())+
+                    "&article="+Integer.toString(newsId);
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("DELETE");
+            conn.setRequestProperty("Authorization","Token "+User.getInstance().getToken());
+            int code = conn.getResponseCode();
+            Log.v(TAG, "Server response：" + code);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

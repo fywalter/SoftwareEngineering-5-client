@@ -162,6 +162,7 @@ public class NewsCategorizedFragment extends Fragment {
             newsTitleTask.setCallBack(newsTitleTask.new CallBack() {
                 @Override
                 public void setSomeThing(List<NewsTitle> newsList) {
+                    User.getInstance().setNewsFavoriteTitleList((ArrayList<NewsTitle>) newsList);
                     ntList = newsList;
                     Log.i("len of ntList", Integer.toString(ntList.size()));
                     NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
