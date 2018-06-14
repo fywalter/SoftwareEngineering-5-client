@@ -1,7 +1,9 @@
 package com.example.demo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
@@ -35,6 +37,7 @@ public class CommentListActivity extends AppCompatActivity {
     private MyAdapter<Comment> myAdapter = null;
     private ArrayList<Comment> mData = null;
     private MyTask<ArrayList<Comment>> commentTask = null;
+    final private Context mcontext = this;
 
     public MyAdapter<Comment> getAdapter(){
         return myAdapter;
@@ -84,9 +87,11 @@ public class CommentListActivity extends AppCompatActivity {
     private void initCommentList() {
         mData = new ArrayList<>();
         commentListView = (ListView) findViewById(R.id.comment_list);
-        myAdapter = new MyAdapter<Comment>(mData,R.layout.item_comment) {
+        myAdapter = new MyAdapter<Comment>(mData,R.layout.item_comment,mcontext) {
             @Override
             public void bindView(ViewHolder holder, Comment obj) {
+                Typeface tf_medium = Typeface.createFromAsset(mcontext.getAssets(),"fonts/Roboto-Medium.ttf");
+                Typeface tf_light = Typeface.createFromAsset(mcontext.getAssets(),"fonts/Roboto-Light.ttf");
                 //holder.setText(R.id.item_comment_user, obj.getUsername());
                 holder.setText(R.id.item_comment_content, obj.getContent());
                 //随机生成头像和名字(一共4个)
@@ -94,7 +99,9 @@ public class CommentListActivity extends AppCompatActivity {
                 String[] names={"Tony Stark","Natasha Romanoff","Steve Rogers","Wanda Django "};
                 int[] icons={R.mipmap.icon1,R.mipmap.icon2,R.mipmap.icon3,R.mipmap.icon4};
                 holder.setText(R.id.item_comment_user, names[randId]);
+                holder.setTypeface(R.id.item_comment_user,tf_medium);
                 holder.setImageResource(R.id.icon_comment,icons[randId]);
+                holder.setTypeface(R.id.icon_comment,tf_light);
             }
         };
         //ListView设置下Adapter：

@@ -1,6 +1,7 @@
 package com.example.demo.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -20,14 +21,13 @@ public abstract class MyAdapter<T> extends BaseAdapter {
 
     private ArrayList<T> mData;
     private int mLayoutRes;           //布局id
+    private final Context context;
 
 
-    public MyAdapter() {
-    }
-
-    public MyAdapter(ArrayList<T> mData, int mLayoutRes) {
+    public MyAdapter(ArrayList<T> mData, int mLayoutRes, Context ctxt) {
         this.mData = mData;
         this.mLayoutRes = mLayoutRes;
+        this.context = ctxt;
     }
 
     @Override
@@ -197,7 +197,16 @@ public abstract class MyAdapter<T> extends BaseAdapter {
             getView(id).setTag(obj);
             return this;
         }
-
+        /**
+         * 设置字体
+         */
+        public ViewHolder setTypeface(int id, Typeface obj) {
+            View view = getView(id);
+            if (view instanceof TextView) {
+                ((TextView) view).setTypeface(obj);
+            }
+            return this;
+        }
         //其他方法可自行扩展
 
     }

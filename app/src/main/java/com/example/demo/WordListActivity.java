@@ -2,6 +2,7 @@ package com.example.demo;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -41,6 +42,7 @@ public class WordListActivity extends AppCompatActivity {
     private List<Word> mData = null;
     private Dialog wordCard = null;
     private AlertDialog.Builder builder = null;
+    final private Context mcontext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class WordListActivity extends AppCompatActivity {
 
         mData = User.getInstance().getWordList();
 
-        myAdapter = new MyAdapter<Word>((ArrayList)mData,R.layout.item_word) {
+        myAdapter = new MyAdapter<Word>((ArrayList)mData,R.layout.item_word,mcontext) {
             @Override
             public void bindView(ViewHolder holder, Word obj) {
                 final String wordName = obj.getwName();

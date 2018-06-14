@@ -207,6 +207,7 @@ public class NewsActivity extends AppCompatActivity {
 
         // 评论
         final TextView viewComment =  (TextView) findViewById(R.id.view_comment);
+        viewComment.setTypeface(tf_light);
         viewComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
