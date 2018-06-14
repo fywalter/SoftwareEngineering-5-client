@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 
 public class News {
+    public String id;
     public String title;
     public String source;
     public String content;
@@ -29,6 +30,7 @@ public class News {
         news.imgUrl=(results.getString("img_url"));
         news.author=(results.getString("author"));
         news.fromMedia=(results.getString("from_media"));
+        news.id=(results.getString("id"));
         return news;
     }
 }

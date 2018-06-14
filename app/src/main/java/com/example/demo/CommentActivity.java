@@ -58,7 +58,6 @@ public class CommentActivity extends AppCompatActivity {
                 cmt.setContent(editText.getText().toString());
                 User.getInstance().addComment(cmt);
                 CommentActivity.this.finish();
-
             }
         }
         );

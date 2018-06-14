@@ -31,6 +31,7 @@ public class NewsCategorizedFragment extends Fragment {
     private List<NewsTitle> ntList = new ArrayList<>();
     private ListView newsListView;
     private MyAdapter<NewsTitle> myAdapter = null;
+
     private CustomBanner<String> mBanner;
     private MyTask<List<NewsTitle>> newsTitleTask = null;
     private int frag_type;
@@ -161,6 +162,7 @@ public class NewsCategorizedFragment extends Fragment {
             newsTitleTask.setCallBack(newsTitleTask.new CallBack() {
                 @Override
                 public void setSomeThing(List<NewsTitle> newsList) {
+                    User.getInstance().setNewsFavoriteTitleList((ArrayList<NewsTitle>) newsList);
                     ntList = newsList;
                     Log.i("len of ntList", Integer.toString(ntList.size()));
                     NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());

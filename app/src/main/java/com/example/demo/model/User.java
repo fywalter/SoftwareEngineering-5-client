@@ -19,6 +19,7 @@ public class User {
     private ArrayList<Word> wordList;
     private ArrayList<News> newsList;
     private ArrayList<NewsTitle> newsTitleList;
+    private ArrayList<NewsTitle> newsFavoriteTitleList;
     private boolean isLoggedIn;
     private String userName;
 
@@ -26,9 +27,11 @@ public class User {
         wordList = new ArrayList<Word>();
         newsList = new ArrayList<News>();
         newsTitleList = new ArrayList<NewsTitle>();
+        newsFavoriteTitleList = new ArrayList<NewsTitle>();
         devID = Uuid.getDeviceUUID(MainActivity.mcontext);
         isLoggedIn = false;
         userName = "Anonymous";
+
         setTokenAndUserID();
         new Thread(new Runnable() {
             @Override
@@ -70,6 +73,13 @@ public class User {
     public void setNewsTitleList( ArrayList<NewsTitle>  ntl){
         newsTitleList = ntl;
         Log.i("set newsList",newsTitleList.toString());
+    }
+    public ArrayList<NewsTitle> getNewsFavoriteTitleList(){
+        return newsFavoriteTitleList;
+    }
+    public void setNewsFavoriteTitleList( ArrayList<NewsTitle>  ntl){
+        newsFavoriteTitleList = ntl;
+        Log.i("set newsList",newsFavoriteTitleList.toString());
     }
     public void addComment(Comment c){
         ArrayList<Object> param = new ArrayList<>();

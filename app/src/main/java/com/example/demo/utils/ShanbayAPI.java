@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.lang.StringBuffer;
+import java.util.ArrayList;
+
 import android.util.Log;
 import android.os.AsyncTask;
 import android.content.Context;
@@ -73,14 +75,28 @@ public class ShanbayAPI extends AsyncTask<String, String, Long>{
     }
     @Override
     protected void onPreExecute() {
-        Toast.makeText(cxt, "正在查询...",
-                Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected Long doInBackground(String... params) {
         String result = request(shanbayLink+params[0].replaceAll("\\p{Punct}",""));
         translation=result;
+        if(translation!="Cannot find translation..."){
+            translation = translation.trim();//去掉第一个空白
+            //解决一个翻译过长导致按键建遮挡
+            String[] transArray = translation.split("\n");
+            String rslt="";
+            int length = transArray.length;
+            for(int i =0;i<length;++i){
+                if (transArray[i].length()>22){
+                    String subString1 = transArray[i].substring(0,21);
+                    String subString2 = transArray[i].substring(21);
+                    transArray[i]=subString1+"\n"+subString2;
+                }
+                rslt = rslt+ transArray[i]+"\n";
+            }
+            translation = rslt;
+        }
         Log.i("translate",translation);
         publishProgress(result);
         return 0l;

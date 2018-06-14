@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,38 +9,35 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
-
+import android.view.MenuItem;
 import com.example.demo.adapter.MyAdapter;
 import com.example.demo.model.Comment;
 import com.example.demo.model.MyTask;
 import com.example.demo.model.User;
-import com.example.demo.model.Word;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
- * Created by Administrator on 2018/6/13.
+ * Created by xiaowei on 2018/6/13.
  */
 
 public class CommentListActivity extends AppCompatActivity {
     private int newsID;
     private ListView commentListView;
     private MyAdapter<Comment> myAdapter = null;
-    private ArrayList<Comment> mData = new ArrayList<>();
+    private ArrayList<Comment> mData = null;
     private MyTask<ArrayList<Comment>> commentTask = null;
+
+    public MyAdapter<Comment> getAdapter(){
+        return myAdapter;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +47,7 @@ public class CommentListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         newsID = intent.getIntExtra("newsID",-1);
-        initCommentList();
+       // initCommentList();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,6 +56,12 @@ public class CommentListActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);// 给左上角图标的左边加上一个返回的图标
             actionBar.setTitle("Comments");
         }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         FloatingActionButton fbtn_addComment = (FloatingActionButton) findViewById(R.id.add_comment);
         fbtn_addComment.setOnClickListener((v)-> {
@@ -73,21 +74,25 @@ public class CommentListActivity extends AppCompatActivity {
                 }
                Intent commentIntent= new Intent(CommentListActivity.this, CommentActivity.class);
                commentIntent.putExtra("newsID",newsID);
-
                startActivity(commentIntent);
-
         });
-
     }
 
-
     private void initCommentList() {
-
-            commentListView = (ListView) findViewById(R.id.comment_list);
+        mData = new ArrayList<>();
+        commentListView = (ListView) findViewById(R.id.comment_list);
+        myAdapter = new MyAdapter<Comment>(mData,R.layout.item_comment) {
+            @Override
+            public void bindView(ViewHolder holder, Comment obj) {
+                holder.setText(R.id.item_comment_user, obj.getUsername());
+                holder.setText(R.id.item_comment_content, obj.getContent());
+            }
+        };
+        //ListView设置下Adapter：
+        commentListView.setAdapter(myAdapter);
             ArrayList<Object> params = new ArrayList<>();
             params.add(new Integer(newsID));
             commentTask = new MyTask<>("getCommentList",params);
-
             commentTask.setCallBack(commentTask.new CallBack() {
                 @Override
                 public void setSomeThing(ArrayList<Comment> commentList) {
@@ -100,25 +105,14 @@ public class CommentListActivity extends AppCompatActivity {
             });
             commentTask.execute();
 
-            Comment cmt = new Comment();
-            cmt.setUsername("hehe");
-            cmt.setContent("haha");
-            cmt.setArticle(256);
-
-            mData.add(cmt);
-            myAdapter = new MyAdapter<Comment>(mData,R.layout.item_comment) {
-                @Override
-                public void bindView(ViewHolder holder, Comment obj) {
-                    holder.setText(R.id.item_comment_user, obj.getUsername());
-                    holder.setText(R.id.item_comment_content, obj.getContent());
-                }
-            };
-            //ListView设置下Adapter：
-            commentListView.setAdapter(myAdapter);
-
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getDelegate().onStart();
+        initCommentList();
+    }
 
     static void setStatusBarColor(AppCompatActivity activity, int statusColor) {
         Window window = activity.getWindow();

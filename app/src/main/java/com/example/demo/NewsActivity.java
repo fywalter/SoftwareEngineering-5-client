@@ -21,7 +21,9 @@ import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,20 +42,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.demo.adapter.MyAdapter;
-import com.example.demo.model.Comment;
+
 import com.example.demo.model.MyTask;
 import com.example.demo.model.News;
 import com.example.demo.model.User;
 import com.example.demo.model.Word;
 import com.example.demo.utils.ShanbayAPI;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Created by 费  渝 on 2018/5/24.
@@ -63,8 +60,13 @@ public class NewsActivity extends AppCompatActivity {
     private Dialog wordCard = null;
     private ScrollView sc;
     private  int newsID = -1;
+    private  int favorId=-1;
     private String url=null;
     private MyTask<News> newsTask=null;
+    private MyTask<String> checkingTask = null;
+    private MyTask<Integer> favorTask=null;
+    private MyTask<Integer> disfavorTask=null;
+    private MyTask<Integer> checkFavotTask = null;
     final private Context mcontext = this;
     private FloatingActionButton fbtn_backToTop;
     private FloatingActionButton fbtn_like;
@@ -86,9 +88,27 @@ public class NewsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         url=intent.getStringExtra("url");
         newsID = intent.getIntExtra("newsID",-1);
+        if (!url.isEmpty() && newsID == -1){
+            newsID = new Integer(url.substring(url.indexOf("articles")).split("/")[1]).intValue();
+        }
+        Log.i("CurrentNewsID",new Integer(newsID).toString());
 
-       initNews();
-
+        //判断是否点过赞
+        ArrayList<Object> params = new ArrayList<>();
+        params.add(newsID);
+        checkFavotTask = new MyTask<Integer>("checkFavor",params);
+        checkFavotTask.setCallBack(checkFavotTask.new CallBack() {
+            @Override
+            public void setSomeThing(Integer result) {
+                favorId=result;
+                if(favorId!=-1){
+                    isLiked=true;
+                    fbtn_like.setImageResource(R.mipmap.like);
+                }
+            }
+        });
+        checkFavotTask.execute();
+        initNews();
 
         //再来一篇按钮
         Button btn_another = (Button) findViewById(R.id.anotherone);
@@ -113,9 +133,18 @@ public class NewsActivity extends AppCompatActivity {
         btn_clockIn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                sc.fullScroll(ScrollView.FOCUS_UP);
+                checkingTask=new MyTask<String>("checking");
+                checkingTask.setCallBack(checkingTask.new CallBack() {
+                    @Override
+                    public void setSomeThing(String result) {
+                        String message="Check successfully! Day ";
+                        Toast.makeText(NewsActivity.this, message.concat(result), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                checkingTask.execute();
             }
         });
+
         //赞按钮
         fbtn_like = (FloatingActionButton) findViewById(R.id.floating_btn_like);
         fbtn_like.setOnClickListener(new View.OnClickListener() {
@@ -124,13 +153,40 @@ public class NewsActivity extends AppCompatActivity {
                 if(isLiked==false){
                     fbtn_like.setImageResource(R.mipmap.like);
                     isLiked=true;
+                    ArrayList<Object> params = new ArrayList<>();
+                    params.add(newsID);
+                    favorTask = new MyTask<Integer>("favorite",params);
+                    favorTask.setCallBack(favorTask.new CallBack() {
+                        @Override
+                        public void setSomeThing(Integer result) {
+                            if(result==null){
+                                favorId=-1;
+                            }else{
+                                favorId=result;
+                            }
+                        }
+                    });
+                    favorTask.execute();
                 }else {
                     fbtn_like.setImageResource(R.mipmap.dislike);
                     isLiked = false;
+                    if(favorId==-1){
+                        return;
+                    }
+                    ArrayList<Object> params = new ArrayList<>();
+                    params.add(newsID);
+                    params.add(favorId);
+                    disfavorTask = new MyTask<Integer>("disfavorite",params);
+                    disfavorTask.setCallBack(disfavorTask.new CallBack() {
+                        @Override
+                        public void setSomeThing(Integer result) {
+                            favorId=-1;
+                        }
+                    });
+                    disfavorTask.execute();
                 }
             }
         });
-
 
         //设置工具栏
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -151,10 +207,13 @@ public class NewsActivity extends AppCompatActivity {
 
         // 评论
         final TextView viewComment =  (TextView) findViewById(R.id.view_comment);
-        viewComment.setOnClickListener((v)->{
-            Intent commentIntent = new Intent(mcontext, CommentListActivity.class);
-            commentIntent.putExtra("newsID",newsID);
-            startActivity(commentIntent);
+        viewComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent commentIntent = new Intent(mcontext, CommentListActivity.class);
+                commentIntent.putExtra("newsID", newsID);
+                startActivity(commentIntent);
+            }
         });
 
     }
@@ -208,6 +267,7 @@ public class NewsActivity extends AppCompatActivity {
                 sb_content.append(result.content.replaceAll("\n"," \n\n"));
                 tv_content.setMovementMethod(LinkMovementMethod.getInstance());
                 tv_content.setText(addClickPart(sb_content.toString()), TextView.BufferType.SPANNABLE);
+
             }
         });
         newsTask.execute();
@@ -266,8 +326,13 @@ public class NewsActivity extends AppCompatActivity {
                                 btn_addWord.setOnClickListener(new View.OnClickListener(){
                                     @Override
                                     public void onClick(View v) {
-                                        User.getInstance().addWord(new Word(word.replaceAll("[\\p{Punct} \\n]",""),translation));
-                                        Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
+                                        if(translation=="Cannot find translation..."){
+                                            Toast.makeText(NewsActivity.this, "并没有找到翻译:(", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else{
+                                            User.getInstance().addWord(new Word(word.replaceAll("[\\p{Punct} \\n]",""),translation));
+                                            Toast.makeText(NewsActivity.this, "成功添加~", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 });
                                 wordCard.setContentView(root);
