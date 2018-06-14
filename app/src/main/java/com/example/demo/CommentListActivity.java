@@ -64,17 +64,19 @@ public class CommentListActivity extends AppCompatActivity {
         });
 
         FloatingActionButton fbtn_addComment = (FloatingActionButton) findViewById(R.id.add_comment);
-        fbtn_addComment.setOnClickListener((v)-> {
-                for (Comment cmt : mData){
-                    if (cmt.getUserID() == User.getInstance().getUserID())
-                    {
-                        Toast.makeText(CommentListActivity.this,"您已评论",Toast.LENGTH_SHORT).show();
+        fbtn_addComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (Comment cmt : mData) {
+                    if (cmt.getUserID() == User.getInstance().getUserID()) {
+                        Toast.makeText(CommentListActivity.this, "您已评论", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
-               Intent commentIntent= new Intent(CommentListActivity.this, CommentActivity.class);
-               commentIntent.putExtra("newsID",newsID);
-               startActivity(commentIntent);
+                Intent commentIntent = new Intent(CommentListActivity.this, CommentActivity.class);
+                commentIntent.putExtra("newsID", newsID);
+                startActivity(commentIntent);
+            }
         });
     }
 
