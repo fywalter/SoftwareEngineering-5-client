@@ -199,6 +199,45 @@ public class NewsCategorizedFragment extends Fragment {
                 }
             });
             newsTitleTask.execute();
+        }else if (frag_type == 2){
+            newsTitleTask = new MyTask("getRecommendNewsList");
+            newsTitleTask.setCallBack(newsTitleTask.new CallBack() {
+                @Override
+                public void setSomeThing(List<NewsTitle> newsList) {
+                    ntList = newsList;
+                    Log.i("len of ntList", Integer.toString(ntList.size()));
+                    NewsTitleAdapter nta = new NewsTitleAdapter(ntList, getContext());
+                    recyclerView.setAdapter(nta);
+                    ArrayList<String> images = new ArrayList<>();
+                    int size = 0;
+                    if(ntList.size() > 5){
+                        size = 5;
+                    }
+                    else{
+                        size = ntList.size();
+                    }
+                    for(int i = 0; i <  size; i++){
+                        if(ntList.get(i).getImgUrl().isEmpty())
+                            images.add("https://ovefepif3.bkt.clouddn.com/ic_launcher_foreground.png");
+                        else
+                            images.add(ntList.get(i).getImgUrl()); }setBean(images);
+                    mBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener<String>() {
+                        @Override
+                        public void onPageClick(int position, String str) {
+                            NewsTitle nt = ntList.get(position);
+                            Intent intent = new Intent(getContext(), NewsActivity.class);
+                            intent.putExtra("url",nt.getUrl());
+                            intent.putExtra("newsID",nt.getNewsID());
+                            Log.i("JumpingIntoNews",nt.getNewsID()+nt.getUrl());
+                            getContext().startActivity(intent);
+                        }
+                    });
+                    if(size > 1){
+                        mBanner.startTurning(3600);
+                    }
+                }
+            });
+            newsTitleTask.execute();
         }
     }
 
